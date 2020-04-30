@@ -12,6 +12,8 @@ protocol NewsReaderDelegate: class {
     func connected()
     func connectionFailed()
     func disconnected()
+    func error(message: String)
+    func groups(names: [String])
 }
 
 class NewsReader: NSObject, StreamDelegate {
@@ -79,6 +81,17 @@ class NewsReader: NSObject, StreamDelegate {
         }
     }
     
+    private var currentOperation: String?
+    
+    public func list() {
+        if !connected {
+            delegate?.error(message: "Not connected")
+            return
+        }
+        currentOperation = "list"
+        send(command: "LIST\n")
+    }
+    
     private func processResponse(response: String) {
         print("Response: \(response)")
         if response.starts(with: "200 news.easynews.com Welcome!") {
@@ -97,6 +110,11 @@ class NewsReader: NSObject, StreamDelegate {
         if response.starts(with: "205 Goodbye") {
             close()
             delegate?.disconnected()            
+        }
+        if response.count > 0 && currentOperation == "list" {
+            currentOperation = nil
+            let groups = response.split(separator: "\n").map(String.init)
+            delegate?.groups(names: groups)
         }
     }
     
@@ -143,6 +161,7 @@ class NewsReader: NSObject, StreamDelegate {
                 }
                 if let output = processedMessageString(buffer: buffer, length: numberOfBytesRead) {
                     response.append(output)
+                    print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
                 }
             }
             return response

@@ -20,7 +20,11 @@ class ViewController: NSViewController {
         reader.delegate = self
         reader.open()
     }
-    
+
+    @IBAction func onGroups(sender: NSButton) {
+        reader.list()
+    }
+
     @IBAction func onClose(sender: NSButton) {
         reader.quit()
     }
@@ -33,6 +37,17 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: NewsReaderDelegate {
+    func error(message: String) {
+        print("EasyNews: Error : \(message)")
+    }
+    
+    func groups(names: [String]) {
+        print("List of Groups:")
+        names.forEach { (name: String) in
+            print(">>> name: \(name)")
+        }
+    }
+    
     func connected() {
         print("EasyNews: connected")
     }

@@ -731,6 +731,17 @@
                                     <action selector="onCloseWithSender:" target="XfG-lQ-9wD" id="CLk-M5-IK0"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UHu-lw-cT8">
+                                <rect key="frame" x="198" y="222" width="85" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Groups" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nhl-D2-Ci1">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="onGroupsWithSender:" target="XfG-lQ-9wD" id="Ixn-B6-I4M"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                 </viewController>
