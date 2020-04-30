@@ -78,7 +78,7 @@ class ReaderBox: NSObject {
     }
     // findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
     func findOrCreateGroup(name: String, first: Int, last: Int, canPost: Bool) -> NewsGroup? {
-        realm?.beginWrite()
+        //realm?.beginWrite()
         var theGroup: NewsGroup?
         
         if let group = findGroup(withFilter: "name='\(name)'") {
@@ -96,12 +96,12 @@ class ReaderBox: NSObject {
             realm?.add(newGroup)
         }
         
-        do {
-            try realm?.commitWrite()
-        }
-        catch {
-            print("----> realm error \(error)")
-        }
+//        do {
+//            try realm?.commitWrite()
+//        }
+//        catch {
+//            print("----> realm error \(error)")
+//        }
         return theGroup
     }
 }

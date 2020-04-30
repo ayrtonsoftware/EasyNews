@@ -17,6 +17,7 @@ protocol NewsReaderDelegate: class {
 }
 
 class NewsReader: NSObject, StreamDelegate {
+    private var rbox: ReaderBox
     public var delegate: NewsReaderDelegate?
     private var inputStream: InputStream?
     private var outputStream: OutputStream?
@@ -33,6 +34,7 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     init(serverAddress: String, port: UInt32, username: String, password: String) {
+        rbox = ReaderBox()
         self.serverAddress = serverAddress
         self.port = port
         self.username = username
@@ -126,12 +128,28 @@ class NewsReader: NSObject, StreamDelegate {
         if currentOperation == "list" {
             toBeProcessed.append(contentsOf: response)
             let (prefix, rest) = splitter(line: toBeProcessed)
+            
             let names = prefix.split(separator: "\r\n").map(String.init)
-            //print("Count: \(names.count)")
-            delegate?.groups(names: names)
+            if names.count > 0 {
+                rbox.realm?.beginWrite()
+                names.forEach { (name: String) in
+                    let parts = name.split(separator: " ").map(String.init)
+                    if parts.count == 4,
+                        let last = Int(parts[1]),
+                        let first = Int(parts[2]) {
+                        print(">>> name: \(parts[0])")
+                        _ = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
+                    }
+                }
+                do {
+                    try rbox.realm?.commitWrite()
+                }
+                catch {
+                    print("Realm error \(error)")
+                }
+            }
+            //delegate?.groups(names: names)
             toBeProcessed = rest
-            //print(rest)
-            //print("---")
         }
     }
     
