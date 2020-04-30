@@ -10,6 +10,7 @@
 		32814C6FF37E81888DFE6A17 /* Pods_EasyNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F62E7FB4DB2A1C0641A2FD6 /* Pods_EasyNews.framework */; };
 		A79A16F2245A05B500AC663F /* ReadMe.md in Resources */ = {isa = PBXBuildFile; fileRef = A79A16F1245A05B500AC663F /* ReadMe.md */; };
 		A79A16F5245A586100AC663F /* NewsReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79A16F4245A586100AC663F /* NewsReader.swift */; };
+		A7E0BC79245A753E00283426 /* ReaderBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E0BC78245A753E00283426 /* ReaderBox.swift */; };
 		A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FA5B4B2458CD6A0034A321 /* AppDelegate.swift */; };
 		A7FA5B4E2458CD6A0034A321 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FA5B4D2458CD6A0034A321 /* ViewController.swift */; };
 		A7FA5B502458CD6C0034A321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7FA5B4F2458CD6C0034A321 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 		6F62E7FB4DB2A1C0641A2FD6 /* Pods_EasyNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A79A16F1245A05B500AC663F /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 		A79A16F4245A586100AC663F /* NewsReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsReader.swift; sourceTree = "<group>"; };
+		A7E0BC78245A753E00283426 /* ReaderBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderBox.swift; sourceTree = "<group>"; };
 		A7FA5B482458CD6A0034A321 /* EasyNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7FA5B4B2458CD6A0034A321 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7FA5B4D2458CD6A0034A321 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				A79A16F4245A586100AC663F /* NewsReader.swift */,
+				A7E0BC78245A753E00283426 /* ReaderBox.swift */,
 			);
 			path = NNTP;
 			sourceTree = "<group>";
@@ -112,6 +115,7 @@
 				A7FA5B442458CD6A0034A321 /* Sources */,
 				A7FA5B452458CD6A0034A321 /* Frameworks */,
 				A7FA5B462458CD6A0034A321 /* Resources */,
+				4579ECE0E374934625CEEF36 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -169,6 +173,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4579ECE0E374934625CEEF36 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EasyNews/Pods-EasyNews-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EasyNews/Pods-EasyNews-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyNews/Pods-EasyNews-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A5EEE3F1CF81A20C1F0354C5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,6 +221,7 @@
 			files = (
 				A79A16F5245A586100AC663F /* NewsReader.swift in Sources */,
 				A7FA5B4E2458CD6A0034A321 /* ViewController.swift in Sources */,
+				A7E0BC79245A753E00283426 /* ReaderBox.swift in Sources */,
 				A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

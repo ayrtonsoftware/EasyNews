@@ -10,14 +10,39 @@ import Cocoa
 //import SwiftSocket
 
 class ViewController: NSViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func splitter(line: String) -> (String, String) {
+        if let pos = line.range(of: "\r\n", options: .backwards) {
+            //line.substring(to: pos)
+            print(pos)
+            print(pos.self)
+            var range = line.startIndex..<pos.lowerBound
+            var what = line[range]
+            print("[\(what)]")
+            
+            var range2 = pos.upperBound..<line.endIndex
+            var newLine = line[range2]
+            print("[\(newLine)]")
+            print("----")
+            return (String(what), String(newLine))
+        }
+        return (line, "")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        var line: String = "adddasdada\r\n12345678"
+        var (a, b) = splitter(line: line)
+    }
+    
+    var rbox: ReaderBox?
     var reader: NewsReader = NewsReader(serverAddress: "news.easynews.com", port: 443, username: "nova1138", password: "Q@qwestar72Poi")
     
     @IBAction func onOpen(sender: NSButton) {
         reader.delegate = self
+        rbox = ReaderBox()
+        if let realm = rbox?.realm {
+            print("aaa")
+        }
         reader.open()
     }
 
@@ -44,7 +69,13 @@ extension ViewController: NewsReaderDelegate {
     func groups(names: [String]) {
         print("List of Groups:")
         names.forEach { (name: String) in
-            print(">>> name: \(name)")
+            let parts = name.split(separator: " ").map(String.init)
+            if parts.count == 4,
+                let last = Int(parts[1]),
+                let first = Int(parts[2]) {            
+                print(">>> name: \(parts[0])")
+                _ = rbox?.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
+            }
         }
     }
     

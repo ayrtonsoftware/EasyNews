@@ -83,39 +83,74 @@ class NewsReader: NSObject, StreamDelegate {
     
     private var currentOperation: String?
     
+    var toBeProcessed: String = "";
+    
     public func list() {
         if !connected {
             delegate?.error(message: "Not connected")
             return
         }
-        currentOperation = "list"
+        toBeProcessed = ""
         send(command: "LIST\n")
     }
     
     private func processResponse(response: String) {
-        print("Response: \(response)")
+        //print("Response: \(response)")
         if response.starts(with: "200 news.easynews.com Welcome!") {
             send(command: "AUTHINFO user \(username)\n")
+            return
         }
         if response.starts(with: "381 PASS required") {
             send(command: "AUTHINFO pass \(password)\n")
+            return
         }
         if response.starts(with: "281 Welcome To Easynews.") {
             _connected = true
             delegate?.connected()
+            return
         }
         if response.starts(with: "502 Authentication Failed") {
             delegate?.connectionFailed()
+            return
         }
         if response.starts(with: "205 Goodbye") {
             close()
             delegate?.disconnected()            
+            return
         }
-        if response.count > 0 && currentOperation == "list" {
-            currentOperation = nil
-            let groups = response.split(separator: "\n").map(String.init)
-            delegate?.groups(names: groups)
+        if response.starts(with: "215 NewsGroups Follow") {
+            print("Got 215...............")
+            currentOperation = "list"
+            return
         }
+        if currentOperation == "list" {
+            toBeProcessed.append(contentsOf: response)
+            let (prefix, rest) = splitter(line: toBeProcessed)
+            let names = prefix.split(separator: "\r\n").map(String.init)
+            //print("Count: \(names.count)")
+            delegate?.groups(names: names)
+            toBeProcessed = rest
+            //print(rest)
+            //print("---")
+        }
+    }
+    
+    func splitter(line: String) -> (String, String) {
+        if let pos = line.range(of: "\r\n", options: .backwards) {
+            //line.substring(to: pos)
+            print(pos)
+            print(pos.self)
+            var range = line.startIndex..<pos.lowerBound
+            var what = line[range]
+            print("[\(what)]")
+            
+            var range2 = pos.upperBound..<line.endIndex
+            var newLine = line[range2]
+            print("[\(newLine)]")
+            print("----")
+            return (String(what), String(newLine))
+        }
+        return (line, "")
     }
     
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {

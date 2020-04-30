@@ -6,6 +6,5 @@ target 'EasyNews' do
   use_frameworks!
 
   # Pods for EasyNews
-  #pod 'Socket.swift', '~> 2.4.0'
-  #pod 'SwiftSocket'
+  pod 'RealmSwift', '~> 3.13'
 end
