@@ -15,4 +15,9 @@ class NewsGroup: Object
     let first = RealmOptional<Int>()
     let last = RealmOptional<Int>()
     let canPost = RealmOptional<Bool>()
+    let articles = List<NewsGroupArticle>()
+}
+
+class NewsGroupArticle: Object {
+    @objc dynamic var id: String!
 }

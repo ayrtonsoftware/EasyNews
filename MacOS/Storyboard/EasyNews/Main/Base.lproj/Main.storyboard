@@ -740,7 +740,7 @@
                                                     <rect key="frame" x="1" y="0.0" width="469" height="322"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="mdc-RQ-GX3" viewBased="YES" id="T42-wJ-cws" customClass="GroupsTableView" customModule="EasyNews" customModuleProvider="target">
+                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="mdc-RQ-GX3" viewBased="YES" id="T42-wJ-cws" customClass="GroupsTableView" customModule="EasyNews" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="469" height="297"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>

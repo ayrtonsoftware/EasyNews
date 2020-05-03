@@ -99,15 +99,13 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     private var currentOperation: String?
-    
-    //var toBeProcessed: String = "";
-    
-    public func list() {
+        
+    public func listGroups() {
         if !connected {
             delegate?.error(message: "Not connected")
             return
         }
-        //toBeProcessed = ""
+        currentOperation = "list"
         response = ""
         send(command: "LIST\n")
     }
@@ -147,38 +145,9 @@ class NewsReader: NSObject, StreamDelegate {
         }
         if buffer.starts(with: "215 NewsGroups Follow") {
             print("Got 215...............")
-            currentOperation = "list"
             response = ""
             return
         }
-//        if currentOperation == "list" {
-//            var newGroups: [NewsGroup] = []
-//            toBeProcessed.append(contentsOf: response)
-//            let (prefix, rest) = splitter(line: toBeProcessed)
-//            let names = prefix.split(separator: "\r\n").map(String.init)
-//            if names.count > 0 {
-//                rbox.realm?.beginWrite()
-//                names.forEach { (name: String) in
-//                    let parts = name.split(separator: " ").map(String.init)
-//                    if parts.count == 4,
-//                        let last = Int(parts[1]),
-//                        let first = Int(parts[2]) {
-//                        print(">>> name: \(parts[0])")
-//                        if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
-//                            newGroups.append(newGroup)
-//                        }
-//                    }
-//                }
-//                do {
-//                    try rbox.realm?.commitWrite()
-//                }
-//                catch {
-//                    print("Realm error \(error)")
-//                }
-//            }
-//            delegate?.groups(newGroups: newGroups)
-//            toBeProcessed = rest
-//        }
     }
     
     func splitter(line: String) -> (String, String) {
@@ -245,7 +214,7 @@ class NewsReader: NSObject, StreamDelegate {
                     response.append(output)
                     //print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
                     //print(output)
-                    if currentOperation == "list" {
+                    if connected && currentOperation == "list" {
                         let (prefix, rest) = splitter(line: response)
                         response = rest
                         let names = prefix.split(separator: "\r\n").map(String.init)
