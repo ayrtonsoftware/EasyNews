@@ -13,6 +13,7 @@ class MainVC: NSViewController, GroupsTableDelegate {
     @IBOutlet var tabs: NSTabView!
     private var tabCache: [String: NSTabViewItem] = [:]
     private var reader: NewsReader = NewsReader(serverAddress: "news.easynews.com", port: 443, username: "nova1138", password: "Q@qwestar72Poi")
+    private var rbox = ReaderBox()
     
     func groupSelected(group: NewsGroupVM) {
         if let tab = tabCache[group.name] {
@@ -34,13 +35,13 @@ class MainVC: NSViewController, GroupsTableDelegate {
     @IBOutlet var groupsTable: GroupsTableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        groupsVM = GroupsTableVM(reader: reader)
+        groupsVM = GroupsTableVM(reader: reader, rbox: rbox)
         groupsTable.setViewModel(vm: groupsVM)
         groupsTable.groupsDelegate = self
     }
     
     @IBAction func onRefreshGroups(sender: NSButton) {
-        self.groupsVM.getGroups()
+        self.groupsVM.updateGroups()
     }
     
     override var representedObject: Any? {

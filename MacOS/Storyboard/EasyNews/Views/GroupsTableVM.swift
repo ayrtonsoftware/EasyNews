@@ -41,7 +41,7 @@ class ListGroupArticlesCommand: NewsReaderDelegate {
     func error(message: String) {
     }
     
-    func groups(newGroups: [NewsGroup]) {
+    func groups(groups: [Group]) {
     }
 }
 
@@ -56,8 +56,10 @@ protocol ListGroupsDelegate: class {
 class ListGroupsCommand: NewsReaderDelegate {
     var reader: NewsReader
     var delegate: ListGroupsDelegate?
+    private var rbox: ReaderBox
     
-    init(reader: NewsReader, delegate: ListGroupsDelegate) {
+    init(rbox: ReaderBox, reader: NewsReader, delegate: ListGroupsDelegate) {
+        self.rbox = rbox
         self.reader = reader
         self.delegate = delegate
         reader.open()
@@ -70,6 +72,7 @@ class ListGroupsCommand: NewsReaderDelegate {
     func done() {
         print("Done getting list")
        reader.close()
+        delegate?.ListGroups_done(status: "Done")
     }
     
     func connectionFailed() {
@@ -84,26 +87,52 @@ class ListGroupsCommand: NewsReaderDelegate {
         delegate?.ListGroups_done(status: message)
     }
     
-    func groups(newGroups: [NewsGroup]) {
+    func groups(groups: [Group]) {
+        rbox.realm?.beginWrite()
+        var newGroups: [NewsGroup] = []
+        
+        groups.forEach { (group: Group) in
+            if let newGroup = rbox.findOrCreateGroup(name:group.name, first: group.first, last: group.last, canPost: group.canPost) {
+                newGroups.append(newGroup)
+            }
+        }
+        
+        do {
+            try rbox.realm?.commitWrite()
+        }
+        catch {
+            print("Realm error \(error)")
+        }
         delegate?.ListGroups_groupsAdded(newGroups: newGroups)
     }
 }
 
 class GroupsTableVM {
     public var delegate: GroupsTableVMDelegate?
-    
     private var reader: NewsReader
+    private var rbox: ReaderBox
     
-    init(reader: NewsReader) {
+    init(reader: NewsReader, rbox: ReaderBox) {
         self.reader = reader
-        groups.append(contentsOf: reader.getGroups().map(NewsGroupVM.init))
+        self.rbox = rbox
+        groups.append(contentsOf: getCachedGroups().map(NewsGroupVM.init))
 
     }
         
     var groups: [NewsGroupVM] = []
+
+    public func getCachedGroups() -> [NewsGroup] {
+        var groups: [NewsGroup] = []
+        if let realm = rbox.realm {
+            for group in realm.objects(NewsGroup.self) {
+                groups.append(group)
+            }
+        }
+        return groups
+    }
     
-    public func getGroups() {
-        reader.delegate = ListGroupsCommand(reader: reader, delegate: self)
+    public func updateGroups() {
+        reader.delegate = ListGroupsCommand(rbox: rbox, reader: reader, delegate: self)
     }
 }
 

@@ -13,12 +13,19 @@ protocol NewsReaderDelegate: class {
     func connectionFailed()
     func disconnected()
     func error(message: String)
-    func groups(newGroups: [NewsGroup])
+    func groups(groups: [Group])
     func done()
 }
 
+struct Group {
+    var name: String
+    var first: Int
+    var last: Int
+    var canPost: Bool
+}
+
 class NewsReader: NSObject, StreamDelegate {
-    private var rbox: ReaderBox
+    //private var rbox: ReaderBox
     public var delegate: NewsReaderDelegate?
     private var inputStream: InputStream?
     private var outputStream: OutputStream?
@@ -29,15 +36,15 @@ class NewsReader: NSObject, StreamDelegate {
     private var username: String
     private var password: String
     
-    public func getGroups() -> [NewsGroup] {
-        var groups: [NewsGroup] = []
-        if let realm = rbox.realm {
-            for group in realm.objects(NewsGroup.self) {
-                groups.append(group)
-            }
-        }
-        return groups
-    }
+//    public func getGroups() -> [NewsGroup] {
+//        var groups: [NewsGroup] = []
+//        if let realm = rbox.realm {
+//            for group in realm.objects(NewsGroup.self) {
+//                groups.append(group)
+//            }
+//        }
+//        return groups
+//    }
     
     private var _connected: Bool = false
     public var connected: Bool {
@@ -45,14 +52,14 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     init(serverAddress: String, port: UInt32, username: String, password: String) {
-        rbox = ReaderBox()
+        //rbox = ReaderBox()
         self.serverAddress = serverAddress
         self.port = port
         self.username = username
         self.password = password
-        if let _ = rbox.realm {
-            print("Open Realm")
-        }
+//        if let _ = rbox.realm {
+//            print("Open Realm")
+//        }
     }
     
     var isOpen: Bool {
@@ -105,7 +112,7 @@ class NewsReader: NSObject, StreamDelegate {
             delegate?.error(message: "Not connected")
             return
         }
-        currentOperation = "list"
+        currentOperation = "ListGroups"
         response = ""
         send(command: "LIST\n")
     }
@@ -214,15 +221,16 @@ class NewsReader: NSObject, StreamDelegate {
                     response.append(output)
                     //print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
                     //print(output)
-                    if connected && currentOperation == "list" {
+                    if connected && currentOperation == "ListGroups" {
                         let (prefix, rest) = splitter(line: response)
                         response = rest
                         let names = prefix.split(separator: "\r\n").map(String.init)
                         //print(">>>>\(prefix)")
                         if names.count > 0 {
                             var isDone = false
-                            rbox.realm?.beginWrite()
-                            var newGroups: [NewsGroup] = []
+                            //rbox.realm?.beginWrite()
+                            //var newGroups: [NewsGroup] = []
+                            var newGroups: [Group] = []
                             names.forEach { (name: String) in
                                 if name == "." {
                                     isDone = true
@@ -232,19 +240,21 @@ class NewsReader: NSObject, StreamDelegate {
                                         let last = Int(parts[1]),
                                         let first = Int(parts[2]) {
                                         print(">>> name: \(parts[0])")
-                                        if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
-                                            newGroups.append(newGroup)
-                                        }
+                                        //if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
+                                        //    newGroups.append(newGroup)
+                                        //}
+                                        let newGroup = Group(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
+                                        newGroups.append(newGroup)
                                     }
                                 }
                             }
-                            do {
-                                try rbox.realm?.commitWrite()
-                            }
-                            catch {
-                                print("Realm error \(error)")
-                            }
-                            delegate?.groups(newGroups: newGroups)
+//                            do {
+//                                try rbox.realm?.commitWrite()
+//                            }
+//                            catch {
+//                                print("Realm error \(error)")
+//                            }
+                            delegate?.groups(groups: newGroups)
                             if isDone {
                                 delegate?.done()
                             }
