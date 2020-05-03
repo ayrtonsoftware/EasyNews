@@ -14,6 +14,7 @@ protocol NewsReaderDelegate: class {
     func disconnected()
     func error(message: String)
     func groups(newGroups: [NewsGroup])
+    func done()
 }
 
 class NewsReader: NSObject, StreamDelegate {
@@ -58,6 +59,7 @@ class NewsReader: NSObject, StreamDelegate {
         return inputStream != nil && outputStream != nil
     }
     
+    // https://stackoverflow.com/questions/15632086/running-nsstream-in-background-thread
     func open() {
         if isOpen {
             return
@@ -81,7 +83,7 @@ class NewsReader: NSObject, StreamDelegate {
         }
     }
     
-    private func close() {
+    public func close() {
         if isOpen {
             inputStream?.close()
             outputStream?.close()
@@ -98,74 +100,85 @@ class NewsReader: NSObject, StreamDelegate {
     
     private var currentOperation: String?
     
-    var toBeProcessed: String = "";
+    //var toBeProcessed: String = "";
     
     public func list() {
         if !connected {
             delegate?.error(message: "Not connected")
             return
         }
-        toBeProcessed = ""
+        //toBeProcessed = ""
+        response = ""
         send(command: "LIST\n")
     }
     
-    private func processResponse(response: String) {
+    private func processResponse(buffer: String) {
         //print("Response: \(response)")
-        if response.starts(with: "200 news.easynews.com Welcome!") {
+        if buffer.starts(with: "200 news.easynews.com Welcome!") {
             send(command: "AUTHINFO user \(username)\n")
+            response = ""
             return
         }
-        if response.starts(with: "381 PASS required") {
+        if buffer == "." {
+            delegate?.done()
+            return
+        }
+        if buffer.starts(with: "381 PASS required") {
             send(command: "AUTHINFO pass \(password)\n")
+            response = ""
             return
         }
-        if response.starts(with: "281 Welcome To Easynews.") {
+        if buffer.starts(with: "281 Welcome To Easynews.") {
             _connected = true
             delegate?.connected()
+            response = ""
             return
         }
-        if response.starts(with: "502 Authentication Failed") {
+        if buffer.starts(with: "502 Authentication Failed") {
             delegate?.connectionFailed()
+            response = ""
             return
         }
-        if response.starts(with: "205 Goodbye") {
+        if buffer.starts(with: "205 Goodbye") {
             close()
             delegate?.disconnected()            
+            response = ""
             return
         }
-        if response.starts(with: "215 NewsGroups Follow") {
+        if buffer.starts(with: "215 NewsGroups Follow") {
             print("Got 215...............")
             currentOperation = "list"
+            response = ""
             return
         }
-        if currentOperation == "list" {
-            var newGroups: [NewsGroup] = []
-            toBeProcessed.append(contentsOf: response)
-            let (prefix, rest) = splitter(line: toBeProcessed)
-            let names = prefix.split(separator: "\r\n").map(String.init)
-            if names.count > 0 {
-                rbox.realm?.beginWrite()
-                names.forEach { (name: String) in
-                    let parts = name.split(separator: " ").map(String.init)
-                    if parts.count == 4,
-                        let last = Int(parts[1]),
-                        let first = Int(parts[2]) {
-                        print(">>> name: \(parts[0])")
-                        if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
-                            newGroups.append(newGroup)
-                        }
-                    }
-                }
-                do {
-                    try rbox.realm?.commitWrite()
-                }
-                catch {
-                    print("Realm error \(error)")
-                }
-            }
-            delegate?.groups(newGroups: newGroups)
-            toBeProcessed = rest
-        }
+//        if currentOperation == "list" {
+//            var newGroups: [NewsGroup] = []
+//            toBeProcessed.append(contentsOf: response)
+//            let (prefix, rest) = splitter(line: toBeProcessed)
+//            let names = prefix.split(separator: "\r\n").map(String.init)
+//            if names.count > 0 {
+//                rbox.realm?.beginWrite()
+//                names.forEach { (name: String) in
+//                    let parts = name.split(separator: " ").map(String.init)
+//                    if parts.count == 4,
+//                        let last = Int(parts[1]),
+//                        let first = Int(parts[2]) {
+//                        print(">>> name: \(parts[0])")
+//                        if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
+//                            newGroups.append(newGroup)
+//                        }
+//                    }
+//                }
+//                do {
+//                    try rbox.realm?.commitWrite()
+//                }
+//                catch {
+//                    print("Realm error \(error)")
+//                }
+//            }
+//            delegate?.groups(newGroups: newGroups)
+//            toBeProcessed = rest
+//        }
     }
     
     func splitter(line: String) -> (String, String) {
@@ -175,12 +188,12 @@ class NewsReader: NSObject, StreamDelegate {
             print(pos.self)
             let range = line.startIndex..<pos.lowerBound
             let what = line[range]
-            print("[\(what)]")
+            //print("[\(what)]")
             
             let range2 = pos.upperBound..<line.endIndex
             let newLine = line[range2]
-            print("[\(newLine)]")
-            print("----")
+            //print("[\(newLine)]")
+            //print("----")
             return (String(what), String(newLine))
         }
         return (line, "")
@@ -193,7 +206,7 @@ class NewsReader: NSObject, StreamDelegate {
             case .hasBytesAvailable:
                 print("new message received")
                 if let response = readAvailableBytes(stream: aStream as! InputStream) {
-                    processResponse(response: response)
+                    processResponse(buffer: response)
                 }
             case .endEncountered:
                 print("new message received")
@@ -211,6 +224,7 @@ class NewsReader: NSObject, StreamDelegate {
     
     let maxReadLength = 4096
     var buffer: UnsafeMutablePointer<UInt8>?
+    var response: String = ""
     
     private func readAvailableBytes(stream: InputStream) -> String? {
         guard let inputStream = self.inputStream else {
@@ -220,7 +234,7 @@ class NewsReader: NSObject, StreamDelegate {
             self.buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
         }
         if let buffer = self.buffer {
-            var response: String = ""
+            //var response: String = ""
             while stream.hasBytesAvailable {
                 let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
                 if numberOfBytesRead < 0, let error = stream.streamError {
@@ -229,7 +243,44 @@ class NewsReader: NSObject, StreamDelegate {
                 }
                 if let output = processedMessageString(buffer: buffer, length: numberOfBytesRead) {
                     response.append(output)
-                    print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
+                    //print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
+                    //print(output)
+                    if currentOperation == "list" {
+                        let (prefix, rest) = splitter(line: response)
+                        response = rest
+                        let names = prefix.split(separator: "\r\n").map(String.init)
+                        //print(">>>>\(prefix)")
+                        if names.count > 0 {
+                            var isDone = false
+                            rbox.realm?.beginWrite()
+                            var newGroups: [NewsGroup] = []
+                            names.forEach { (name: String) in
+                                if name == "." {
+                                    isDone = true
+                                } else {
+                                    let parts = name.split(separator: " ").map(String.init)
+                                    if parts.count == 4,
+                                        let last = Int(parts[1]),
+                                        let first = Int(parts[2]) {
+                                        print(">>> name: \(parts[0])")
+                                        if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
+                                            newGroups.append(newGroup)
+                                        }
+                                    }
+                                }
+                            }
+                            do {
+                                try rbox.realm?.commitWrite()
+                            }
+                            catch {
+                                print("Realm error \(error)")
+                            }
+                            delegate?.groups(newGroups: newGroups)
+                            if isDone {
+                                delegate?.done()
+                            }
+                        }
+                    }
                 }
             }
             return response
@@ -250,7 +301,7 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     func send(command: String) {
-        DispatchQueue.global(qos: .background).async {
+        //DispatchQueue.global(qos: .background).async {
             if let outputStream = self.outputStream {
                 print("Send Command: [\(command)]")
                 let data = command.data(using: .utf8)!
@@ -265,5 +316,5 @@ class NewsReader: NSObject, StreamDelegate {
                 }
             }
         }
-    }
+    //}
 }

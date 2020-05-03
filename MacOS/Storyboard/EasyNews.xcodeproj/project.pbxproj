@@ -11,7 +11,7 @@
 		A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEB245E7242001D918F /* GroupsTableVM.swift */; };
 		A788DFEE245E7EF6001D918F /* NewsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFED245E7EF6001D918F /* NewsGroup.swift */; };
 		A788DFF0245EA501001D918F /* TableProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEF245EA501001D918F /* TableProgressIndicator.swift */; };
-		A788DFF2245EB978001D918F /* GroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A788DFF1245EB978001D918F /* GroupView.xib */; };
+		A788DFF2245EB978001D918F /* GroupTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A788DFF1245EB978001D918F /* GroupTabView.xib */; };
 		A788DFF4245EB98B001D918F /* GroupTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF3245EB98B001D918F /* GroupTabView.swift */; };
 		A788DFF6245EBB34001D918F /* NSView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF5245EBB34001D918F /* NSView+Extension.swift */; };
 		A788DFF8245EC680001D918F /* MessagesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF7245EC680001D918F /* MessagesTableView.swift */; };
@@ -32,7 +32,7 @@
 		A788DFEB245E7242001D918F /* GroupsTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableVM.swift; sourceTree = "<group>"; };
 		A788DFED245E7EF6001D918F /* NewsGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsGroup.swift; sourceTree = "<group>"; };
 		A788DFEF245EA501001D918F /* TableProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableProgressIndicator.swift; sourceTree = "<group>"; };
-		A788DFF1245EB978001D918F /* GroupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupView.xib; sourceTree = "<group>"; };
+		A788DFF1245EB978001D918F /* GroupTabView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupTabView.xib; sourceTree = "<group>"; };
 		A788DFF3245EB98B001D918F /* GroupTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTabView.swift; sourceTree = "<group>"; };
 		A788DFF5245EBB34001D918F /* NSView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extension.swift"; sourceTree = "<group>"; };
 		A788DFF7245EC680001D918F /* MessagesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableView.swift; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 				A7FA8314245E6E1400758A5A /* GroupsTableView.swift */,
 				A7FA8310245E6D9300758A5A /* NewsGroupVM.swift */,
 				A788DFEF245EA501001D918F /* TableProgressIndicator.swift */,
-				A788DFF1245EB978001D918F /* GroupView.xib */,
+				A788DFF1245EB978001D918F /* GroupTabView.xib */,
 				A788DFF3245EB98B001D918F /* GroupTabView.swift */,
 				A788DFF5245EBB34001D918F /* NSView+Extension.swift */,
 				A788DFF7245EC680001D918F /* MessagesTableView.swift */,
@@ -217,7 +217,7 @@
 			files = (
 				A7FA5B502458CD6C0034A321 /* Assets.xcassets in Resources */,
 				A7FA5B532458CD6C0034A321 /* Main.storyboard in Resources */,
-				A788DFF2245EB978001D918F /* GroupView.xib in Resources */,
+				A788DFF2245EB978001D918F /* GroupTabView.xib in Resources */,
 				A79A16F2245A05B500AC663F /* ReadMe.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

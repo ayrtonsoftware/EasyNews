@@ -39,7 +39,7 @@ class MainVC: NSViewController, GroupsTableDelegate {
     }
     
     @IBAction func onRefreshGroups(sender: NSButton) {
-        groupsVM.getGroups()
+        self.groupsVM.getGroups()
     }
     
     override var representedObject: Any? {

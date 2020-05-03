@@ -12,12 +12,17 @@ protocol GroupsTableDelegate {
     func groupSelected(group: NewsGroupVM)
 }
 
-class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate {
+class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate, GroupsTableVMDelegate {
+    func groupsAdded() {
+        reloadData()
+    }
+    
     private var vm: GroupsTableVM?
     public var groupsDelegate: GroupsTableDelegate?
     
     public func setViewModel(vm: GroupsTableVM) {
         self.vm = vm
+        self.vm?.delegate = self
     }
     
     override init(frame frameRect: NSRect) {
