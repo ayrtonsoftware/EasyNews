@@ -33,4 +33,9 @@ class GroupsTableVM: NewsReaderDelegate {
     }
     
     var groups: [NewsGroupVM] = []
+    
+    public func getGroups() {
+        reader.open()
+        reader.list()
+    }
 }

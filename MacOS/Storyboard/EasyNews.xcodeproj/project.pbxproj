@@ -11,6 +11,10 @@
 		A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEB245E7242001D918F /* GroupsTableVM.swift */; };
 		A788DFEE245E7EF6001D918F /* NewsGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFED245E7EF6001D918F /* NewsGroup.swift */; };
 		A788DFF0245EA501001D918F /* TableProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEF245EA501001D918F /* TableProgressIndicator.swift */; };
+		A788DFF2245EB978001D918F /* GroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A788DFF1245EB978001D918F /* GroupView.xib */; };
+		A788DFF4245EB98B001D918F /* GroupTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF3245EB98B001D918F /* GroupTabView.swift */; };
+		A788DFF6245EBB34001D918F /* NSView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF5245EBB34001D918F /* NSView+Extension.swift */; };
+		A788DFF8245EC680001D918F /* MessagesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF7245EC680001D918F /* MessagesTableView.swift */; };
 		A79A16F2245A05B500AC663F /* ReadMe.md in Resources */ = {isa = PBXBuildFile; fileRef = A79A16F1245A05B500AC663F /* ReadMe.md */; };
 		A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FA5B4B2458CD6A0034A321 /* AppDelegate.swift */; };
 		A7FA5B4E2458CD6A0034A321 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FA5B4D2458CD6A0034A321 /* MainVC.swift */; };
@@ -28,6 +32,10 @@
 		A788DFEB245E7242001D918F /* GroupsTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableVM.swift; sourceTree = "<group>"; };
 		A788DFED245E7EF6001D918F /* NewsGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsGroup.swift; sourceTree = "<group>"; };
 		A788DFEF245EA501001D918F /* TableProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableProgressIndicator.swift; sourceTree = "<group>"; };
+		A788DFF1245EB978001D918F /* GroupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupView.xib; sourceTree = "<group>"; };
+		A788DFF3245EB98B001D918F /* GroupTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTabView.swift; sourceTree = "<group>"; };
+		A788DFF5245EBB34001D918F /* NSView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extension.swift"; sourceTree = "<group>"; };
+		A788DFF7245EC680001D918F /* MessagesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableView.swift; sourceTree = "<group>"; };
 		A79A16F1245A05B500AC663F /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 		A7FA5B482458CD6A0034A321 /* EasyNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7FA5B4B2458CD6A0034A321 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +139,10 @@
 				A7FA8314245E6E1400758A5A /* GroupsTableView.swift */,
 				A7FA8310245E6D9300758A5A /* NewsGroupVM.swift */,
 				A788DFEF245EA501001D918F /* TableProgressIndicator.swift */,
+				A788DFF1245EB978001D918F /* GroupView.xib */,
+				A788DFF3245EB98B001D918F /* GroupTabView.swift */,
+				A788DFF5245EBB34001D918F /* NSView+Extension.swift */,
+				A788DFF7245EC680001D918F /* MessagesTableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +217,7 @@
 			files = (
 				A7FA5B502458CD6C0034A321 /* Assets.xcassets in Resources */,
 				A7FA5B532458CD6C0034A321 /* Main.storyboard in Resources */,
+				A788DFF2245EB978001D918F /* GroupView.xib in Resources */,
 				A79A16F2245A05B500AC663F /* ReadMe.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,13 +273,16 @@
 			files = (
 				A788DFF0245EA501001D918F /* TableProgressIndicator.swift in Sources */,
 				A7FA5B4E2458CD6A0034A321 /* MainVC.swift in Sources */,
+				A788DFF4245EB98B001D918F /* GroupTabView.swift in Sources */,
 				A7FA8312245E6D9300758A5A /* NewsReader.swift in Sources */,
 				A7FA8311245E6D9300758A5A /* ReaderBox.swift in Sources */,
+				A788DFF8245EC680001D918F /* MessagesTableView.swift in Sources */,
 				A7FA8313245E6D9300758A5A /* NewsGroupVM.swift in Sources */,
 				A788DFEE245E7EF6001D918F /* NewsGroup.swift in Sources */,
 				A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */,
 				A7FA8315245E6E1400758A5A /* GroupsTableView.swift in Sources */,
 				A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */,
+				A788DFF6245EBB34001D918F /* NSView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

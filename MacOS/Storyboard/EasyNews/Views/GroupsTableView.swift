@@ -8,11 +8,13 @@
 
 import Cocoa
 
-class ProgressCell: NSTableCellView {
+protocol GroupsTableDelegate {
+    func groupSelected(group: NewsGroupVM)
 }
 
 class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate {
     private var vm: GroupsTableVM?
+    public var groupsDelegate: GroupsTableDelegate?
     
     public func setViewModel(vm: GroupsTableVM) {
         self.vm = vm
@@ -28,6 +30,13 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate {
         let count = vm?.groups.count ?? 0
         print("number of groups: \(count)")
         return count
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        if let group = vm?.groups[self.selectedRow] {
+            print("Selected: \(group.name)")
+            groupsDelegate?.groupSelected(group: group)
+        }
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

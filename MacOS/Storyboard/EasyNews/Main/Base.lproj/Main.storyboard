@@ -725,11 +725,14 @@
                                                 </searchFieldCell>
                                             </searchField>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N3K-Nn-yOR">
-                                                <rect key="frame" x="14" y="400" width="81" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zcA-7m-a8q">
+                                                <rect key="frame" x="14" y="400" width="135" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Refresh Groups" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zcA-7m-a8q">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
+                                                <connections>
+                                                    <action selector="onRefreshGroupsWithSender:" target="XfG-lQ-9wD" id="Xze-ZT-pC1"/>
+                                                </connections>
                                             </button>
                                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cet-xr-l1H">
                                                 <rect key="frame" x="20" y="20" width="471" height="323"/>
@@ -909,20 +912,6 @@
                                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="rQQ-D4-7mm">
                                                 <rect key="frame" x="-7" y="-10" width="517" height="464"/>
                                                 <font key="font" metaFont="system"/>
-                                                <tabViewItems>
-                                                    <tabViewItem label="Tab" identifier="" id="WBM-yr-A6R">
-                                                        <view key="view" id="Wyu-zS-x8q">
-                                                            <rect key="frame" x="10" y="33" width="497" height="418"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        </view>
-                                                    </tabViewItem>
-                                                    <tabViewItem label="View" identifier="" id="2EB-Ri-4QO">
-                                                        <view key="view" id="q0d-D9-Knu">
-                                                            <rect key="frame" x="10" y="33" width="157" height="78"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        </view>
-                                                    </tabViewItem>
-                                                </tabViewItems>
                                             </tabView>
                                         </subviews>
                                         <constraints>
@@ -948,6 +937,7 @@
                     </view>
                     <connections>
                         <outlet property="groupsTable" destination="T42-wJ-cws" id="XRD-5N-dRS"/>
+                        <outlet property="tabs" destination="rQQ-D4-7mm" id="6Oh-UZ-yse"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
