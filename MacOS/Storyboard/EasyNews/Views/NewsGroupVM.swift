@@ -8,15 +8,22 @@
 
 import Foundation
 
-struct NewsGroupArticleVM: Identifiable, Hashable {
+class NewsGroupArticleVM/*: Identifiable, Hashable*/ {
     var id: String
+    var subject: String
+    var contentType: String
     
     public init(article: NewsGroupArticle) {
         id = article.id
+        subject = article.subject
+        contentType = ""
+        if let ct = article.contentType as? String? {
+            contentType = ct ?? "N/A"
+        }
     }
 }
 
-struct NewsGroupVM: Identifiable, Hashable {
+class NewsGroupVM /*: Identifiable, Hashable*/ {
     var group: NewsGroup?
     var id: String = UUID().uuidString
     var name: String

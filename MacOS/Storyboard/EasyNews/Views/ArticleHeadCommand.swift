@@ -35,9 +35,6 @@ class ArticleHeaderCommand: NewsReaderDelegate {
         if notification == "Connected" || notification == "NextArticle" {
             if idx < articleIds.count {
                 print("********************************** getting article \(idx)")
-                if idx == 72 {
-                    print("DEBUG")
-                }
                 self.reader.articleHeader(groupName: groupVM.name, articleId: articleIds[idx])            
                 idx += 1
             }
@@ -62,9 +59,43 @@ class ArticleHeaderCommand: NewsReaderDelegate {
     }
     
     func NewsReader_articleHeader(articleId: String, header: [String: String]) {
-        header.keys.forEach { (key: String) in
-            print(">>>>>article \(articleId) - \(key)------\(header[key]!)-------")
+        if let group = groupVM.group {
+            rbox.realm?.beginWrite()
+            var article = rbox.findOrCreateGroupAticle(group: group, articleId: articleId)
+            article.subject = header["Subject"]
+            article.contentType = header["Content-Type"]
+            
+            var groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
+            groups?.forEach({ (groupName: String) in
+                if let referencedGroup = rbox.findGroup(name: groupName) {
+                    referencedGroup.articles.append(article)
+                }
+            })
+            
+//            header.keys.forEach { (key: String) in
+//                //print(">>>>>article \(articleId) - \(key)------\(header[key]!)-------")
+//                if key == "Subject" {
+//                    article.subject = header[key]
+//                }
+//                if key == "Content-Type" {
+//                    article.contentType = header[key]
+//                }
+//                if key == "Newsgroups" {
+//                    print(header[key])
+//                    var groups = header[key]?.split(separator: ",").map(String.init)
+//                    groups?.forEach({ (groupName: String) in
+//                        if let referencedGroup = rbox.findGroup(name: groupName) {
+//                            referencedGroup.articles.append(article)
+//                        }
+//                    })
+//                }
+//            }
+            do {
+                try rbox.realm?.commitWrite()
+            }
+            catch {
+                print("article update error: \(error)")
+            }
         }
     }
-
 }

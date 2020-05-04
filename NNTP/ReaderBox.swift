@@ -37,7 +37,7 @@ class ReaderBox: NSObject {
             
             let config = Realm.Configuration(
                 fileURL: fileURL,
-                schemaVersion: 1,
+                schemaVersion: 2,
                 
                 migrationBlock: { migration, oldSchemaVersion in
                     
@@ -82,19 +82,25 @@ class ReaderBox: NSObject {
         let newArticle = NewsGroupArticle()
         newArticle.group = group
         newArticle.id = articleId
+        newArticle.subject = ""
+        newArticle.contentType = ""
         group.articles.append(newArticle)
         realm?.add(newArticle)
         return newArticle
     }
-    
+
+    func findGroup(name: String) -> NewsGroup? {
+        
+        if let group = findGroup(withFilter: "name='\(name)'") {
+            return group
+        }
+        return nil
+    }
+
     func findOrCreateGroup(name: String, first: Int, last: Int, canPost: Bool) -> NewsGroup? {
         
         if let group = findGroup(withFilter: "name='\(name)'") {
             return group
-            //            theGroup = group
-            //            group.first.value = first
-            //            group.last.value = last
-            //            group.canPost.value = canPost
         }
         let newGroup = NewsGroup()
         newGroup.name = name

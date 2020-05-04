@@ -164,19 +164,19 @@ class NewsReader: NSObject, StreamDelegate {
             return
         }
         if buffer.starts(with: "215 NewsGroups Follow") {
-            print("Got 215...............")
+            //print("Got 215...............")
             resultsComing = true
             response = ""
             return
         }
         if buffer.starts(with: "211 Article Numbers Follow") {
-            print("Getting articles")
+            //print("Getting articles")
             resultsComing = true
             response = ""
             return
         }
         if buffer.starts(with: "211 ") {
-            print("Getting article headers")
+            //print("Getting article headers")
             resultsComing = true
             response = ""
             send(command: currentGroupCommand)
@@ -198,8 +198,10 @@ class NewsReader: NSObject, StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         if aStream == inputStream {
             switch eventCode {
+            case .openCompleted:
+                print("open completed")
             case .hasBytesAvailable:
-                print("new message received")
+                //print("new message received")
                 if let response = readAvailableBytes(stream: aStream as! InputStream) {
                     processResponse(buffer: response)
                 }
@@ -217,7 +219,7 @@ class NewsReader: NSObject, StreamDelegate {
         }
     }
     
-    private var headerKeys: [String:String] = [:]
+    //private var headerKeys: [String:String] = [:]
     private func parseHeader(txt: String) {
         var header: [String: String] = [:]
         let parts = txt.split(separator: "\r\n").map(String.init)
@@ -229,14 +231,14 @@ class NewsReader: NSObject, StreamDelegate {
                 let (key, value) = splitter(line: keyValue, delimiter: ":", direction: .caseInsensitive)
                 header[key.trimmingCharacters(in: .whitespacesAndNewlines)] = value.trimmingCharacters(in: .whitespacesAndNewlines)
                 let kcount = header.keys.count
-                headerKeys[key] = key
-                if (headerKeys.count != kcount) {
-                    print(">>>>> ------------- keys are now ------------")
-                    headerKeys.keys.forEach { (key: String) in
-                        print("||||| [\(key)]")
-                    }
-                    print("<<<<< ------------- keys are now ------------")
-                }
+                //headerKeys[key] = key
+//                if (headerKeys.count != kcount) {
+//                    print(">>>>> ------------- keys are now ------------")
+//                    headerKeys.keys.forEach { (key: String) in
+//                        print("||||| [\(key)]")
+//                    }
+//                    print("<<<<< ------------- keys are now ------------")
+//                }
             }
         }
         delegate?.NewsReader_articleHeader(articleId: self.articleId, header: header)
@@ -258,7 +260,7 @@ class NewsReader: NSObject, StreamDelegate {
             //var response: String = ""
             while stream.hasBytesAvailable {
                 let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
-                print("Bytes read [\(numberOfBytesRead)]")
+                ////print("Bytes read [\(numberOfBytesRead)]")
                 if numberOfBytesRead < 0, let error = stream.streamError {
                     print(error)
                     break
@@ -271,8 +273,8 @@ class NewsReader: NSObject, StreamDelegate {
                         return response
                     }
                     let (prefix, rest) = splitter(line: response)
-                    print("PREFIX: [[\(prefix)]]")
-                    print("REST: [[\(rest)]]")
+                    ///print("PREFIX: [[\(prefix)]]")
+                    ///print("REST: [[\(rest)]]")
                     response = rest
                     let lines = prefix.split(separator: "\r\n").map(String.init)
                     
@@ -310,7 +312,7 @@ class NewsReader: NSObject, StreamDelegate {
                                     if parts.count == 4,
                                         let last = Int(parts[1]),
                                         let first = Int(parts[2]) {
-                                        print(">>> name: \(parts[0])")
+                                        ///print(">>> name: \(parts[0])")
                                         let newGroup = Group(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
                                         newGroups.append(newGroup)
                                     }
@@ -350,16 +352,16 @@ class NewsReader: NSObject, StreamDelegate {
     
     func send(command: String) {
         if let outputStream = self.outputStream {
-            print("Send Command: [\(command)]")
+            //print("Send Command: [\(command)]")
             let data = command.data(using: .utf8)!
             _ = data.withUnsafeBytes {
                 guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
                     print("Error")
                     return
                 }
-                print("Bytes to send \(data.count)")
+                //print("Bytes to send \(data.count)")
                 let bytesWritten = outputStream.write(pointer, maxLength: data.count)
-                print("Bytes written \(bytesWritten)")
+                //print("Bytes written \(bytesWritten)")
             }
         }
     }

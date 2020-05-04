@@ -25,6 +25,8 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     }
     
     @IBOutlet var contentView: NSView!
+    @IBOutlet var articlesTable: ArticlesTableView!
+    
     private var groupVM: NewsGroupVM?
     private var groupsTableDelegate: GroupsTableDelegate?
     
@@ -54,6 +56,7 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
         self.groupsTableDelegate = groupsTableDelegate
         super.init(frame: frame)
         loadViewFromNib()
+        self.articlesTable.setViewModel(vm: ArticlesTableVM(group: group))
         //self.wantsLayer = true
         //self.layer?.backgroundColor = NSColor.lightGray.cgColor
     }
