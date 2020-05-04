@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		32814C6FF37E81888DFE6A17 /* Pods_EasyNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F62E7FB4DB2A1C0641A2FD6 /* Pods_EasyNews.framework */; };
+		A70D107A245FEF7D009CEEE3 /* ArticleHeadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */; };
 		A76F82E7245F92BA00CB7A59 /* ListGroupsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */; };
 		A76F82E9245F92FF00CB7A59 /* ListGroupArticlesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */; };
 		A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEB245E7242001D918F /* GroupsTableVM.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		5E55034300430FB25C183CEE /* Pods-EasyNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyNews.debug.xcconfig"; path = "Target Support Files/Pods-EasyNews/Pods-EasyNews.debug.xcconfig"; sourceTree = "<group>"; };
 		6F62E7FB4DB2A1C0641A2FD6 /* Pods_EasyNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleHeadCommand.swift; sourceTree = "<group>"; };
 		A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupsCommand.swift; sourceTree = "<group>"; };
 		A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupArticlesCommand.swift; sourceTree = "<group>"; };
 		A788DFEB245E7242001D918F /* GroupsTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableVM.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				A788DFF7245EC680001D918F /* MessagesTableView.swift */,
 				A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */,
 				A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */,
+				A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				A7FA8313245E6D9300758A5A /* NewsGroupVM.swift in Sources */,
 				A788DFEE245E7EF6001D918F /* NewsModels.swift in Sources */,
 				A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */,
+				A70D107A245FEF7D009CEEE3 /* ArticleHeadCommand.swift in Sources */,
 				A7FA8315245E6E1400758A5A /* GroupsTableView.swift in Sources */,
 				A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */,
 				A788DFF6245EBB34001D918F /* NSView+Extension.swift in Sources */,

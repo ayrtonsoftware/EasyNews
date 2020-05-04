@@ -28,6 +28,18 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     private var groupVM: NewsGroupVM?
     private var groupsTableDelegate: GroupsTableDelegate?
     
+    @IBAction func onHeaders(sender: NSButton) {
+        if let ids = groupVM?.articles.map({ (article: NewsGroupArticleVM) -> String in
+            return article.id
+        }),
+            let groupVM = self.groupVM {
+            _ = ArticleHeaderCommand(groupVM: groupVM,
+                                     articleIds: ids,
+                                     rbox: MainVC.getReaderBox(),
+                                     reader: MainVC.CreateNewsReader())
+        }
+    }
+    
     @IBAction func onRefresh(sender: NSButton) {
         if let groupVM = self.groupVM {
             _ = ListGroupArticlesCommand(groupVM: groupVM,

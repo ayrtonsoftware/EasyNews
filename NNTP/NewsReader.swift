@@ -13,6 +13,7 @@ protocol NewsReaderDelegate: class {
     func NewsReader_groups(groups: [Group])
     func NewsReader_articles(articles: [String])
     func NewsReader_notification(notification: String)
+    func NewsReader_articleHeader(articleId: String, header: [String: String])
 }
 
 struct Group {
@@ -33,17 +34,6 @@ class NewsReader: NSObject, StreamDelegate {
     private var port: UInt32
     private var username: String
     private var password: String
-    
-    //    public func getGroups() -> [NewsGroup] {
-    //        var groups: [NewsGroup] = []
-    //        if let realm = rbox.realm {
-    //            for group in realm.objects(NewsGroup.self) {
-    //                groups.append(group)
-    //            }
-    //        }
-    //        return groups
-    //    }
-    
     private var _connected: Bool = false
     public var connected: Bool {
         return _connected
@@ -101,14 +91,30 @@ class NewsReader: NSObject, StreamDelegate {
     
     private var resultsComing = false
     private var currentOperation: String?
-    private var currentGroupName: String?
+    private var currentGroupCommand: String = ""
+    private var articleId: String = ""
+    
+    public func articleHeader(groupName: String, articleId: String) {
+        if !connected {
+            delegate?.NewsReader_error(message: "Not connected")
+            return
+        }
+        self.articleId = articleId
+        if resultsComing {
+            send(command: "HEAD \(articleId)\n")
+            return
+        }
+        currentOperation = "ArticleHeader"
+        response = ""
+        currentGroupCommand = "HEAD \(articleId)\n"
+        send(command: "GROUP \(groupName)\n")
+    }
     
     public func listArticles(groupName: String) {
         if !connected {
             delegate?.NewsReader_error(message: "Not connected")
             return
         }
-        currentGroupName = groupName
         currentOperation = "ListGroupArticles"
         response = ""
         send(command: "LISTGROUP \(groupName)\n")
@@ -169,10 +175,17 @@ class NewsReader: NSObject, StreamDelegate {
             response = ""
             return
         }
+        if buffer.starts(with: "211 ") {
+            print("Getting article headers")
+            resultsComing = true
+            response = ""
+            send(command: currentGroupCommand)
+            return
+        }
     }
     
-    func splitter(line: String) -> (String, String) {
-        if let pos = line.range(of: "\r\n", options: .backwards) {
+    func splitter(line: String, delimiter: String = "\r\n", direction: NSString.CompareOptions = .backwards) -> (String, String) {
+        if let pos = line.range(of: delimiter, options: direction) {
             let range = line.startIndex..<pos.lowerBound
             let what = line[range]
             let range2 = pos.upperBound..<line.endIndex
@@ -184,7 +197,6 @@ class NewsReader: NSObject, StreamDelegate {
     
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         if aStream == inputStream {
-            print("event code: [\(eventCode)]")
             switch eventCode {
             case .hasBytesAvailable:
                 print("new message received")
@@ -205,6 +217,32 @@ class NewsReader: NSObject, StreamDelegate {
         }
     }
     
+    private var headerKeys: [String:String] = [:]
+    private func parseHeader(txt: String) {
+        var header: [String: String] = [:]
+        let parts = txt.split(separator: "\r\n").map(String.init)
+        parts.forEach { (keyValue: String) in
+            if keyValue.starts(with: "430 No such article") {
+                return
+            }
+            if keyValue != "." && !keyValue.starts(with: "221 ") {
+                let (key, value) = splitter(line: keyValue, delimiter: ":", direction: .caseInsensitive)
+                header[key.trimmingCharacters(in: .whitespacesAndNewlines)] = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                let kcount = header.keys.count
+                headerKeys[key] = key
+                if (headerKeys.count != kcount) {
+                    print(">>>>> ------------- keys are now ------------")
+                    headerKeys.keys.forEach { (key: String) in
+                        print("||||| [\(key)]")
+                    }
+                    print("<<<<< ------------- keys are now ------------")
+                }
+            }
+        }
+        delegate?.NewsReader_articleHeader(articleId: self.articleId, header: header)
+        delegate?.NewsReader_notification(notification: "NextArticle")
+    }
+    
     let maxReadLength = 4096
     var buffer: UnsafeMutablePointer<UInt8>?
     var response: String = ""
@@ -220,6 +258,7 @@ class NewsReader: NSObject, StreamDelegate {
             //var response: String = ""
             while stream.hasBytesAvailable {
                 let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
+                print("Bytes read [\(numberOfBytesRead)]")
                 if numberOfBytesRead < 0, let error = stream.streamError {
                     print(error)
                     break
@@ -232,9 +271,14 @@ class NewsReader: NSObject, StreamDelegate {
                         return response
                     }
                     let (prefix, rest) = splitter(line: response)
+                    print("PREFIX: [[\(prefix)]]")
+                    print("REST: [[\(rest)]]")
                     response = rest
                     let lines = prefix.split(separator: "\r\n").map(String.init)
                     
+                    if resultsComing && currentOperation == "ArticleHeader" {
+                        parseHeader(txt: prefix)
+                    }
                     if resultsComing && currentOperation == "ListGroupArticles" {
                         var isDone = false
                         var newArticles: [String] = []
@@ -291,6 +335,13 @@ class NewsReader: NSObject, StreamDelegate {
             bytesNoCopy: buffer,
             length: length,
             encoding: .utf8,
+            freeWhenDone: false) {
+            return message
+        }
+        if let message = String(
+            bytesNoCopy: buffer,
+            length: length,
+            encoding: .ascii,
             freeWhenDone: false) {
             return message
         }

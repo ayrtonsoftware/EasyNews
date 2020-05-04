@@ -67,4 +67,7 @@ class ListGroupArticlesCommand: NewsReaderDelegate {
             print("Realm error \(error)")
         }
     }
+    
+    func NewsReader_articleHeader(articleId: String, header: [String: String]) {
+    }
 }

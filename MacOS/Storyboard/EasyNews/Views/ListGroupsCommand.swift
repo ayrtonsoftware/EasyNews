@@ -72,4 +72,7 @@ class ListGroupsCommand: NewsReaderDelegate {
     
     func NewsReader_articles(articles: [String]) {        
     }
+    
+    func NewsReader_articleHeader(articleId: String, header: [String: String]) {        
+    }
 }

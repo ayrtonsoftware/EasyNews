@@ -120,13 +120,25 @@
                         <action selector="onRefreshWithSender:" target="-2" id="HKf-pN-MWS"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olo-bj-Nap">
+                    <rect key="frame" x="121" y="224" width="91" height="32"/>
+                    <buttonCell key="cell" type="push" title="Headers" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mnb-6c-he5">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="onHeadersWithSender:" target="-2" id="vsQ-85-YIp"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="hef-Yb-wjw" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="5tw-vN-fJk"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="A28-pi-XEQ"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="top" secondItem="hef-Yb-wjw" secondAttribute="bottom" constant="20" id="EHT-e3-e2T"/>
+                <constraint firstItem="olo-bj-Nap" firstAttribute="leading" secondItem="hef-Yb-wjw" secondAttribute="trailing" constant="32" id="FJq-mQ-I69"/>
                 <constraint firstAttribute="bottom" secondItem="rGF-vc-6qX" secondAttribute="bottom" constant="20" id="PxW-Zi-ygM"/>
                 <constraint firstItem="hef-Yb-wjw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Wtu-uC-dFL"/>
+                <constraint firstItem="olo-bj-Nap" firstAttribute="centerY" secondItem="hef-Yb-wjw" secondAttribute="centerY" id="vNe-rV-8OO"/>
                 <constraint firstAttribute="trailing" secondItem="rGF-vc-6qX" secondAttribute="trailing" constant="20" id="yY8-nJ-HcA"/>
             </constraints>
             <point key="canvasLocation" x="140" y="154"/>
