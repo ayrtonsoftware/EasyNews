@@ -9,11 +9,13 @@
 import Cocoa
 
 protocol GroupsTableDelegate {
+    func groupUpdated(group: NewsGroupVM)
     func groupSelected(group: NewsGroupVM)
+    func reload()
 }
 
 class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate, GroupsTableVMDelegate {
-    func groupsAdded() {
+    func GroupsTable_reload() {
         reloadData()
     }
     
@@ -46,26 +48,32 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate, 
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let group = vm?.groups[row]
-        
-        if tableColumn?.identifier.rawValue == "progress" {
-            let cell = TableProgressIndicator()
-            cell.progressValue = CGFloat(group?.progress ?? 0)
-            return cell
-        }
-        if tableColumn?.identifier.rawValue == "name" {
-            let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-            cell?.textField?.stringValue = group?.name ?? "N/A"
-            return cell
-        }
-        if tableColumn?.identifier.rawValue == "first" {
-            let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-            cell?.textField?.stringValue = String(group?.first ?? 0)
-            return cell
-        }
-        if tableColumn?.identifier.rawValue == "last" {
-            let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-            cell?.textField?.stringValue = String(group?.last ?? 0)
-            return cell
+        if let group = group {
+            if tableColumn?.identifier.rawValue == "progress" {
+                let cell = TableProgressIndicator()
+                cell.progressValue = CGFloat(group.progress)
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "name" {
+                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                cell?.textField?.stringValue = group.name
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "first" {
+                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                cell?.textField?.stringValue = String(group.first)
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "last" {
+                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                cell?.textField?.stringValue = String(group.last)
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "loaded" {
+                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                cell?.textField?.stringValue = String(group.articles.count)
+                return cell
+            }
         }
         return nil
     }

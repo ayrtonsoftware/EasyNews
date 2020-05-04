@@ -70,24 +70,39 @@ class ReaderBox: NSObject {
         }
         return nil
     }
-
+    
+    func findOrCreateGroupAticle(group: NewsGroup, articleId: String) -> NewsGroupArticle {
+        
+        if let article = group.articles.first(where: { (article: NewsGroupArticle) -> Bool in
+            return article.id == articleId
+        }) {
+            return article
+        }
+    
+        let newArticle = NewsGroupArticle()
+        newArticle.group = group
+        newArticle.id = articleId
+        group.articles.append(newArticle)
+        realm?.add(newArticle)
+        return newArticle
+    }
+    
     func findOrCreateGroup(name: String, first: Int, last: Int, canPost: Bool) -> NewsGroup? {
-        var theGroup: NewsGroup?
         
         if let group = findGroup(withFilter: "name='\(name)'") {
-            theGroup = group
-            group.first.value = first
-            group.last.value = last
-            group.canPost.value = canPost
-        } else {
-            let newGroup = NewsGroup()
-            theGroup = newGroup
-            newGroup.name = name
-            newGroup.first.value = first
-            newGroup.last.value = last
-            newGroup.canPost.value = canPost
-            realm?.add(newGroup)
+            return group
+            //            theGroup = group
+            //            group.first.value = first
+            //            group.last.value = last
+            //            group.canPost.value = canPost
         }
-        return theGroup
+        let newGroup = NewsGroup()
+        newGroup.name = name
+        newGroup.updated = Date()
+        newGroup.first.value = first
+        newGroup.last.value = last
+        newGroup.canPost.value = canPost
+        realm?.add(newGroup)
+        return newGroup
     }
 }

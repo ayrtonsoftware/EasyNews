@@ -14,6 +14,7 @@ protocol NewsReaderDelegate: class {
     func disconnected()
     func error(message: String)
     func groups(groups: [Group])
+    func articles(articles: [String])
     func done()
 }
 
@@ -105,8 +106,21 @@ class NewsReader: NSObject, StreamDelegate {
         }
     }
     
+    private var resultsComing = false
     private var currentOperation: String?
-        
+    private var currentGroupName: String?
+    
+    public func listArticles(groupName: String) {
+        if !connected {
+            delegate?.error(message: "Not connected")
+            return
+        }
+        currentGroupName = groupName
+        currentOperation = "ListGroupArticles"
+        response = ""
+        send(command: "LISTGROUP \(groupName)\n")
+    }
+    
     public func listGroups() {
         if !connected {
             delegate?.error(message: "Not connected")
@@ -152,6 +166,13 @@ class NewsReader: NSObject, StreamDelegate {
         }
         if buffer.starts(with: "215 NewsGroups Follow") {
             print("Got 215...............")
+            resultsComing = true
+            response = ""
+            return
+        }
+        if buffer.starts(with: "211 Article Numbers Follow") {
+            print("Getting articles")
+            resultsComing = true
             response = ""
             return
         }
@@ -160,8 +181,8 @@ class NewsReader: NSObject, StreamDelegate {
     func splitter(line: String) -> (String, String) {
         if let pos = line.range(of: "\r\n", options: .backwards) {
             //line.substring(to: pos)
-            print(pos)
-            print(pos.self)
+            ///print(pos)
+            ///print(pos.self)
             let range = line.startIndex..<pos.lowerBound
             let what = line[range]
             //print("[\(what)]")
@@ -221,17 +242,37 @@ class NewsReader: NSObject, StreamDelegate {
                     response.append(output)
                     //print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
                     //print(output)
-                    if connected && currentOperation == "ListGroups" {
-                        let (prefix, rest) = splitter(line: response)
-                        response = rest
-                        let names = prefix.split(separator: "\r\n").map(String.init)
+                    if !resultsComing {
+                        return response
+                    }
+                    let (prefix, rest) = splitter(line: response)
+                    response = rest
+                    let lines = prefix.split(separator: "\r\n").map(String.init)
+                    
+                    if resultsComing && currentOperation == "ListGroupArticles" {
+                        var isDone = false
+                        var newArticles: [String] = []
+                        if lines.count > 0 {
+                            lines.forEach { (article: String) in
+                                if article == "." {
+                                    isDone = true
+                                } else {
+                                    newArticles.append(article)
+                                }
+                            }
+                        }
+                        delegate?.articles(articles: newArticles)
+                        if isDone {
+                            delegate?.done()
+                        }
+                    }
+
+                    if resultsComing && currentOperation == "ListGroups" {
                         //print(">>>>\(prefix)")
-                        if names.count > 0 {
+                        if lines.count > 0 {
                             var isDone = false
-                            //rbox.realm?.beginWrite()
-                            //var newGroups: [NewsGroup] = []
                             var newGroups: [Group] = []
-                            names.forEach { (name: String) in
+                            lines.forEach { (name: String) in
                                 if name == "." {
                                     isDone = true
                                 } else {
@@ -240,20 +281,11 @@ class NewsReader: NSObject, StreamDelegate {
                                         let last = Int(parts[1]),
                                         let first = Int(parts[2]) {
                                         print(">>> name: \(parts[0])")
-                                        //if let newGroup = rbox.findOrCreateGroup(name: parts[0], first: first, last: last, canPost: parts[3] == "y") {
-                                        //    newGroups.append(newGroup)
-                                        //}
                                         let newGroup = Group(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
                                         newGroups.append(newGroup)
                                     }
                                 }
                             }
-//                            do {
-//                                try rbox.realm?.commitWrite()
-//                            }
-//                            catch {
-//                                print("Realm error \(error)")
-//                            }
                             delegate?.groups(groups: newGroups)
                             if isDone {
                                 delegate?.done()

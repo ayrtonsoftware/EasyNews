@@ -12,6 +12,7 @@ import RealmSwift
 class NewsGroup: Object
 {
     @objc dynamic var name: String!
+    @objc dynamic var updated: Date!
     let first = RealmOptional<Int>()
     let last = RealmOptional<Int>()
     let canPost = RealmOptional<Bool>()
@@ -19,5 +20,6 @@ class NewsGroup: Object
 }
 
 class NewsGroupArticle: Object {
+    @objc dynamic var group: NewsGroup!
     @objc dynamic var id: String!
 }

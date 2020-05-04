@@ -8,10 +8,38 @@
 
 import Cocoa
 
-class GroupTabView: NSView, LoadableNib {
-    @IBOutlet var contentView: NSView!
+class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
+    func ListGroupArticles_articlesAdded(newArticles: [String]) {
+//        groupsTableDelegate?.groupUpdated(group: groupVM)
+//        groupsTableDelegate?.reload()
+    }
     
-    override init(frame: CGRect) {
+    func ListGroupsArticles_done(status: String) {
+//        groupsTableDelegate?.groupUpdated(group: groupVM)
+//        groupsTableDelegate?.reload()
+    }
+    
+    func ListGroupsArticles_reload(vm: NewsGroupVM) {
+        groupsTableDelegate?.groupUpdated(group: vm)
+        groupsTableDelegate?.reload()
+    }
+    
+    @IBOutlet var contentView: NSView!
+    private var groupVM: NewsGroupVM?
+    private var groupsTableDelegate: GroupsTableDelegate?
+    
+    @IBAction func onRefresh(sender: NSButton) {
+        if let groupVM = self.groupVM {
+            _ = ListGroupArticlesCommand(groupVM: groupVM,
+                                         rbox: MainVC.getReaderBox(),
+                                         reader: MainVC.CreateNewsReader(),
+                                         delegate: self)
+        }
+    }
+    
+    init(group: NewsGroupVM, groupsTableDelegate: GroupsTableDelegate?, frame: CGRect) {
+        self.groupVM = group
+        self.groupsTableDelegate = groupsTableDelegate
         super.init(frame: frame)
         loadViewFromNib()
         //self.wantsLayer = true
