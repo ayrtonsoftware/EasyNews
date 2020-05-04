@@ -27,29 +27,30 @@ class ListGroupsCommand: NewsReaderDelegate {
         reader.open()
     }
     
-    func connected() {
-        self.reader.listGroups()
+    func NewsReader_notification(notification: String)
+    {
+        if notification == "Connected" {
+            self.reader.listGroups()
+            return
+        }
+        if notification == "Done" {
+            print("Done getting list")
+            reader.close()
+            delegate?.ListGroups_done(status: "Done")
+        }
+        if notification == "ConnectionFailed" {
+            delegate?.ListGroups_done(status: "ConnectionFailed")
+        }
+        if notification == "Disconnected" {
+            delegate?.ListGroups_done(status: "Disconnected")
+        }
     }
     
-    func done() {
-        print("Done getting list")
-        reader.close()
-        delegate?.ListGroups_done(status: "Done")
-    }
-    
-    func connectionFailed() {
-        delegate?.ListGroups_done(status: "Failed")
-    }
-    
-    func disconnected() {
-        delegate?.ListGroups_done(status: "Disconnected")
-    }
-    
-    func error(message: String) {
+    func NewsReader_error(message: String) {
         delegate?.ListGroups_done(status: message)
     }
     
-    func groups(groups: [Group]) {
+    func NewsReader_groups(groups: [Group]) {
         rbox.realm?.beginWrite()
         var newGroups: [NewsGroup] = []
         
@@ -69,6 +70,6 @@ class ListGroupsCommand: NewsReaderDelegate {
         delegate?.ListGroups_groupsAdded(newGroups: newGroups)
     }
     
-    func articles(articles: [String]) {        
+    func NewsReader_articles(articles: [String]) {        
     }
 }

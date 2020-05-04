@@ -27,29 +27,30 @@ class ListGroupArticlesCommand: NewsReaderDelegate {
         reader.open()
     }
     
-    func connected() {
-        self.reader.listArticles(groupName: self.groupVM.name)
+    func NewsReader_notification(notification: String)
+    {
+        if notification == "Connected" {
+            self.reader.listArticles(groupName: self.groupVM.name)
+            return
+        }
+        if notification == "Done" {
+            print("Done getting list")
+            reader.close()
+            delegate?.ListGroupsArticles_reload(vm: groupVM)
+        }
+        if notification == "ConnectionFailed" {
+        }
+        if notification == "Disconnected" {
+        }
+    }
+
+    func NewsReader_error(message: String) {
     }
     
-    func done() {
-        print("Done getting list")
-        reader.close()
-        delegate?.ListGroupsArticles_reload(vm: groupVM)
+    func NewsReader_groups(groups: [Group]) {
     }
     
-    func connectionFailed() {
-    }
-    
-    func disconnected() {
-    }
-    
-    func error(message: String) {
-    }
-    
-    func groups(groups: [Group]) {
-    }
-    
-    func articles(articles: [String]) {
+    func NewsReader_articles(articles: [String]) {
         rbox.realm?.beginWrite()
         
         articles.forEach { (article: String) in

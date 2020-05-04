@@ -9,13 +9,10 @@
 import Foundation
 
 protocol NewsReaderDelegate: class {
-    func connected()
-    func connectionFailed()
-    func disconnected()
-    func error(message: String)
-    func groups(groups: [Group])
-    func articles(articles: [String])
-    func done()
+    func NewsReader_error(message: String)
+    func NewsReader_groups(groups: [Group])
+    func NewsReader_articles(articles: [String])
+    func NewsReader_notification(notification: String)
 }
 
 struct Group {
@@ -37,15 +34,15 @@ class NewsReader: NSObject, StreamDelegate {
     private var username: String
     private var password: String
     
-//    public func getGroups() -> [NewsGroup] {
-//        var groups: [NewsGroup] = []
-//        if let realm = rbox.realm {
-//            for group in realm.objects(NewsGroup.self) {
-//                groups.append(group)
-//            }
-//        }
-//        return groups
-//    }
+    //    public func getGroups() -> [NewsGroup] {
+    //        var groups: [NewsGroup] = []
+    //        if let realm = rbox.realm {
+    //            for group in realm.objects(NewsGroup.self) {
+    //                groups.append(group)
+    //            }
+    //        }
+    //        return groups
+    //    }
     
     private var _connected: Bool = false
     public var connected: Bool {
@@ -53,14 +50,10 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     init(serverAddress: String, port: UInt32, username: String, password: String) {
-        //rbox = ReaderBox()
         self.serverAddress = serverAddress
         self.port = port
         self.username = username
         self.password = password
-//        if let _ = rbox.realm {
-//            print("Open Realm")
-//        }
     }
     
     var isOpen: Bool {
@@ -112,7 +105,7 @@ class NewsReader: NSObject, StreamDelegate {
     
     public func listArticles(groupName: String) {
         if !connected {
-            delegate?.error(message: "Not connected")
+            delegate?.NewsReader_error(message: "Not connected")
             return
         }
         currentGroupName = groupName
@@ -123,7 +116,7 @@ class NewsReader: NSObject, StreamDelegate {
     
     public func listGroups() {
         if !connected {
-            delegate?.error(message: "Not connected")
+            delegate?.NewsReader_error(message: "Not connected")
             return
         }
         currentOperation = "ListGroups"
@@ -139,7 +132,7 @@ class NewsReader: NSObject, StreamDelegate {
             return
         }
         if buffer == "." {
-            delegate?.done()
+            delegate?.NewsReader_notification(notification: "Done")
             return
         }
         if buffer.starts(with: "381 PASS required") {
@@ -149,18 +142,18 @@ class NewsReader: NSObject, StreamDelegate {
         }
         if buffer.starts(with: "281 Welcome To Easynews.") {
             _connected = true
-            delegate?.connected()
+            delegate?.NewsReader_notification(notification: "Connected")
             response = ""
             return
         }
         if buffer.starts(with: "502 Authentication Failed") {
-            delegate?.connectionFailed()
+            delegate?.NewsReader_notification(notification: "ConnectionFailed")
             response = ""
             return
         }
         if buffer.starts(with: "205 Goodbye") {
             close()
-            delegate?.disconnected()            
+            delegate?.NewsReader_notification(notification: "Disconnected")
             response = ""
             return
         }
@@ -180,17 +173,10 @@ class NewsReader: NSObject, StreamDelegate {
     
     func splitter(line: String) -> (String, String) {
         if let pos = line.range(of: "\r\n", options: .backwards) {
-            //line.substring(to: pos)
-            ///print(pos)
-            ///print(pos.self)
             let range = line.startIndex..<pos.lowerBound
             let what = line[range]
-            //print("[\(what)]")
-            
             let range2 = pos.upperBound..<line.endIndex
             let newLine = line[range2]
-            //print("[\(newLine)]")
-            //print("----")
             return (String(what), String(newLine))
         }
         return (line, "")
@@ -261,12 +247,12 @@ class NewsReader: NSObject, StreamDelegate {
                                 }
                             }
                         }
-                        delegate?.articles(articles: newArticles)
+                        delegate?.NewsReader_articles(articles: newArticles)
                         if isDone {
-                            delegate?.done()
+                            delegate?.NewsReader_notification(notification: "Done")
                         }
                     }
-
+                    
                     if resultsComing && currentOperation == "ListGroups" {
                         //print(">>>>\(prefix)")
                         if lines.count > 0 {
@@ -286,9 +272,9 @@ class NewsReader: NSObject, StreamDelegate {
                                     }
                                 }
                             }
-                            delegate?.groups(groups: newGroups)
+                            delegate?.NewsReader_groups(groups: newGroups)
                             if isDone {
-                                delegate?.done()
+                                delegate?.NewsReader_notification(notification: "Done")
                             }
                         }
                     }
@@ -312,20 +298,19 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     func send(command: String) {
-        //DispatchQueue.global(qos: .background).async {
-            if let outputStream = self.outputStream {
-                print("Send Command: [\(command)]")
-                let data = command.data(using: .utf8)!
-                _ = data.withUnsafeBytes {
-                    guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-                        print("Error")
-                        return
-                    }
-                    print("Bytes to send \(data.count)")
-                    let bytesWritten = outputStream.write(pointer, maxLength: data.count)
-                    print("Bytes written \(bytesWritten)")
+        if let outputStream = self.outputStream {
+            print("Send Command: [\(command)]")
+            let data = command.data(using: .utf8)!
+            _ = data.withUnsafeBytes {
+                guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
+                    print("Error")
+                    return
                 }
+                print("Bytes to send \(data.count)")
+                let bytesWritten = outputStream.write(pointer, maxLength: data.count)
+                print("Bytes written \(bytesWritten)")
             }
         }
-    //}
+    }
 }
+
