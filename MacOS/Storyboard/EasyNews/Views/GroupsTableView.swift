@@ -30,7 +30,6 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
 
     @objc private func GroupAdded(_ notification: Notification) {
         reloadData()
-        scrollToEndOfDocument(nil)
     }
     
     private func addObservers() {

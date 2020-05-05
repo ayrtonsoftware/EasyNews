@@ -51,23 +51,27 @@ class ListGroupsCommand: NewsReaderDelegate {
     }
     
     func NewsReader_groups(groups: [Group]) {
-        rbox.realm?.beginWrite()
-        var newGroups: [NewsGroup] = []
-        
-        groups.forEach { (group: Group) in
-            let (newGroup, isNewGroup) = rbox.findOrCreateGroup(name:group.name, first: group.first, last: group.last, canPost: group.canPost)
-            newGroup.updated = Date()
-            newGroups.append(newGroup)
-            NotificationCenter.default.post(name: isNewGroup ? NotificationGroupAdded() : NotificationGroupUpdated(), object: newGroup)
+        DispatchQueue.main.sync { [weak self] in
+            rbox.realm?.beginWrite()
+            var newGroups: [NewsGroup] = []
+            
+            groups.forEach { (group: Group) in
+                let (newGroup, isNewGroup) = rbox.findOrCreateGroup(name:group.name, first: group.first, last: group.last, canPost: group.canPost)
+                newGroup.updated = Date()
+                newGroups.append(newGroup)
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: isNewGroup ? NotificationGroupAdded() : NotificationGroupUpdated(), object: newGroup)
+                }
+            }
+            
+            do {
+                try rbox.realm?.commitWrite()
+            }
+            catch {
+                print("Realm error \(error)")
+            }
+            delegate?.ListGroups_groupsAdded(newGroups: newGroups)
         }
-        
-        do {
-            try rbox.realm?.commitWrite()
-        }
-        catch {
-            print("Realm error \(error)")
-        }
-        delegate?.ListGroups_groupsAdded(newGroups: newGroups)
     }
     
     func NewsReader_articles(articles: [String]) {        

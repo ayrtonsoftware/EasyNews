@@ -59,24 +59,28 @@ class ArticleHeaderCommand: NewsReaderDelegate {
     }
     
     func NewsReader_articleHeader(articleId: String, header: [String: String]) {
-        if let group = groupVM.group {
-            rbox.realm?.beginWrite()
-            let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
-            article.subject = header["Subject"]
-            article.contentType = header["Content-Type"]
-            
-            let groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
-            groups?.forEach({ (groupName: String) in
-                if let referencedGroup = rbox.findGroup(name: groupName) {
-                    referencedGroup.articles.append(article)
+        DispatchQueue.main.sync {
+            if let group = groupVM.group {
+                rbox.realm?.beginWrite()
+                let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
+                article.subject = header["Subject"]
+                article.contentType = header["Content-Type"]
+                
+                let groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
+                groups?.forEach({ (groupName: String) in
+                    if let referencedGroup = rbox.findGroup(name: groupName) {
+                        referencedGroup.articles.append(article)
+                    }
+                })
+                
+                do {
+                    try rbox.realm?.commitWrite()
                 }
-            })
-            
-            do {
-                try rbox.realm?.commitWrite()
-            }
-            catch {
-                print("article update error: \(error)")
+                catch {
+                    print("article update error: \(error)")
+                }
+                NotificationCenter.default.post(name: (isNewArticle) ? NotificationArticleAdded(groupName: group.name) : NotificationArticleUpdated(groupName: group.name),
+                object: article)
             }
         }
     }

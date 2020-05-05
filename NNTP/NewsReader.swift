@@ -51,7 +51,7 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     // https://stackoverflow.com/questions/15632086/running-nsstream-in-background-thread
-    func open() {
+    func _open() {
         if isOpen {
             return
         }
@@ -63,15 +63,25 @@ class NewsReader: NSObject, StreamDelegate {
         if let read = readStream, let write = writeStream {
             inputStream = read.takeRetainedValue()
             outputStream = write.takeRetainedValue()
-            inputStream?.schedule(in: .current, forMode: .common)
-            outputStream?.schedule(in: .current, forMode: .common)
             inputStream?.delegate = self
             inputStream?.open()
             outputStream?.open()
+            CFReadStreamScheduleWithRunLoop(inputStream, CFRunLoopGetCurrent(), CFRunLoopMode.commonModes)
+            print(">>>> NewsReader started")
+            CFRunLoopRun();
+            print(">>>> NewsReader exited")
         } else {
             inputStream = nil
             outputStream = nil
         }
+    }
+    
+    var thread: Thread?
+    func open() {
+        thread = Thread(block: {
+            self._open()
+        })
+        thread?.start()
     }
     
     public func close() {
@@ -80,6 +90,7 @@ class NewsReader: NSObject, StreamDelegate {
             outputStream?.close()
             inputStream = nil
             outputStream = nil
+            CFRunLoopStop(CFRunLoopGetCurrent())
         }
     }
     
@@ -164,19 +175,19 @@ class NewsReader: NSObject, StreamDelegate {
             return
         }
         if buffer.starts(with: "215 NewsGroups Follow") {
-            //print("Got 215...............")
+            print("Got 215...............")
             resultsComing = true
             response = ""
             return
         }
         if buffer.starts(with: "211 Article Numbers Follow") {
-            //print("Getting articles")
+            print("Getting articles")
             resultsComing = true
             response = ""
             return
         }
         if buffer.starts(with: "211 ") {
-            //print("Getting article headers")
+            print("Getting article headers")
             resultsComing = true
             response = ""
             send(command: currentGroupCommand)
@@ -242,6 +253,7 @@ class NewsReader: NSObject, StreamDelegate {
     var response: String = ""
     
     private func readAvailableBytes(stream: InputStream) -> String? {
+        print("> readAvailableBytes")
         guard let inputStream = self.inputStream else {
             return nil
         }
@@ -265,11 +277,16 @@ class NewsReader: NSObject, StreamDelegate {
                         return response
                     }
                     let (prefix, rest) = splitter(line: response)
+//                    print("---prefix")
+//                    print(prefix)
+//                    print("---rest")
+//                    print(rest)
+//                    print("-------------")
                     ///print("PREFIX: [[\(prefix)]]")
                     ///print("REST: [[\(rest)]]")
                     response = rest
                     let lines = prefix.split(separator: "\r\n").map(String.init)
-                    
+                
                     if resultsComing && currentOperation == "ArticleHeader" {
                         parseHeader(txt: prefix)
                     }
@@ -343,6 +360,7 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     func send(command: String) {
+        print("> send \(command)")
         if let outputStream = self.outputStream {
             //print("Send Command: [\(command)]")
             let data = command.data(using: .utf8)!

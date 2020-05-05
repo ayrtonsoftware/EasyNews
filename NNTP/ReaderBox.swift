@@ -20,9 +20,12 @@ class ReaderBox: NSObject {
     static var realms: [String: Realm?] = [:]
         
     var realm: Realm? {
-        if let cachedRealm = ReaderBox.realms[Thread.threadName()] {
+        let threadName = Thread.threadName()
+        if let cachedRealm = ReaderBox.realms[threadName] {
+            //print("Getting realm from thread [\(threadName)]")
             return cachedRealm
         }
+        
         var pathURL = URL(fileURLWithPath: NSHomeDirectory())
         pathURL = pathURL.appendingPathComponent("EasyNews")
         var fileURL = pathURL.appendingPathComponent("easynews.realm")
@@ -49,7 +52,13 @@ class ReaderBox: NSObject {
             if let url = config.fileURL {
                 print("\n\n\nRealm Path: \(url.absoluteString)\n\n\n")
             }
-            ReaderBox.realms[Thread.threadName()] = realm
+            ReaderBox.realms[threadName] = realm
+            
+//            print("Adding new realm from thread [\(threadName)]")
+//            ReaderBox.realms.keys.forEach { (key: String) in
+//                print("Realms --> \(key)")
+//            }
+            
             return realm
         }
         catch {
