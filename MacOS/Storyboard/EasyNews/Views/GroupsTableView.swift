@@ -9,12 +9,10 @@
 import Cocoa
 
 protocol GroupsTableDelegate {
-    func groupUpdated(group: NewsGroupVM)
     func groupSelected(group: NewsGroupVM)
-    func reload()
 }
 
-class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate, GroupsTableVMDelegate {
+class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /*, GroupsTableVMDelegate*/ {
     func GroupsTable_reload() {
         reloadData()
     }
@@ -24,24 +22,53 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate, 
     
     public func setViewModel(vm: GroupsTableVM) {
         self.vm = vm
-        self.vm?.delegate = self
+    }
+
+    @objc private func GroupUpdated(_ notification: Notification) {
+        reloadData()
+    }
+
+    @objc private func GroupAdded(_ notification: Notification) {
+        reloadData()
+        scrollToEndOfDocument(nil)
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(GroupAdded(_:)),
+                                               name: NotificationGroupAdded(),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(GroupUpdated(_:)),
+                                               name: NotificationGroupUpdated(),
+                                               object: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.dataSource = self
+        self.delegate = self
+        addObservers()
     }
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         self.dataSource = self
         self.delegate = self
+        addObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         let count = vm?.groups.count ?? 0
-        print("number of groups: \(count)")
         return count
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let group = vm?.groups[self.selectedRow] {
-            print("Selected: \(group.name)")
             groupsDelegate?.groupSelected(group: group)
         }
     }
@@ -76,11 +103,5 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate, 
             }
         }
         return nil
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.dataSource = self
-        self.delegate = self
     }
 }

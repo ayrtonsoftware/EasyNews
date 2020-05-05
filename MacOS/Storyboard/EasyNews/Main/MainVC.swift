@@ -10,6 +10,29 @@ import Cocoa
 //import SwiftSocket
 
 class MainVC: NSViewController, GroupsTableDelegate {
+    override func viewDidAppear() {
+       NotificationCenter.default.addObserver(self,
+                                               selector: #selector(GroupAdded(_:)),
+                                               name: NotificationGroupAdded(),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(GroupUpdated(_:)),
+                                               name: NotificationGroupUpdated(),
+                                               object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func GroupUpdated(_ notification: Notification) {
+    }
+
+    @objc private func GroupAdded(_ notification: Notification) {
+        groupCountLabel.stringValue = "Count: \(groupsVM.groups.count)"
+    }
+    
+    @IBOutlet var groupCountLabel: NSTextField!
     @IBOutlet var tabs: NSTabView!
     private var tabCache: [String: NSTabViewItem] = [:]
     
@@ -28,11 +51,11 @@ class MainVC: NSViewController, GroupsTableDelegate {
         groupsTable.reloadData()
     }
     
-    func groupUpdated(group: NewsGroupVM) {
-        print("group updated: \(group.name)")
-        groupsVM.updateGroup(vm: group)
-        groupsTable.reloadData()
-    }
+//    func groupUpdated(group: NewsGroupVM) {
+//        print("group updated: \(group.name)")
+//        groupsVM.updateGroup(vm: group)
+//        groupsTable.reloadData()
+//    }
 
     func groupSelected(group: NewsGroupVM) {
         if let tab = tabCache[group.name] {
@@ -55,7 +78,7 @@ class MainVC: NSViewController, GroupsTableDelegate {
     @IBOutlet var groupsTable: GroupsTableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        groupsVM = GroupsTableVM(rbox: MainVC.getReaderBox())
+        groupsVM = GroupsTableVM()
         groupsTable.setViewModel(vm: groupsVM)
         groupsTable.groupsDelegate = self
     }

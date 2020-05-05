@@ -6,6 +6,8 @@
 //  Copyright © 2020 Michael Bergamo. All rights reserved.
 //
 
+import Cocoa
+
 protocol ListGroupArticlesDelegate: class {
     func ListGroupArticles_articlesAdded(newArticles: [String])
     func ListGroupsArticles_done(status: String)
@@ -55,8 +57,12 @@ class ListGroupArticlesCommand: NewsReaderDelegate {
         
         articles.forEach { (article: String) in
             if let group = groupVM.group {
-                let article = rbox.findOrCreateGroupAticle(group: group, articleId: article)
+                let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: article)
                 self.groupVM.articles.append(NewsGroupArticleVM(article: article))
+                if (!isNewArticle) {
+                    NotificationCenter.default.post(name: NotificationArticleUpdated(groupName: group.name),
+                                                    object: article)
+                }
             }
         }
         

@@ -925,16 +925,26 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableHeaderView>
                                             </scrollView>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UgC-LW-faS">
+                                                <rect key="frame" x="157" y="410" width="212" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" id="RQO-I6-rTI">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="N3K-Nn-yOR" firstAttribute="leading" secondItem="uEc-C9-QFv" secondAttribute="leading" constant="20" id="8Mm-h6-2Ql"/>
                                             <constraint firstItem="cet-xr-l1H" firstAttribute="trailing" secondItem="H9v-2w-AQ9" secondAttribute="trailing" id="BDh-6M-p3Z"/>
+                                            <constraint firstItem="UgC-LW-faS" firstAttribute="leading" secondItem="N3K-Nn-yOR" secondAttribute="trailing" constant="16" id="BuC-Ro-5gK"/>
                                             <constraint firstItem="cet-xr-l1H" firstAttribute="leading" secondItem="H9v-2w-AQ9" secondAttribute="leading" id="CYc-ls-F3i"/>
                                             <constraint firstAttribute="trailing" secondItem="H9v-2w-AQ9" secondAttribute="trailing" constant="20" id="Me8-hF-7qJ"/>
                                             <constraint firstItem="H9v-2w-AQ9" firstAttribute="top" secondItem="N3K-Nn-yOR" secondAttribute="bottom" constant="20" id="ReH-cm-r4B"/>
                                             <constraint firstItem="cet-xr-l1H" firstAttribute="top" secondItem="H9v-2w-AQ9" secondAttribute="bottom" constant="22" id="T1l-BJ-IRr"/>
                                             <constraint firstItem="N3K-Nn-yOR" firstAttribute="top" secondItem="uEc-C9-QFv" secondAttribute="top" constant="20" id="TGN-Ox-MS8"/>
                                             <constraint firstItem="H9v-2w-AQ9" firstAttribute="leading" secondItem="N3K-Nn-yOR" secondAttribute="leading" id="UkN-gi-DMv"/>
+                                            <constraint firstItem="UgC-LW-faS" firstAttribute="centerY" secondItem="N3K-Nn-yOR" secondAttribute="centerY" id="i8v-7x-nFV"/>
                                             <constraint firstAttribute="bottom" secondItem="cet-xr-l1H" secondAttribute="bottom" constant="20" id="lTP-1y-Tro"/>
                                         </constraints>
                                     </customView>
@@ -969,6 +979,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="groupCountLabel" destination="UgC-LW-faS" id="aNz-ky-HCH"/>
                         <outlet property="groupsTable" destination="T42-wJ-cws" id="XRD-5N-dRS"/>
                         <outlet property="tabs" destination="rQQ-D4-7mm" id="6Oh-UZ-yse"/>
                     </connections>

@@ -20,8 +20,8 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     }
     
     func ListGroupsArticles_reload(vm: NewsGroupVM) {
-        groupsTableDelegate?.groupUpdated(group: vm)
-        groupsTableDelegate?.reload()
+        //p groupsTableDelegate?.groupUpdated(group: vm)
+        //p groupsTableDelegate?.reload()
     }
     
     @IBOutlet var contentView: NSView!

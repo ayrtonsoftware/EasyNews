@@ -8,25 +8,17 @@
 
 import Foundation
 
-protocol GroupsTableVMDelegate: class {
-    func GroupsTable_reload()
-}
-
 class GroupsTableVM {
-    public var delegate: GroupsTableVMDelegate?
-    private var rbox: ReaderBox
-    
-    init(rbox: ReaderBox) {
-        self.rbox = rbox
+    init() {
         groups.append(contentsOf: getCachedGroups().map(NewsGroupVM.init))
-
     }
         
     var groups: [NewsGroupVM] = []
 
     public func getCachedGroups() -> [NewsGroup] {
         var groups: [NewsGroup] = []
-        if let realm = rbox.realm {
+        
+        if let realm = MainVC.getReaderBox().realm {
             for group in realm.objects(NewsGroup.self) {
                 groups.append(group)
             }
@@ -37,7 +29,7 @@ class GroupsTableVM {
     public func updateGroup(vm: NewsGroupVM) {
         groups = groups.map { (evm: NewsGroupVM) -> NewsGroupVM in
             if evm.name == vm.name {
-                var mod = evm
+                let mod = evm
                 mod.articles = vm.articles
                 return mod
             }
@@ -46,21 +38,21 @@ class GroupsTableVM {
     }
     
     public func updateGroups() {
-        _ = ListGroupsCommand(rbox: rbox, reader: MainVC.CreateNewsReader(), delegate: self)
+        _ = ListGroupsCommand(rbox: MainVC.getReaderBox(), reader: MainVC.CreateNewsReader(), delegate: self)
     }
 }
 
 extension GroupsTableVM: ListGroupsDelegate {
     func ListGroups_refresh() {
-        delegate?.GroupsTable_reload()
+        NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
     }
     
     func ListGroups_groupsAdded(newGroups: [NewsGroup]) {
         groups.append(contentsOf: newGroups.map(NewsGroupVM.init))
-        delegate?.GroupsTable_reload()
+        NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
     }
     
     func ListGroups_done(status: String) {
-        print("List Groups: \(status)")
+        NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
     }
 }

@@ -55,10 +55,10 @@ class ListGroupsCommand: NewsReaderDelegate {
         var newGroups: [NewsGroup] = []
         
         groups.forEach { (group: Group) in
-            if let newGroup = rbox.findOrCreateGroup(name:group.name, first: group.first, last: group.last, canPost: group.canPost) {
-                newGroup.updated = Date()
-                newGroups.append(newGroup)
-            }
+            let (newGroup, isNewGroup) = rbox.findOrCreateGroup(name:group.name, first: group.first, last: group.last, canPost: group.canPost)
+            newGroup.updated = Date()
+            newGroups.append(newGroup)
+            NotificationCenter.default.post(name: isNewGroup ? NotificationGroupAdded() : NotificationGroupUpdated(), object: newGroup)
         }
         
         do {

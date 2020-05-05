@@ -18,7 +18,7 @@ extension Thread {
 
 class ReaderBox: NSObject {
     static var realms: [String: Realm?] = [:]
-    
+        
     var realm: Realm? {
         if let cachedRealm = ReaderBox.realms[Thread.threadName()] {
             return cachedRealm
@@ -71,12 +71,11 @@ class ReaderBox: NSObject {
         return nil
     }
     
-    func findOrCreateGroupAticle(group: NewsGroup, articleId: String) -> NewsGroupArticle {
-        
+    func findOrCreateGroupArticle(group: NewsGroup, articleId: String) -> (NewsGroupArticle, Bool) {
         if let article = group.articles.first(where: { (article: NewsGroupArticle) -> Bool in
             return article.id == articleId
         }) {
-            return article
+            return (article, false)
         }
     
         let newArticle = NewsGroupArticle()
@@ -86,7 +85,8 @@ class ReaderBox: NSObject {
         newArticle.contentType = ""
         group.articles.append(newArticle)
         realm?.add(newArticle)
-        return newArticle
+        //NotificationCenter.default.post(name: Notification.Name(NotificationArticleAdded(groupName: group.name)), object: newArticle)
+        return (newArticle, true)
     }
 
     func findGroup(name: String) -> NewsGroup? {
@@ -97,10 +97,10 @@ class ReaderBox: NSObject {
         return nil
     }
 
-    func findOrCreateGroup(name: String, first: Int, last: Int, canPost: Bool) -> NewsGroup? {
+    func findOrCreateGroup(name: String, first: Int, last: Int, canPost: Bool) -> (NewsGroup, Bool) {
         
         if let group = findGroup(withFilter: "name='\(name)'") {
-            return group
+            return (group, false)
         }
         let newGroup = NewsGroup()
         newGroup.name = name
@@ -109,6 +109,7 @@ class ReaderBox: NSObject {
         newGroup.last.value = last
         newGroup.canPost.value = canPost
         realm?.add(newGroup)
-        return newGroup
+        //NotificationCenter.default.post(name: Notification.Name(NotificationGroupAdded()), object: newGroup)
+        return (newGroup, true)
     }
 }

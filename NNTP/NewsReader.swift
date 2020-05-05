@@ -225,20 +225,12 @@ class NewsReader: NSObject, StreamDelegate {
         let parts = txt.split(separator: "\r\n").map(String.init)
         parts.forEach { (keyValue: String) in
             if keyValue.starts(with: "430 No such article") {
+                delegate?.NewsReader_notification(notification: "NextArticle")
                 return
             }
             if keyValue != "." && !keyValue.starts(with: "221 ") {
                 let (key, value) = splitter(line: keyValue, delimiter: ":", direction: .caseInsensitive)
                 header[key.trimmingCharacters(in: .whitespacesAndNewlines)] = value.trimmingCharacters(in: .whitespacesAndNewlines)
-                let kcount = header.keys.count
-                //headerKeys[key] = key
-//                if (headerKeys.count != kcount) {
-//                    print(">>>>> ------------- keys are now ------------")
-//                    headerKeys.keys.forEach { (key: String) in
-//                        print("||||| [\(key)]")
-//                    }
-//                    print("<<<<< ------------- keys are now ------------")
-//                }
             }
         }
         delegate?.NewsReader_articleHeader(articleId: self.articleId, header: header)

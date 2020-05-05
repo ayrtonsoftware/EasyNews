@@ -15,14 +15,33 @@ class ArticlesTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate
     
     private var vm: ArticlesTableVM?
     
+    @objc private func onArticleAdded(_ notification: Notification) {
+        if let no = notification.object as? NewsGroupArticle {
+            reloadData()
+            scrollToEndOfDocument(nil)
+        }
+    }
+    
     public func setViewModel(vm: ArticlesTableVM) {
         self.vm = vm
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onArticleAdded(_:)),
+                                               name: NotificationArticleAdded(groupName: vm.group.name),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onArticleAdded(_:)),
+                                               name: NotificationArticleUpdated(groupName: vm.group.name),
+                                               object: nil)
     }
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         self.dataSource = self
         self.delegate = self
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {

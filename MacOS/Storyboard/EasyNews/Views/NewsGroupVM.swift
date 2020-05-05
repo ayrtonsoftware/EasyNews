@@ -14,8 +14,8 @@ class NewsGroupArticleVM/*: Identifiable, Hashable*/ {
     var contentType: String
     
     public init(article: NewsGroupArticle) {
-        id = article.id
-        subject = article.subject
+        id = article.id ?? ""
+        subject = article.subject ?? ""
         contentType = ""
         if let ct = article.contentType as? String? {
             contentType = ct ?? "N/A"

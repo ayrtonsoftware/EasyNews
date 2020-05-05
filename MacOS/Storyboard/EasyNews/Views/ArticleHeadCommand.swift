@@ -61,35 +61,17 @@ class ArticleHeaderCommand: NewsReaderDelegate {
     func NewsReader_articleHeader(articleId: String, header: [String: String]) {
         if let group = groupVM.group {
             rbox.realm?.beginWrite()
-            var article = rbox.findOrCreateGroupAticle(group: group, articleId: articleId)
+            let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
             article.subject = header["Subject"]
             article.contentType = header["Content-Type"]
             
-            var groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
+            let groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
             groups?.forEach({ (groupName: String) in
                 if let referencedGroup = rbox.findGroup(name: groupName) {
                     referencedGroup.articles.append(article)
                 }
             })
             
-//            header.keys.forEach { (key: String) in
-//                //print(">>>>>article \(articleId) - \(key)------\(header[key]!)-------")
-//                if key == "Subject" {
-//                    article.subject = header[key]
-//                }
-//                if key == "Content-Type" {
-//                    article.contentType = header[key]
-//                }
-//                if key == "Newsgroups" {
-//                    print(header[key])
-//                    var groups = header[key]?.split(separator: ",").map(String.init)
-//                    groups?.forEach({ (groupName: String) in
-//                        if let referencedGroup = rbox.findGroup(name: groupName) {
-//                            referencedGroup.articles.append(article)
-//                        }
-//                    })
-//                }
-//            }
             do {
                 try rbox.realm?.commitWrite()
             }
