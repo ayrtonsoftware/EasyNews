@@ -146,7 +146,10 @@
                     </tableHeaderView>
                 </scrollView>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hef-Yb-wjw">
-                    <rect key="frame" x="14" y="442" width="87" height="32"/>
+                    <rect key="frame" x="14" y="442" width="112" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="qec-x1-3X6"/>
+                    </constraints>
                     <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Pq-WM-9dX">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -155,19 +158,9 @@
                         <action selector="onRefreshWithSender:" target="-2" id="HKf-pN-MWS"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olo-bj-Nap">
-                    <rect key="frame" x="121" y="442" width="91" height="32"/>
-                    <buttonCell key="cell" type="push" title="Headers" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mnb-6c-he5">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="onHeadersWithSender:" target="-2" id="vsQ-85-YIp"/>
-                    </connections>
-                </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="brI-fi-mUU">
-                    <rect key="frame" x="259" y="452" width="273" height="16"/>
-                    <textFieldCell key="cell" lineBreakMode="clipping" id="sHv-Ul-a1s">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="brI-fi-mUU">
+                    <rect key="frame" x="286" y="449" width="244" height="22"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" borderStyle="bezel" bezelStyle="round" id="sHv-Ul-a1s">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -178,12 +171,11 @@
                 <constraint firstItem="hef-Yb-wjw" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="5tw-vN-fJk"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="A28-pi-XEQ"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="top" secondItem="hef-Yb-wjw" secondAttribute="bottom" constant="20" id="EHT-e3-e2T"/>
-                <constraint firstItem="olo-bj-Nap" firstAttribute="leading" secondItem="hef-Yb-wjw" secondAttribute="trailing" constant="32" id="FJq-mQ-I69"/>
                 <constraint firstAttribute="bottom" secondItem="rGF-vc-6qX" secondAttribute="bottom" constant="20" id="PxW-Zi-ygM"/>
+                <constraint firstItem="brI-fi-mUU" firstAttribute="leading" secondItem="hef-Yb-wjw" secondAttribute="trailing" constant="166" id="UIZ-p4-qZ1"/>
                 <constraint firstItem="hef-Yb-wjw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Wtu-uC-dFL"/>
-                <constraint firstItem="brI-fi-mUU" firstAttribute="centerY" secondItem="olo-bj-Nap" secondAttribute="centerY" id="eJ4-08-NtW"/>
-                <constraint firstItem="brI-fi-mUU" firstAttribute="leading" secondItem="olo-bj-Nap" secondAttribute="trailing" constant="55" id="qgU-Lo-Oza"/>
-                <constraint firstItem="olo-bj-Nap" firstAttribute="centerY" secondItem="hef-Yb-wjw" secondAttribute="centerY" id="vNe-rV-8OO"/>
+                <constraint firstAttribute="trailing" secondItem="brI-fi-mUU" secondAttribute="trailing" constant="446" id="Y32-Yu-Uq2"/>
+                <constraint firstItem="brI-fi-mUU" firstAttribute="centerY" secondItem="hef-Yb-wjw" secondAttribute="centerY" id="o2a-y8-PH8"/>
                 <constraint firstAttribute="trailing" secondItem="rGF-vc-6qX" secondAttribute="trailing" constant="20" id="yY8-nJ-HcA"/>
             </constraints>
             <point key="canvasLocation" x="-69" y="-3"/>

@@ -7,64 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CAFE6369-8D19-4BA1-ACA2-3567C59F6FE9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/GroupsTableVM.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "GroupsTableVM"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BD17172D-B577-49E8-B322-5D1B0F68DF4C"
+            uuid = "554CB82C-D427-4100-83BB-4C1706064049"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EasyNews/Views/GroupTabView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "onArticleAdded(_:)"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "onArticlesUpdated(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D734AB2C-A7C0-46D0-BAB3-26E13687644E"
+            uuid = "8AF62E07-ABBD-483D-BD6C-813EF3252F43"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/ArticlesTableView.swift"
+            filePath = "../../NNTP/NewsReader.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "numberOfRows(in:)"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "parseHeader(txt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A2A4BE4F-D3B1-4E8F-98D1-B0D9B246E923"
+            uuid = "04D27404-858B-4621-B072-E3B892A5C0C9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/ArticlesTableView.swift"
+            filePath = "../../NNTP/NewsReader.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "tableViewSelectionDidChange(_:)"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "parseHeader(txt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

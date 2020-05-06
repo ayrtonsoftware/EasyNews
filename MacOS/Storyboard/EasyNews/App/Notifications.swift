@@ -23,3 +23,7 @@ func NotificationArticleUpdated(groupName: String) -> NSNotification.Name {
 func NotificationArticleAdded(groupName: String) -> NSNotification.Name {
     return NSNotification.Name(rawValue: "Notification_ArticleAdded_ToGroup_\(groupName)")
 }
+
+func NotificationArticlesUpdated(groupName: String) -> NSNotification.Name {
+    return NSNotification.Name(rawValue: "Notification_ArticlesUpdated_ToGroup_\(groupName)")
+}

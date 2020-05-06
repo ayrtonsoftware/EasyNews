@@ -237,6 +237,7 @@ class NewsReader: NSObject, StreamDelegate {
         parts.forEach { (keyValue: String) in
             if keyValue.starts(with: "430 No such article") {
                 delegate?.NewsReader_notification(notification: "NextArticle")
+                header["Subject"] = "No such article"
                 return
             }
             if keyValue != "." && !keyValue.starts(with: "221 ") {

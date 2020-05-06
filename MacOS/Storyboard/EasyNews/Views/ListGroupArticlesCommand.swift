@@ -45,7 +45,7 @@ class ListGroupArticlesCommand: NewsReaderDelegate {
         if notification == "Disconnected" {
         }
     }
-
+    
     func NewsReader_error(message: String) {
     }
     
@@ -57,14 +57,17 @@ class ListGroupArticlesCommand: NewsReaderDelegate {
             if let self = self {
                 self.rbox.realm?.beginWrite()
                 
-                articles.forEach { (article: String) in
-                    if let group = self.groupVM.group {
+                if let group = self.groupVM.group {
+                    articles.forEach { (article: String) in
                         let (article, isNewArticle) = self.rbox.findOrCreateGroupArticle(group: group, articleId: article)
                         self.groupVM.articles.append(NewsGroupArticleVM(article: article))
                         NotificationCenter.default.post(name: (isNewArticle) ? NotificationArticleAdded(groupName: group.name) : NotificationArticleUpdated(groupName: group.name),
                                                         object: article)
                         NotificationCenter.default.post(name: NotificationGroupUpdated(), object: group)
                     }
+                    
+                    NotificationCenter.default.post(name: NotificationArticlesUpdated(groupName: group.name),
+                                                    object: articles)
                 }
                 
                 do {

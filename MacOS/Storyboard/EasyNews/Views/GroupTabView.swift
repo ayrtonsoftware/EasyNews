@@ -35,6 +35,19 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     //        }
     //    }
     
+    @objc private func onArticlesUpdated(_ notification: Notification) {
+        if let articleIds = notification.object as? [String] {
+            if let vm = articlesVM {
+                print("yea")
+                print(articleIds)
+                _ = ArticleHeaderCommand(groupVM: vm.group,
+                                         articleIds: articleIds,
+                                         rbox: MainVC.getReaderBox(),
+                                         reader: MainVC.CreateNewsReader())
+            }
+        }
+    }
+    
     @objc private func onArticleAdded(_ notification: Notification) {
         if let article = notification.object as? NewsGroupArticle {
             print("subject: \(article.subject)")
@@ -56,6 +69,10 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     }
     
     private func addNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onArticlesUpdated(_:)),
+                                               name: NotificationArticlesUpdated(groupName: groupVM?.name ?? "Unknown"),
+                                               object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onArticleAdded(_:)),
                                                name: NotificationArticleAdded(groupName: groupVM?.name ?? "Unknown"),
