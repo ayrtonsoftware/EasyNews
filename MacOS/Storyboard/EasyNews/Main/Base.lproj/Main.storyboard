@@ -734,10 +734,10 @@
                                                     <action selector="onRefreshGroupsWithSender:" target="XfG-lQ-9wD" id="Xze-ZT-pC1"/>
                                                 </connections>
                                             </button>
-                                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cet-xr-l1H">
+                                            <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cet-xr-l1H">
                                                 <rect key="frame" x="20" y="20" width="471" height="323"/>
                                                 <clipView key="contentView" id="ETG-NK-Okp">
-                                                    <rect key="frame" x="1" y="0.0" width="469" height="307"/>
+                                                    <rect key="frame" x="1" y="0.0" width="454" height="307"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="mdc-RQ-GX3" viewBased="YES" id="T42-wJ-cws" customClass="GroupsTableView" customModule="EasyNews" customModuleProvider="target">
@@ -913,11 +913,11 @@
                                                     </subviews>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="zfC-hc-qu4">
-                                                    <rect key="frame" x="1" y="307" width="469" height="15"/>
+                                                    <rect key="frame" x="1" y="307" width="454" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="KN0-lu-x2B">
-                                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="KN0-lu-x2B">
+                                                    <rect key="frame" x="455" y="25" width="15" height="282"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <tableHeaderView key="headerView" id="mdc-RQ-GX3">
@@ -967,7 +967,7 @@
                                 </subviews>
                                 <holdingPriorities>
                                     <real value="250"/>
-                                    <real value="250"/>
+                                    <real value="251"/>
                                 </holdingPriorities>
                             </splitView>
                         </subviews>

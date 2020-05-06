@@ -11,7 +11,7 @@ import Cocoa
 
 class MainVC: NSViewController, GroupsTableDelegate {
     override func viewDidAppear() {
-       NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(GroupAdded(_:)),
                                                name: NotificationGroupAdded(),
                                                object: nil)
