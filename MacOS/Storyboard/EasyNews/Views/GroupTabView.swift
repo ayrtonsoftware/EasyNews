@@ -76,18 +76,19 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     
     @objc private func onArticleAdded(_ notification: Notification) {
         if let article = notification.object as? NewsGroupArticle {
-            print("subject: \(article.subject)")
-            if let vm = articlesVM {
-                vm.group.articles = vm.group.articles.map { (existing: NewsGroupArticleVM) -> NewsGroupArticleVM in
-                    if existing.id == article.id {
-                        let mod = existing
-                        mod.contentType = article.contentType ?? "N/A"
-                        mod.subject = article.subject ?? "N/A"
-                        return mod
-                    }
-                    return existing
-                }
-            }
+            articlesVM?.addArticle(article: NewsGroupArticleVM(article: article))
+//            print("subject: \(article.subject)")
+//            if let vm = articlesVM {
+//                vm.group.articles = vm.group.articles.map { (existing: NewsGroupArticleVM) -> NewsGroupArticleVM in
+//                    if existing.id == article.id {
+//                        let mod = existing
+//                        mod.contentType = article.contentType ?? "N/A"
+//                        mod.subject = article.subject ?? "N/A"
+//                        return mod
+//                    }
+//                    return existing
+//                }
+//            }
         }
         articlesTable.reloadData()
         ////articlesTable.scrollToEndOfDocument(nil)
@@ -152,9 +153,13 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
         if let vm = articlesVM {
             self.articlesTable.setViewModel(vm: vm)
         }
+        group.articles.forEach { (article: NewsGroupArticleVM) in
+            articlesVM?.addArticle(article: article)
+        }
         //self.wantsLayer = true
         //self.layer?.backgroundColor = NSColor.lightGray.cgColor
         addNotifications()
+        self.articlesTable.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {

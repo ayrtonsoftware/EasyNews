@@ -22,6 +22,7 @@
 		A788DFF6245EBB34001D918F /* NSView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF5245EBB34001D918F /* NSView+Extension.swift */; };
 		A788DFF8245EC680001D918F /* MessagesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFF7245EC680001D918F /* MessagesTableView.swift */; };
 		A79A16F2245A05B500AC663F /* ReadMe.md in Resources */ = {isa = PBXBuildFile; fileRef = A79A16F1245A05B500AC663F /* ReadMe.md */; };
+		A7B3E3042462B9C5002CE011 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B3E3032462B9C5002CE011 /* String+Extension.swift */; };
 		A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FA5B4B2458CD6A0034A321 /* AppDelegate.swift */; };
 		A7FA5B4E2458CD6A0034A321 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FA5B4D2458CD6A0034A321 /* MainVC.swift */; };
 		A7FA5B502458CD6C0034A321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7FA5B4F2458CD6C0034A321 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		A788DFF5245EBB34001D918F /* NSView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extension.swift"; sourceTree = "<group>"; };
 		A788DFF7245EC680001D918F /* MessagesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableView.swift; sourceTree = "<group>"; };
 		A79A16F1245A05B500AC663F /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
+		A7B3E3032462B9C5002CE011 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		A7FA5B482458CD6A0034A321 /* EasyNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7FA5B4B2458CD6A0034A321 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7FA5B4D2458CD6A0034A321 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -150,17 +152,18 @@
 			children = (
 				A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */,
 				A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */,
+				A788DFF1245EB978001D918F /* GroupTabView.xib */,
+				A788DFF3245EB98B001D918F /* GroupTabView.swift */,
 				A788DFEB245E7242001D918F /* GroupsTableVM.swift */,
 				A7FA8314245E6E1400758A5A /* GroupsTableView.swift */,
 				A7FA8310245E6D9300758A5A /* NewsGroupVM.swift */,
 				A788DFEF245EA501001D918F /* TableProgressIndicator.swift */,
-				A788DFF1245EB978001D918F /* GroupTabView.xib */,
-				A788DFF3245EB98B001D918F /* GroupTabView.swift */,
 				A788DFF5245EBB34001D918F /* NSView+Extension.swift */,
 				A788DFF7245EC680001D918F /* MessagesTableView.swift */,
 				A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */,
 				A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */,
 				A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */,
+				A7B3E3032462B9C5002CE011 /* String+Extension.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				A788DFF0245EA501001D918F /* TableProgressIndicator.swift in Sources */,
 				A70D107E24601B1E009CEEE3 /* ArticlesTableVM.swift in Sources */,
 				A7FA5B4E2458CD6A0034A321 /* MainVC.swift in Sources */,
+				A7B3E3042462B9C5002CE011 /* String+Extension.swift in Sources */,
 				A788DFF4245EB98B001D918F /* GroupTabView.swift in Sources */,
 				A7FA8312245E6D9300758A5A /* NewsReader.swift in Sources */,
 				A76F82E7245F92BA00CB7A59 /* ListGroupsCommand.swift in Sources */,
