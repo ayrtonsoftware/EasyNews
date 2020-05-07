@@ -8,11 +8,11 @@
 
 import Cocoa
 
-protocol ListGroupArticlesDelegate: class {
-    func ListGroupArticles_articlesAdded(newArticles: [String])
-    func ListGroupsArticles_done(status: String)
-    func ListGroupsArticles_reload(vm: NewsGroupVM)
-}
+//protocol ListGroupArticlesDelegate: class {
+//    func ListGroupArticles_articlesAdded(newArticles: [String])
+//    func ListGroupsArticles_done(status: String)
+//    func ListGroupsArticles_reload(vm: NewsGroupVM)
+//}
 
 class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     var reader: NewsReader

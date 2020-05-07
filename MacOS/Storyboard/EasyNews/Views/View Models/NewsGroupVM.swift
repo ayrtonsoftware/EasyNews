@@ -8,22 +8,6 @@
 
 import Foundation
 
-class NewsGroupArticleVM/*: Identifiable, Hashable*/ {
-    var id: String
-    var subject: String
-    var contentType: String
-    var size: Int
-    var date: Date?
-    
-    public init(article: NewsGroupArticle) {
-        id = article.id ?? ""
-        subject = article.subject ?? ""
-        contentType = article.contentType ?? "N/A"
-        size = article.size.value ?? 0
-        date = article.date
-    }
-}
-
 class NewsGroupVM /*: Identifiable, Hashable*/ {
     var group: NewsGroup?
     var id: String = UUID().uuidString

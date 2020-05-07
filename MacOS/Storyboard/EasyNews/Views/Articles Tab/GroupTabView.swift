@@ -8,59 +8,7 @@
 
 import Cocoa
 
-class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
-    func ListGroupArticles_articlesAdded(newArticles: [String]) {
-        //        groupsTableDelegate?.groupUpdated(group: groupVM)
-        //        groupsTableDelegate?.reload()
-    }
-    
-    func ListGroupsArticles_done(status: String) {
-        //        groupsTableDelegate?.groupUpdated(group: groupVM)
-        //        groupsTableDelegate?.reload()
-    }
-    
-    func ListGroupsArticles_reload(vm: NewsGroupVM) {
-        //p groupsTableDelegate?.groupUpdated(group: vm)
-        //p groupsTableDelegate?.reload()
-    }
-    
-//    @IBAction func onGrouper(sender: NSButton) {
-//        if let vm = articlesVM {
-//            var grouped: [String: [NewsGroupArticleVM]] = [:]
-//            let regex = try! NSRegularExpression(pattern: "\\(\\d+\\/\\d+\\)|\\[\\d+\\/\\d+\\]")
-//            print("-------------------------------------------")
-//            vm.group.articles.forEach { (article: NewsGroupArticleVM) in
-//                let range = NSRange(location: 0, length: article.subject.utf16.count)
-//                let matches = regex.matches(in: article.subject, options: NSRegularExpression.MatchingOptions.withoutAnchoringBounds, range: range)
-//                if matches.count > 0 {
-//                    let nsString = NSString(string: article.subject)
-//                    for match in matches {
-//                        // what will be the code
-//                        let range = match.range
-//                        let matchString = nsString.substring(with: match.range) as String
-//                        print("---------------------------------------------------------------------------------------->")
-//                        print("-------------------------------------------------->\(article.subject)<-------------------")
-//                        print("-------------------------------------------------> match is \(range) \(matchString)")
-//                        let subjectMinusIndex = article.subject.replacingOccurrences(of: matchString, with: "").trimmingCharacters(in: .whitespaces)
-//                        if grouped.keys.contains(subjectMinusIndex) {
-//                            var listOf = grouped.removeValue(forKey: subjectMinusIndex)
-//                            listOf?.append(article)
-//                            grouped[subjectMinusIndex] = listOf
-//                        } else {
-//                            grouped[subjectMinusIndex] = [article]
-//                        }
-//                        print("---------------------------------------------------------------------------------------->")
-//                    }
-//                    print("***")
-//                }
-//                else {
-//                    print(article.subject)
-//                }
-//            }
-//            print("-------------------------------------------")
-//        }
-//    }
-    
+class GroupTabView: NSView, LoadableNib {
     @objc private func onArticleGetHeader(_ notification: Notification) {
         if let articles = notification.object as? [NewsGroupArticleVM] {
             if let vm = articlesVM {
@@ -124,8 +72,7 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
         if let groupVM = self.groupVM {
             _ = ListGroupGetArticleIdsCommand(groupVM: groupVM,
                                               rbox: MainVC.getReaderBox(),
-                                              reader: MainVC.CreateNewsReader(),
-                                              delegate: self)
+                                              reader: MainVC.CreateNewsReader())
         }
     }
     

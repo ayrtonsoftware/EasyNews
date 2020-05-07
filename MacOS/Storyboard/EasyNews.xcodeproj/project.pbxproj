@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		32814C6FF37E81888DFE6A17 /* Pods_EasyNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F62E7FB4DB2A1C0641A2FD6 /* Pods_EasyNews.framework */; };
 		A70490562463719900609E72 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70490552463719900609E72 /* Date+Extension.swift */; };
+		A704905C2464086F00609E72 /* NewsGroupArticleVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A704905B2464086F00609E72 /* NewsGroupArticleVM.swift */; };
 		A70D107A245FEF7D009CEEE3 /* ArticleHeadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */; };
 		A70D107C24601AF3009CEEE3 /* ArticlesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */; };
 		A70D107E24601B1E009CEEE3 /* ArticlesTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */; };
@@ -39,6 +40,7 @@
 		5E55034300430FB25C183CEE /* Pods-EasyNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyNews.debug.xcconfig"; path = "Target Support Files/Pods-EasyNews/Pods-EasyNews.debug.xcconfig"; sourceTree = "<group>"; };
 		6F62E7FB4DB2A1C0641A2FD6 /* Pods_EasyNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A70490552463719900609E72 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		A704905B2464086F00609E72 /* NewsGroupArticleVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsGroupArticleVM.swift; sourceTree = "<group>"; };
 		A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleHeadCommand.swift; sourceTree = "<group>"; };
 		A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTableView.swift; sourceTree = "<group>"; };
 		A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTableVM.swift; sourceTree = "<group>"; };
@@ -110,6 +112,25 @@
 			path = Groups;
 			sourceTree = "<group>";
 		};
+		A70490592464083100609E72 /* Reader Commands */ = {
+			isa = PBXGroup;
+			children = (
+				A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */,
+				A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */,
+				A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */,
+			);
+			path = "Reader Commands";
+			sourceTree = "<group>";
+		};
+		A704905A2464085400609E72 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				A7FA8310245E6D9300758A5A /* NewsGroupVM.swift */,
+				A704905B2464086F00609E72 /* NewsGroupArticleVM.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		A73842CD245AB8C000992D35 /* NNTP */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,15 +195,13 @@
 		A7FA8318245E6FF800758A5A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A704905A2464085400609E72 /* View Models */,
+				A70490592464083100609E72 /* Reader Commands */,
 				A70490572464013000609E72 /* Articles Tab */,
 				A70490582464014100609E72 /* Groups */,
-				A7FA8310245E6D9300758A5A /* NewsGroupVM.swift */,
 				A788DFEF245EA501001D918F /* TableProgressIndicator.swift */,
 				A788DFF5245EBB34001D918F /* NSView+Extension.swift */,
 				A788DFF7245EC680001D918F /* MessagesTableView.swift */,
-				A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */,
-				A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */,
-				A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */,
 				A7B3E3032462B9C5002CE011 /* String+Extension.swift */,
 				A7CA7FD9246332DC00F4E609 /* Int+Extension.swift */,
 				A70490552463719900609E72 /* Date+Extension.swift */,
@@ -334,6 +353,7 @@
 				A70D107C24601AF3009CEEE3 /* ArticlesTableView.swift in Sources */,
 				A7FA8315245E6E1400758A5A /* GroupsTableView.swift in Sources */,
 				A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */,
+				A704905C2464086F00609E72 /* NewsGroupArticleVM.swift in Sources */,
 				A788DFF6245EBB34001D918F /* NSView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

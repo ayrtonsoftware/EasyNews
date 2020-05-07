@@ -8,24 +8,16 @@
 
 import Cocoa
 
-protocol ListGroupArticlesDelegate: class {
-    func ListGroupArticles_articlesAdded(newArticles: [String])
-    func ListGroupsArticles_done(status: String)
-    func ListGroupsArticles_reload(vm: NewsGroupVM)
-}
-
 class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     var reader: NewsReader
-    var delegate: ListGroupArticlesDelegate?
     private var rbox: ReaderBox
     private var groupVM: NewsGroupVM
     
-    init(groupVM: NewsGroupVM, rbox: ReaderBox, reader: NewsReader, delegate: ListGroupArticlesDelegate?) {
+    init(groupVM: NewsGroupVM, rbox: ReaderBox, reader: NewsReader) {
         self.groupVM = groupVM
         self.rbox = rbox
         self.reader = reader
         self.reader.delegate = self
-        self.delegate = delegate
         reader.open()
     }
     
@@ -38,7 +30,6 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
         if notification == "Done" {
             print("Done getting list")
             reader.close()
-            delegate?.ListGroupsArticles_reload(vm: groupVM)
         }
         if notification == "ConnectionFailed" {
         }
