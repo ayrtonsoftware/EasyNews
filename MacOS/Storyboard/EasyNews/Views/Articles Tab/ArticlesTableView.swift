@@ -8,16 +8,6 @@
 
 import Cocoa
 
-//class ArticleOutlineVM {
-//    var article: NewsGroupArticleVM
-//    var children: [NewsGroupArticleVM]
-//    
-//    init(article: NewsGroupArticleVM) {
-//        self.article = article
-//        self.children = []
-//    }
-//}
-
 class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDelegate {
     func GroupsTable_reload() {
         reloadData()
@@ -39,6 +29,27 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
         super.init(frame: frameRect)
         self.dataSource = self
         self.delegate = self
+    }
+    
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        var what = self.item(atRow: selectedRow)
+        print(what)
+        if let a = what as? ArticleVM {
+            print("get data for article \(a.id)")
+        }
+        if let a = what as? ArticleOutlineVM {
+            print("ArticleOutlineVM")
+            if a.children.count == 1 {
+                print("get data for article \(a.article.id)")
+            }
+            if a.children.count > 1 {
+                print("-----------------------------------")
+                a.children.forEach { (article: ArticleVM) in
+                    print("get article for \(article.id)")
+                }
+                print("-----------------------------------")
+            }
+        }
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
@@ -69,7 +80,6 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        //print(item)
         if let article = item as? ArticleVM {
             if tableColumn?.identifier.rawValue == "id" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
@@ -138,24 +148,5 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
             return nil
         }
         return nil
-//        var article: NewsGroupArticleVM?
-//
-//        let group = vm?.group.articles[row]
-//        if let group = group {
-//            if tableColumn?.identifier.rawValue == "id" {
-//                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-//                cell?.textField?.stringValue = group.id
-//                return cell
-//            }
-//            if tableColumn?.identifier.rawValue == "subject" {
-//                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-//                cell?.textField?.stringValue = group.subject
-//                return cell
-//            }
-//            if tableColumn?.identifier.rawValue == "contentType" {
-//                let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-//                cell?.textField?.stringValue = group.contentType
-//                return cell
-//            }
-        }
+    }
 }

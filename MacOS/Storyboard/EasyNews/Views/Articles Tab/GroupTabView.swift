@@ -31,10 +31,6 @@ class GroupTabView: NSView, LoadableNib {
     }
     
     private func addNotifications() {
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(onArticleUpdated(_:)),
-//                                               name: NotificationArticleUpdated(groupName: groupVM?.name ?? "Unknown"),
-//                                               object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onArticleGetHeader(_:)),
                                                name: NotificationArticleGetHeader(groupName: groupVM?.name ?? "Unknown"),
@@ -55,18 +51,6 @@ class GroupTabView: NSView, LoadableNib {
     
     private var groupVM: NewsGroupVM?
     private var groupsTableDelegate: GroupsTableDelegate?
-    
-//    @IBAction func onHeaders(sender: NSButton) {
-//        if let ids = groupVM?.articles.map({ (article: NewsGroupArticleVM) -> String in
-//            return article.id
-//        }),
-//            let groupVM = self.groupVM {
-//            _ = ArticleHeaderCommand(groupVM: groupVM,
-//                                     articleIds: ids,
-//                                     rbox: MainVC.getReaderBox(),
-//                                     reader: MainVC.CreateNewsReader())
-//        }
-//    }
     
     @IBAction func onRefresh(sender: NSButton) {
         if let groupVM = self.groupVM {
@@ -90,8 +74,6 @@ class GroupTabView: NSView, LoadableNib {
         group.articles.forEach { (article: ArticleVM) in
             articlesVM?.addArticle(article: article)
         }
-        //self.wantsLayer = true
-        //self.layer?.backgroundColor = NSColor.lightGray.cgColor
         addNotifications()
         self.articlesTable.reloadData()
     }
@@ -100,8 +82,6 @@ class GroupTabView: NSView, LoadableNib {
         articlesVM = nil
         super.init(coder: aDecoder)
         loadViewFromNib()
-        //self.wantsLayer = true
-        //self.layer?.backgroundColor = NSColor.lightGray.cgColor
         addNotifications()
     }
 }

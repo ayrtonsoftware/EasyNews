@@ -42,16 +42,6 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TXE-Qb-LI5">
-                    <rect key="frame" x="872" y="442" width="90" height="32"/>
-                    <buttonCell key="cell" type="push" title="Grouper" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xTg-2U-Zzv">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="onGrouperWithSender:" target="-2" id="euq-gv-4ph"/>
-                    </connections>
-                </button>
                 <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGF-vc-6qX">
                     <rect key="frame" x="20" y="20" width="936" height="408"/>
                     <clipView key="contentView" id="Zbc-Xk-t5x">
@@ -230,7 +220,7 @@
                             </tableView>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.44839857651245552" horizontal="YES" id="0q7-qL-40Z">
+                    <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="0q7-qL-40Z">
                         <rect key="frame" x="1" y="392" width="919" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -250,9 +240,7 @@
                 <constraint firstItem="hef-Yb-wjw" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="97m-rU-Poq"/>
                 <constraint firstAttribute="trailing" secondItem="rGF-vc-6qX" secondAttribute="trailing" constant="20" id="AiC-f7-a07"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="top" secondItem="brI-fi-mUU" secondAttribute="bottom" constant="20" id="Atm-ER-Xqx"/>
-                <constraint firstItem="TXE-Qb-LI5" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="DM6-Jp-0D1"/>
                 <constraint firstItem="brI-fi-mUU" firstAttribute="centerY" secondItem="hef-Yb-wjw" secondAttribute="centerY" id="E5a-wF-SZq"/>
-                <constraint firstAttribute="trailing" secondItem="TXE-Qb-LI5" secondAttribute="trailing" constant="20" id="V0O-0y-vOu"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="cgS-3Q-qzO"/>
                 <constraint firstItem="rGF-vc-6qX" firstAttribute="top" secondItem="hef-Yb-wjw" secondAttribute="bottom" constant="20" id="lgH-iX-gUw"/>
                 <constraint firstAttribute="bottom" secondItem="rGF-vc-6qX" secondAttribute="bottom" constant="20" id="nCV-Xg-NYt"/>

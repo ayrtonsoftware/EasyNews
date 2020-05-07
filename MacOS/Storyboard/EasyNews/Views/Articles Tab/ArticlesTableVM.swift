@@ -52,12 +52,10 @@ class ArticlesTableVM {
         if matches.count == 1 {
             let nsString = NSString(string: article.subject)
             if let match = matches.first {
-                let range = match.range
                 let matchString = nsString.substring(with: match.range) as String
                 let subjectMinusIndex = article.subject.replacingOccurrences(of: matchString, with: "").trimmingCharacters(in: .whitespaces)
-                //print(subjectMinusIndex)
                 if articleCache.keys.contains(subjectMinusIndex) {
-                    var multiArticle = articleCache[subjectMinusIndex]
+                    let multiArticle = articleCache[subjectMinusIndex]
                     multiArticle?.children.append(article)
                     
                     multiArticle?.children.sort(by: { (a: ArticleVM, b: ArticleVM) -> Bool in
