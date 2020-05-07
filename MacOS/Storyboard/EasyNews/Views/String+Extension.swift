@@ -42,4 +42,12 @@ extension String {
         }
         return self
     }
+    
+    func regexMatch(pattern: String) -> Bool
+    {
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let matches = regex.numberOfMatches(in: self, options: [], range: NSRange(location: 0, length: self.count))
+        //return matches == 1
+        return matches > 0
+    }
 }

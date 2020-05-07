@@ -69,7 +69,7 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        print(item)
+        //print(item)
         if let article = item as? NewsGroupArticleVM {
             if tableColumn?.identifier.rawValue == "id" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
@@ -84,6 +84,20 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
             if tableColumn?.identifier.rawValue == "contentType" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
                 cell?.textField?.stringValue = article.contentType
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "size" {
+                let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                cell?.textField?.stringValue = article.size.formatFileSize()
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "date" {
+                let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                if let date = article.date {
+                    cell?.textField?.stringValue = date.toString(format: "MM/dd/yyyy hh:mm a")
+                } else {
+                    cell?.textField?.stringValue = "N/A"
+                }
                 return cell
             }
         }
@@ -103,6 +117,20 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
             if tableColumn?.identifier.rawValue == "contentType" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
                 cell?.textField?.stringValue = article.contentType
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "size" {
+                let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                cell?.textField?.stringValue = article.size.formatFileSize()
+                return cell
+            }
+            if tableColumn?.identifier.rawValue == "date" {
+                let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+                if let date = article.date {
+                    cell?.textField?.stringValue = date.toString(format: "MM/dd/yyyy hh:mm a")
+                } else {
+                    cell?.textField?.stringValue = "N/A"
+                }
                 return cell
             }
         }

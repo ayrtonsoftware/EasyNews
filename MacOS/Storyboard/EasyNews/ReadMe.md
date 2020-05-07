@@ -1,3 +1,12 @@
+
+X-Received-Bytes
+Date
+X-Received-Body-CRC
+Lines
+Message-ID
+User-Agent
+-------
+
 100 Legal Commands
 help
 date

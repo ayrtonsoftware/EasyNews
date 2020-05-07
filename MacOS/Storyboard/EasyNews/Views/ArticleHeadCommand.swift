@@ -60,11 +60,32 @@ class ArticleHeaderCommand: NewsReaderDelegate {
     
     func NewsReader_articleHeader(articleId: String, header: [String: String]) {
         DispatchQueue.main.sync {
+            header.keys.forEach { (key: String) in
+                if key.uppercased().contains("Date") {
+                    print("--Date--> \(header[key])----")
+                }
+            }
             if let group = groupVM.group {
                 rbox.realm?.beginWrite()
                 let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
                 article.subject = header["Subject"]
                 article.contentType = header["Content-Type"]
+                if let bytes = header["Bytes"] {
+                    article.size.value = Int(bytes) ?? 0
+                }
+                // Thu, 30 May 2019 17:37:53 +0100
+                // NNTP-Posting-Date
+                if let dateStr = header["Date"] {
+                    if let date = Date.parse(string: dateStr) {
+                        article.date = date
+                    } else {
+                        print("---bad date [\(dateStr)]")
+                    }
+                }
+                
+                if let bytes = header["X-Received-Bytes"] {
+                    article.size.value = Int(bytes) ?? 0
+                }
                 
                 let groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
                 groups?.forEach({ (groupName: String) in

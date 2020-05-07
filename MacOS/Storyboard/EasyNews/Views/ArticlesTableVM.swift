@@ -32,7 +32,6 @@ class ArticlesTableVM {
     
     func addArticle(article: NewsGroupArticleVM) {
         if let cArticle = articleCache[article.id] {
-            print("00000")
             cArticle.article.contentType = article.contentType
             cArticle.article.subject = article.subject
             if displayedCache[article.id] != nil {
@@ -56,7 +55,7 @@ class ArticlesTableVM {
                 let range = match.range
                 let matchString = nsString.substring(with: match.range) as String
                 let subjectMinusIndex = article.subject.replacingOccurrences(of: matchString, with: "").trimmingCharacters(in: .whitespaces)
-                print(subjectMinusIndex)
+                //print(subjectMinusIndex)
                 if articleCache.keys.contains(subjectMinusIndex) {
                     var multiArticle = articleCache[subjectMinusIndex]
                     multiArticle?.children.append(article)

@@ -24,4 +24,6 @@ class NewsGroupArticle: Object {
     @objc dynamic var id: String?
     @objc dynamic var subject: String?
     @objc dynamic var contentType: String?
+    @objc dynamic var date: Date!
+    let size = RealmOptional<Int>()
 }

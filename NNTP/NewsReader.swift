@@ -236,7 +236,6 @@ class NewsReader: NSObject, StreamDelegate {
         let parts = txt.split(separator: "\r\n").map(String.init)
         parts.forEach { (keyValue: String) in
             if keyValue.starts(with: "430 No such article") {
-                delegate?.NewsReader_notification(notification: "NextArticle")
                 header["Subject"] = "No such article"
                 return
             }
@@ -254,7 +253,7 @@ class NewsReader: NSObject, StreamDelegate {
     var response: String = ""
     
     private func readAvailableBytes(stream: InputStream) -> String? {
-        print("> readAvailableBytes")
+        //print("> readAvailableBytes")
         guard let inputStream = self.inputStream else {
             return nil
         }

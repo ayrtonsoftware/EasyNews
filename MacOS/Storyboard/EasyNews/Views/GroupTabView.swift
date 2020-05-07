@@ -64,8 +64,6 @@ class GroupTabView: NSView, LoadableNib, ListGroupArticlesDelegate {
     @objc private func onArticlesUpdated(_ notification: Notification) {
         if let articleIds = notification.object as? [String] {
             if let vm = articlesVM {
-                print("yea")
-                print(articleIds)
                 _ = ArticleHeaderCommand(groupVM: vm.group,
                                          articleIds: articleIds,
                                          rbox: MainVC.getReaderBox(),
