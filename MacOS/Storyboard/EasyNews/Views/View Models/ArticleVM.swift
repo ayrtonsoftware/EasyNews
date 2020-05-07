@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NewsGroupArticleVM {
+class ArticleVM {
     var id: String
     var subject: String
     var contentType: String

@@ -10,10 +10,10 @@ import Cocoa
 
 class GroupTabView: NSView, LoadableNib {
     @objc private func onArticleGetHeader(_ notification: Notification) {
-        if let articles = notification.object as? [NewsGroupArticleVM] {
+        if let articles = notification.object as? [ArticleVM] {
             if let vm = articlesVM {
                 _ = ArticleHeaderCommand(groupVM: vm.group,
-                                         articleIds: articles.map({ (article: NewsGroupArticleVM) -> String in
+                                         articleIds: articles.map({ (article: ArticleVM) -> String in
                                             article.id
                                          }),
                                          rbox: MainVC.getReaderBox(),
@@ -23,7 +23,7 @@ class GroupTabView: NSView, LoadableNib {
     }
     
     @objc private func onArticleAdd(_ notification: Notification) {
-        if let articleVM = notification.object as? NewsGroupArticleVM {
+        if let articleVM = notification.object as? ArticleVM {
             articlesVM?.addArticle(article: articleVM)
         }
         articlesTable.reloadData()
@@ -87,7 +87,7 @@ class GroupTabView: NSView, LoadableNib {
         if let vm = articlesVM {
             self.articlesTable.setViewModel(vm: vm)
         }
-        group.articles.forEach { (article: NewsGroupArticleVM) in
+        group.articles.forEach { (article: ArticleVM) in
             articlesVM?.addArticle(article: article)
         }
         //self.wantsLayer = true

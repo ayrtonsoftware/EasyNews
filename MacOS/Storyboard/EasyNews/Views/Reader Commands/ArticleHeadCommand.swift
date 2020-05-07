@@ -101,7 +101,7 @@ class ArticleHeaderCommand: NewsReaderDelegate {
                     print("article update error: \(error)")
                 }
                 NotificationCenter.default.post(name: NotificationArticleHeaderAdded(groupName: group.name),
-                                                object: NewsGroupArticleVM(article: article))
+                                                object: ArticleVM(article: article))
             }
         }
     }

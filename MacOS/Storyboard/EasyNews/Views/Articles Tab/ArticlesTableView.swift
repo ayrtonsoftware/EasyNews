@@ -70,7 +70,7 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         //print(item)
-        if let article = item as? NewsGroupArticleVM {
+        if let article = item as? ArticleVM {
             if tableColumn?.identifier.rawValue == "id" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
                 cell?.textField?.stringValue = article.id

@@ -16,7 +16,7 @@ class NewsGroupVM /*: Identifiable, Hashable*/ {
     var last: Int
     var updated: Date
     var progress: Double = 0.0
-    var articles: [NewsGroupArticleVM] = []
+    var articles: [ArticleVM] = []
     
     public init(group: NewsGroup) {
         self.group = group
@@ -24,7 +24,7 @@ class NewsGroupVM /*: Identifiable, Hashable*/ {
         self.first = group.first.value ?? 0
         self.last = group.last.value ?? 0
         self.updated = group.updated
-        self.articles = group.articles.map(NewsGroupArticleVM.init)
+        self.articles = group.articles.map(ArticleVM.init)
     }
     
     public init(name: String) {

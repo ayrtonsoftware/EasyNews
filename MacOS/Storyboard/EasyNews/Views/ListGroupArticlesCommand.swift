@@ -56,14 +56,14 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
         DispatchQueue.main.sync { [weak self] in
             if let self = self {
                 self.rbox.realm?.beginWrite()
-                var newArticles: [NewsGroupArticleVM] = []
+                var newArticles: [ArticleVM] = []
                 
                 if let group = self.groupVM.group {
                     articleIds.forEach { (articleId: String) in
                         let (article, isNewArticle) = self.rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
                         if isNewArticle {
-                            newArticles.append(NewsGroupArticleVM(article: article))
-                            groupVM.articles.append(NewsGroupArticleVM(article: article))
+                            newArticles.append(ArticleVM(article: article))
+                            groupVM.articles.append(ArticleVM(article: article))
                         }
                     }
                     

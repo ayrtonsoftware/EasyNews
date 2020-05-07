@@ -9,11 +9,11 @@
 import Foundation
 
 class ArticleOutlineVM {
-    var cache: [String: NewsGroupArticleVM]
-    var article: NewsGroupArticleVM
-    var children: [NewsGroupArticleVM]
+    var cache: [String: ArticleVM]
+    var article: ArticleVM
+    var children: [ArticleVM]
     
-    init(article: NewsGroupArticleVM) {
+    init(article: ArticleVM) {
         self.article = article
         self.children = [article]
         self.cache = [:]
@@ -27,10 +27,10 @@ class ArticlesTableVM {
     var articles: [ArticleOutlineVM] = []
     let regex = try! NSRegularExpression(pattern: "\\(\\d+\\/\\d+\\)|\\[\\d+\\/\\d+\\]")
     
-    func updateArticle(article: NewsGroupArticleVM) {
+    func updateArticle(article: ArticleVM) {
     }
     
-    func addArticle(article: NewsGroupArticleVM) {
+    func addArticle(article: ArticleVM) {
         if let cArticle = articleCache[article.id] {
             cArticle.article.contentType = article.contentType
             cArticle.article.subject = article.subject
@@ -60,7 +60,7 @@ class ArticlesTableVM {
                     var multiArticle = articleCache[subjectMinusIndex]
                     multiArticle?.children.append(article)
                     
-                    multiArticle?.children.sort(by: { (a: NewsGroupArticleVM, b: NewsGroupArticleVM) -> Bool in
+                    multiArticle?.children.sort(by: { (a: ArticleVM, b: ArticleVM) -> Bool in
                         return a.subject.fileNumber() < b.subject.fileNumber()
                     })
                 } else {
