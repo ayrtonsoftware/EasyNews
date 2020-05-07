@@ -38,27 +38,27 @@ class GroupsTableVM {
 //    }
     
     public func updateGroups() {
-        _ = ListGroupsCommand(rbox: MainVC.getReaderBox(), reader: MainVC.CreateNewsReader(), delegate: self)
+        _ = ListGroupsCommand(rbox: MainVC.getReaderBox(), reader: MainVC.CreateNewsReader()/*, delegate: self*/)
     }
 }
 
-extension GroupsTableVM: ListGroupsDelegate {
-    func ListGroups_refresh() {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
-        }
-    }
-    
-    func ListGroups_groupsAdded(newGroups: [NewsGroup]) {
-        groups.append(contentsOf: newGroups.map(NewsGroupVM.init))
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
-        }
-    }
-    
-    func ListGroups_done(status: String) {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
-        }
-    }
-}
+//extension GroupsTableVM: ListGroupsDelegate {
+//    func ListGroups_refresh() {
+//        DispatchQueue.main.async {
+//            NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
+//        }
+//    }
+//
+//    func ListGroups_groupsAdded(newGroups: [NewsGroup]) {
+//        groups.append(contentsOf: newGroups.map(NewsGroupVM.init))
+//        DispatchQueue.main.async {
+//            NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
+//        }
+//    }
+//
+//    func ListGroups_done(status: String) {
+//        DispatchQueue.main.async {
+//            NotificationCenter.default.post(name: NotificationGroupAdded(), object: nil)
+//        }
+//    }
+//}

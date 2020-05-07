@@ -94,7 +94,7 @@ class ReaderBox: NSObject {
         newArticle.contentType = ""
         group.articles.append(newArticle)
         realm?.add(newArticle)
-        //NotificationCenter.default.post(name: Notification.Name(NotificationArticleAdded(groupName: group.name)), object: newArticle)
+        //NotificationCenter.default.post(name: Notification.Name(NotificationArticlesAdded(groupName: group.name)), object: newArticle)
         return (newArticle, true)
     }
 

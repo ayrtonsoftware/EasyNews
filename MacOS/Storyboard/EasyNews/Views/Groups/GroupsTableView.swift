@@ -29,7 +29,10 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
     }
 
     @objc private func GroupAdded(_ notification: Notification) {
-        reloadData()
+        if let groups = notification.object as? [NewsGroup] {
+            vm?.groups.append(contentsOf: groups.map(NewsGroupVM.init))
+            reloadData()
+        }
     }
     
     private func addObservers() {

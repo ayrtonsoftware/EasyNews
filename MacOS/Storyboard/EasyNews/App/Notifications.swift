@@ -16,14 +16,10 @@ func NotificationGroupAdded() -> NSNotification.Name {
     return NSNotification.Name(rawValue: "Notification_GroupAdded")
 }
 
-func NotificationArticleUpdated(groupName: String) -> NSNotification.Name {
-    return NSNotification.Name("Notification_ArticleUpdated_FromGroup_\(groupName)")
+func NotificationArticleGetHeader(groupName: String) -> NSNotification.Name {
+    return NSNotification.Name(rawValue: "Notification_ArticleGetHeader_\(groupName)")
 }
 
-func NotificationArticleAdded(groupName: String) -> NSNotification.Name {
-    return NSNotification.Name(rawValue: "Notification_ArticleAdded_ToGroup_\(groupName)")
-}
-
-func NotificationArticlesUpdated(groupName: String) -> NSNotification.Name {
+func NotificationArticleHeaderAdded(groupName: String) -> NSNotification.Name {
     return NSNotification.Name(rawValue: "Notification_ArticlesUpdated_ToGroup_\(groupName)")
 }

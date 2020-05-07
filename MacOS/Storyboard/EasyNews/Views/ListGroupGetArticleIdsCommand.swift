@@ -69,8 +69,7 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
                     
                     //if newArticles.count > 0 {
                         NotificationCenter.default.post(name: NotificationGroupUpdated(), object: group)
-                        NotificationCenter.default.post(name: NotificationArticlesGetIds(groupName: group.name),
-                                                        object: newArticles)
+                        NotificationCenter.default.post(name: NotificationArticleGetHeader(groupName: group.name), object: newArticles)
                     //}
                 }
                 

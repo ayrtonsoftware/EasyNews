@@ -14,7 +14,7 @@
 		A70D107E24601B1E009CEEE3 /* ArticlesTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */; };
 		A70D108024612BF9009CEEE3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107F24612BF9009CEEE3 /* Notifications.swift */; };
 		A76F82E7245F92BA00CB7A59 /* ListGroupsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */; };
-		A76F82E9245F92FF00CB7A59 /* ListGroupArticlesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */; };
+		A76F82E9245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */; };
 		A788DFEC245E7242001D918F /* GroupsTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEB245E7242001D918F /* GroupsTableVM.swift */; };
 		A788DFEE245E7EF6001D918F /* NewsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFED245E7EF6001D918F /* NewsModels.swift */; };
 		A788DFF0245EA501001D918F /* TableProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788DFEF245EA501001D918F /* TableProgressIndicator.swift */; };
@@ -44,7 +44,7 @@
 		A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTableVM.swift; sourceTree = "<group>"; };
 		A70D107F24612BF9009CEEE3 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupsCommand.swift; sourceTree = "<group>"; };
-		A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupArticlesCommand.swift; sourceTree = "<group>"; };
+		A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupGetArticleIdsCommand.swift; sourceTree = "<group>"; };
 		A788DFEB245E7242001D918F /* GroupsTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableVM.swift; sourceTree = "<group>"; };
 		A788DFED245E7EF6001D918F /* NewsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModels.swift; sourceTree = "<group>"; };
 		A788DFEF245EA501001D918F /* TableProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableProgressIndicator.swift; sourceTree = "<group>"; };
@@ -88,6 +88,26 @@
 				DD06A14012BA810BB5377586 /* Pods-EasyNews.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A70490572464013000609E72 /* Articles Tab */ = {
+			isa = PBXGroup;
+			children = (
+				A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */,
+				A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */,
+				A788DFF1245EB978001D918F /* GroupTabView.xib */,
+				A788DFF3245EB98B001D918F /* GroupTabView.swift */,
+			);
+			path = "Articles Tab";
+			sourceTree = "<group>";
+		};
+		A70490582464014100609E72 /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				A788DFEB245E7242001D918F /* GroupsTableVM.swift */,
+				A7FA8314245E6E1400758A5A /* GroupsTableView.swift */,
+			);
+			path = Groups;
 			sourceTree = "<group>";
 		};
 		A73842CD245AB8C000992D35 /* NNTP */ = {
@@ -154,18 +174,14 @@
 		A7FA8318245E6FF800758A5A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */,
-				A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */,
-				A788DFF1245EB978001D918F /* GroupTabView.xib */,
-				A788DFF3245EB98B001D918F /* GroupTabView.swift */,
-				A788DFEB245E7242001D918F /* GroupsTableVM.swift */,
-				A7FA8314245E6E1400758A5A /* GroupsTableView.swift */,
+				A70490572464013000609E72 /* Articles Tab */,
+				A70490582464014100609E72 /* Groups */,
 				A7FA8310245E6D9300758A5A /* NewsGroupVM.swift */,
 				A788DFEF245EA501001D918F /* TableProgressIndicator.swift */,
 				A788DFF5245EBB34001D918F /* NSView+Extension.swift */,
 				A788DFF7245EC680001D918F /* MessagesTableView.swift */,
 				A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */,
-				A76F82E8245F92FF00CB7A59 /* ListGroupArticlesCommand.swift */,
+				A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */,
 				A70D1079245FEF7D009CEEE3 /* ArticleHeadCommand.swift */,
 				A7B3E3032462B9C5002CE011 /* String+Extension.swift */,
 				A7CA7FD9246332DC00F4E609 /* Int+Extension.swift */,
@@ -307,7 +323,7 @@
 				A7FA8312245E6D9300758A5A /* NewsReader.swift in Sources */,
 				A76F82E7245F92BA00CB7A59 /* ListGroupsCommand.swift in Sources */,
 				A7FA8311245E6D9300758A5A /* ReaderBox.swift in Sources */,
-				A76F82E9245F92FF00CB7A59 /* ListGroupArticlesCommand.swift in Sources */,
+				A76F82E9245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift in Sources */,
 				A788DFF8245EC680001D918F /* MessagesTableView.swift in Sources */,
 				A70490562463719900609E72 /* Date+Extension.swift in Sources */,
 				A7FA8313245E6D9300758A5A /* NewsGroupVM.swift in Sources */,

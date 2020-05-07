@@ -11,7 +11,7 @@ import Foundation
 protocol NewsReaderDelegate: class {
     func NewsReader_error(message: String)
     func NewsReader_groups(groups: [Group])
-    func NewsReader_articles(articles: [String])
+    func NewsReader_articles(articleIds: [String])
     func NewsReader_notification(notification: String)
     func NewsReader_articleHeader(articleId: String, header: [String: String])
 }
@@ -302,7 +302,7 @@ class NewsReader: NSObject, StreamDelegate {
                                 }
                             }
                         }
-                        delegate?.NewsReader_articles(articles: newArticles)
+                        delegate?.NewsReader_articles(articleIds: newArticles)
                         if isDone {
                             delegate?.NewsReader_notification(notification: "Done")
                         }

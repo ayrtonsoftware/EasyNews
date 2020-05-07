@@ -55,7 +55,7 @@ class ArticleHeaderCommand: NewsReaderDelegate {
     func NewsReader_groups(groups: [Group]) {
     }
     
-    func NewsReader_articles(articles: [String]) {
+    func NewsReader_articles(articleIds: [String]) {
     }
     
     func NewsReader_articleHeader(articleId: String, header: [String: String]) {
@@ -100,8 +100,8 @@ class ArticleHeaderCommand: NewsReaderDelegate {
                 catch {
                     print("article update error: \(error)")
                 }
-                NotificationCenter.default.post(name: (isNewArticle) ? NotificationArticleAdded(groupName: group.name) : NotificationArticleUpdated(groupName: group.name),
-                object: article)
+                NotificationCenter.default.post(name: NotificationArticleHeaderAdded(groupName: group.name),
+                                                object: NewsGroupArticleVM(article: article))
             }
         }
     }
