@@ -10,6 +10,7 @@ import Cocoa
 //import SwiftSocket
 
 class MainVC: NSViewController, GroupsTableDelegate {
+    static var mainVC : MainVC?
     override func viewDidAppear() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(GroupAdded(_:)),
@@ -77,6 +78,7 @@ class MainVC: NSViewController, GroupsTableDelegate {
     
     @IBOutlet var groupsTable: GroupsTableView!
     override func viewDidLoad() {
+        MainVC.mainVC = self
         super.viewDidLoad()
         groupsVM = GroupsTableVM()
         groupsTable.setViewModel(vm: groupsVM)

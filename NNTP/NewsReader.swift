@@ -14,6 +14,7 @@ protocol NewsReaderDelegate: class {
     func NewsReader_articles(articleIds: [String])
     func NewsReader_notification(notification: String)
     func NewsReader_articleHeader(articleId: String, header: [String: String])
+    func NewsReader_article(article: String)
 }
 
 struct Group {
@@ -104,6 +105,24 @@ class NewsReader: NSObject, StreamDelegate {
     private var currentOperation: String?
     private var currentGroupCommand: String = ""
     private var articleId: String = ""
+    private var article: String = ""
+    
+    public func article(groupName: String, articleId: String) {
+        if !connected {
+            delegate?.NewsReader_error(message: "Not connected")
+            return
+        }
+        self.article = ""
+        self.articleId = articleId
+        if resultsComing {
+            send(command: "ARTICLE \(articleId)\n")
+            return
+        }
+        currentOperation = "Article"
+        response = ""
+        currentGroupCommand = "ARTICLE \(articleId)\n"
+        send(command: "GROUP \(groupName)\n")
+    }
     
     public func articleHeader(groupName: String, articleId: String) {
         if !connected {
@@ -287,6 +306,22 @@ class NewsReader: NSObject, StreamDelegate {
                     response = rest
                     let lines = prefix.split(separator: "\r\n").map(String.init)
                 
+                    if resultsComing && currentOperation == "Article" {
+                        //print("-----------------------------------")
+                        //print("-------\(prefix)--------")
+                        print("--length: \(article.count)")
+                        article.append(contentsOf: prefix)
+                        let parts = article.split(separator: "\r\n").map(String.init)
+//                        parts.forEach { (line: String) in
+//                            print("<\(article.count)>\(line)<>")
+//                        }
+                        if parts.count > 0 {
+                            if parts[parts.count-1] == "." {
+                                delegate?.NewsReader_article(article: article)
+                                delegate?.NewsReader_notification(notification: "Done")
+                            }
+                        }
+                    }
                     if resultsComing && currentOperation == "ArticleHeader" {
                         parseHeader(txt: prefix)
                     }

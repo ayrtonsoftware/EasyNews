@@ -8,12 +8,6 @@
 
 import Foundation
 
-import Foundation
-
-protocol ArticleHeaderDelegate: class {
-    func ArticleHeader_done(status: String)
-}
-
 class ArticleHeaderCommand: NewsReaderDelegate {
     var reader: NewsReader
     private var rbox: ReaderBox
@@ -87,12 +81,13 @@ class ArticleHeaderCommand: NewsReaderDelegate {
                     article.size.value = Int(bytes) ?? 0
                 }
                 
-                let groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
-                groups?.forEach({ (groupName: String) in
-                    if let referencedGroup = rbox.findGroup(name: groupName) {
-                        referencedGroup.articles.append(article)
-                    }
-                })
+                // fix me
+//                let groups = header["Newsgroups"]?.split(separator: ",").map(String.init)
+//                groups?.forEach({ (groupName: String) in
+//                    if let referencedGroup = rbox.findGroup(name: groupName) {
+//                        referencedGroup.articles.append(article)
+//                    }
+//                })
                 
                 do {
                     try rbox.realm?.commitWrite()
@@ -104,5 +99,8 @@ class ArticleHeaderCommand: NewsReaderDelegate {
                                                 object: ArticleVM(article: article))
             }
         }
+    }
+    
+    func NewsReader_article(article: String) {
     }
 }

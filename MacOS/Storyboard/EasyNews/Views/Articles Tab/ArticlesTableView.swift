@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDelegate {
+class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDelegate, ArticleCommandDelegate {
     func GroupsTable_reload() {
         reloadData()
     }
@@ -31,16 +31,49 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
         self.delegate = self
     }
     
+    func formatOutput(output: String) -> NSMutableAttributedString {
+        let font = NSFont(name: "Courier", size: 14)
+        let attributedText = NSMutableAttributedString(string: output,
+                                                       attributes: [NSAttributedString.Key.font: font])
+        return attributedText
+    }
+    
+    @IBOutlet var articleView: NSTextView!
+    
+    func onNewArticle(article: String) {
+        DispatchQueue.main.async { [weak self] in
+            if let self = self {
+                self.articleView.string = ""
+                self.articleView.textStorage?.append(self.formatOutput(output: article))
+            }
+//            if let self = self {
+//                let storyboard = NSStoryboard(name: "ArticleWindow", bundle: nil)
+//                if let window = storyboard.instantiateController(withIdentifier: "Article") as? NSWindowController {
+//                    if let vc = window.contentViewController as? ArticleWindowVC {
+//                        vc.text.textStorage?.append(self.formatOutput(output: article))
+//                    }
+//                    window.showWindow(window)
+//                }
+//            }
+        }
+    }
+
     func outlineViewSelectionDidChange(_ notification: Notification) {
+        guard let vm = self.vm else {
+            return
+        }
+                    
         var what = self.item(atRow: selectedRow)
         print(what)
         if let a = what as? ArticleVM {
             print("get data for article \(a.id)")
+            ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.id, reader: MainVC.CreateNewsReader())
         }
         if let a = what as? ArticleOutlineVM {
             print("ArticleOutlineVM")
             if a.children.count == 1 {
                 print("get data for article \(a.article.id)")
+                ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.article.id, reader: MainVC.CreateNewsReader())
             }
             if a.children.count > 1 {
                 print("-----------------------------------")
@@ -98,7 +131,7 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
             }
             if tableColumn?.identifier.rawValue == "size" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-                cell?.textField?.stringValue = article.size.formatFileSize()
+                cell?.textField?.stringValue = "\(article.size) \(article.size.formatFileSize())"
                 return cell
             }
             if tableColumn?.identifier.rawValue == "date" {
@@ -131,7 +164,7 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
             }
             if tableColumn?.identifier.rawValue == "size" {
                 let cell = outlineView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-                cell?.textField?.stringValue = article.size.formatFileSize()
+                cell?.textField?.stringValue = "\(article.size) \(article.size.formatFileSize())"
                 return cell
             }
             if tableColumn?.identifier.rawValue == "date" {

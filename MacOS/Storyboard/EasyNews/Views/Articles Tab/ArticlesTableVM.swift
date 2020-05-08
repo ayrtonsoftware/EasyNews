@@ -25,8 +25,9 @@ class ArticlesTableVM {
     var articleCache: [String: ArticleOutlineVM] = [:]
     var displayedCache: [String: String] = [:]
     var articles: [ArticleOutlineVM] = []
-    let regex = try! NSRegularExpression(pattern: "\\(\\d+\\/\\d+\\)|\\[\\d+\\/\\d+\\]")
-    
+    //let regex = try! NSRegularExpression(pattern: "\\(\\d+\\/\\d+\\)|\\[\\d+\\/\\d+\\]")
+    let regex = try! NSRegularExpression(pattern: "\\(\\d+\\/\\d+\\)")
+
     func updateArticle(article: ArticleVM) {
     }
     
