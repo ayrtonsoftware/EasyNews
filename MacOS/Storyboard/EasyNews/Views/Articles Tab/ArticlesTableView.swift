@@ -39,10 +39,75 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     @IBOutlet var articleView: NSTextView!
+
+    public func open(args : [String]) -> Int32 {
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = args
+        task.currentDirectoryPath = "/Users/mbergamo/Data/Projects/me/current/EasyNews/tools/yenc-master"
+        task.launch()
+        task.waitUntilExit()
+        let status = task.terminationStatus
+        return (status)
+    }
+
+    public func uudecode(args : [String], encodedFile: String) -> Int32 {
+        let task = Process()
+        task.launchPath = "/usr/bin/uudecode"
+        task.arguments = args
+        task.currentDirectoryPath = "/Users/mbergamo/Data/Projects/me/current/EasyNews/tools/yenc-master"
+        let inputpipe = Pipe()
+        task.standardInput = inputpipe
+        task.launch()
+        if let data = encodedFile.data(using: .utf8) {
+            inputpipe.fileHandleForWriting.write(data)
+        }
+        task.waitUntilExit()
+        let status = task.terminationStatus
+        return (status)
+    }
     
     func onNewArticle(article: String) {
         DispatchQueue.main.async { [weak self] in
             if let self = self {
+                
+                var lines: [String] = article.split(separator: "\r\n").map(String.init)
+                
+                var beginFound = false
+                var endFound = false
+                var isImage = false
+                var filename = ""
+                
+                lines.forEach { (line: String) in
+                    if line.starts(with: "begin ") {
+                        beginFound = true
+                        if line.contains(".jpg") || line.contains(".gif") {
+                            // begin 600 HDV-HD-0089_050.jpg
+                            let parts = line.split(separator: " ").map(String.init)
+                            if parts.count == 3 {
+                                isImage = true
+                                filename = parts[2]
+                            }
+                        }
+                    }
+                    if line.starts(with: "end") {
+                        endFound = true
+                    }
+                }
+                
+                if (beginFound && endFound) {
+                    print("goooo")
+                    if isImage {
+                        let status = self.uudecode(args: [], encodedFile: article)
+                        print("Status: \(status)")
+                        if (status == 0) {
+                            self.open(args: [filename])
+                        }
+                    }
+                }
+                
+                
+                
                 self.articleView.string = ""
                 self.articleView.textStorage?.append(self.formatOutput(output: article))
             }

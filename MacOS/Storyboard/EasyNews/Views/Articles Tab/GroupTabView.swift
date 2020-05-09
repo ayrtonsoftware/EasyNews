@@ -12,7 +12,7 @@ class GroupTabView: NSView, LoadableNib {
     @objc private func onArticleGetHeader(_ notification: Notification) {
         if let articles = notification.object as? [ArticleVM] {
             if let vm = articlesVM {
-                _ = ArticleHeaderCommand(groupVM: vm.group,
+                _ = ArticleGetMultipleHeadersCommand(groupVM: vm.group,
                                          articleIds: articles.map({ (article: ArticleVM) -> String in
                                             article.id
                                          }),

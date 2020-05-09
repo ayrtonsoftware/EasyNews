@@ -314,9 +314,10 @@ class NewsReader: NSObject, StreamDelegate {
                 
                     if resultsComing && currentOperation == "Article" {
                         //print("-----------------------------------")
-                        //print("-------\(prefix)--------")
+                        print("-------\(prefix)--------")
                         print("--length: \(article.count)")
                         article.append(contentsOf: prefix)
+                        article.append("\r\n")
                         let parts = article.split(separator: "\r\n").map(String.init)
 //                        parts.forEach { (line: String) in
 //                            print("<\(article.count)>\(line)<>")
@@ -401,7 +402,7 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     func send(command: String) {
-        print("> send \(command)")
+        //print("> send \(command)")
         if let outputStream = self.outputStream {
             //print("Send Command: [\(command)]")
             let data = command.data(using: .utf8)!

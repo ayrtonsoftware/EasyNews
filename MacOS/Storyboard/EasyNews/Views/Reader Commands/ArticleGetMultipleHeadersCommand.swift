@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ArticleHeaderCommand: NewsReaderDelegate {
+class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
     var reader: NewsReader
     private var rbox: ReaderBox
     private var articleIds: [String]
@@ -28,7 +28,7 @@ class ArticleHeaderCommand: NewsReaderDelegate {
     {
         if notification == "Connected" || notification == "NextArticle" {
             if idx < articleIds.count {
-                print("********************************** getting article \(idx)")
+                //print("********************************** getting article \(idx)")
                 self.reader.articleHeader(groupName: groupVM.name, articleId: articleIds[idx])            
                 idx += 1
             } else {
