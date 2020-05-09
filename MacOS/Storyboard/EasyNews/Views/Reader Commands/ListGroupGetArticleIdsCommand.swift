@@ -18,7 +18,7 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
         self.rbox = rbox
         self.reader = reader
         self.reader.delegate = self
-        reader.open()
+        reader.open(name: "GetArticleIds_\(groupVM.name)")
     }
     
     func NewsReader_notification(notification: String)

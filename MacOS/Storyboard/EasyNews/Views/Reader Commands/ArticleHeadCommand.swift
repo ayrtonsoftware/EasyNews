@@ -21,7 +21,7 @@ class ArticleHeaderCommand: NewsReaderDelegate {
         self.rbox = rbox
         self.reader = reader
         self.reader.delegate = self
-        reader.open()
+        reader.open(name: "GetArticleHeader_\(groupVM.name)_\(articleIds.count)")
     }
     
     func NewsReader_notification(notification: String)
@@ -31,6 +31,8 @@ class ArticleHeaderCommand: NewsReaderDelegate {
                 print("********************************** getting article \(idx)")
                 self.reader.articleHeader(groupName: groupVM.name, articleId: articleIds[idx])            
                 idx += 1
+            } else {
+                reader.close()
             }
         }
         if notification == "Done" {

@@ -24,7 +24,7 @@ class ArticleCommand: NewsReaderDelegate {
         self.articleId = articleId
         self.reader = reader
         self.reader.delegate = self
-        reader.open()
+        reader.open(name: "GetArticle_\(groupVM.name)_\(articleId)")
     }
     
     func NewsReader_notification(notification: String)

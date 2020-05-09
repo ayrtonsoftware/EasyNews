@@ -24,7 +24,7 @@ class ListGroupsCommand: NewsReaderDelegate {
         self.reader = reader
         self.reader.delegate = self
         //self.delegate = delegate
-        reader.open()
+        reader.open(name: "ListGroups")
     }
     
     func NewsReader_notification(notification: String)

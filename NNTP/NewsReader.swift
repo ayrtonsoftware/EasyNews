@@ -45,6 +45,7 @@ class NewsReader: NSObject, StreamDelegate {
         self.port = port
         self.username = username
         self.password = password
+        self.name = ""
     }
     
     var isOpen: Bool {
@@ -68,20 +69,25 @@ class NewsReader: NSObject, StreamDelegate {
             inputStream?.open()
             outputStream?.open()
             CFReadStreamScheduleWithRunLoop(inputStream, CFRunLoopGetCurrent(), CFRunLoopMode.commonModes)
-            print(">>>> NewsReader started")
+            print(">>>> NewsReader Started Thread: \(Thread.threadName()) Name: \(name)")
             CFRunLoopRun();
-            print(">>>> NewsReader exited")
+            print(">>>> NewsReader Exited Thread: \(Thread.threadName()) Name: \(name)")
+
         } else {
             inputStream = nil
             outputStream = nil
         }
     }
     
+    var name: String
     var thread: Thread?
-    func open() {
+    func open(name: String) {
+        print("NewsReader Open Thread: \(Thread.threadName()) Name: \(name)")
+        self.name = name
         thread = Thread(block: {
             self._open()
         })
+        thread?.name = name
         thread?.start()
     }
     
