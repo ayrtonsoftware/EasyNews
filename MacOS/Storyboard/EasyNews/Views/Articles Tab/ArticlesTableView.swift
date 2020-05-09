@@ -40,18 +40,25 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
     
     @IBOutlet var articleView: NSTextView!
 
-    public func open(args : [String]) -> Int32 {
+    let tmpPath = "/Users/mbergamo/Data/Projects/me/current/EasyNews/tools/yenc-master"
+    
+    public func open(fileName: String) -> Int32 {
+        var name = fileName
+        if name.contains(" ") {
+            name = "\"\(fileName)\""
+        }
+        
         let task = Process()
         task.launchPath = "/usr/bin/open"
-        task.arguments = args
-        task.currentDirectoryPath = "/Users/mbergamo/Data/Projects/me/current/EasyNews/tools/yenc-master"
+        task.arguments = [name]
+        //task.currentDirectoryPath = tmpPath
         task.launch()
         task.waitUntilExit()
         let status = task.terminationStatus
         return (status)
     }
 
-    public func uudecode(args : [String], encodedFile: String) -> Int32 {
+    public func uudecode(args : [String], filename: String, encodedFile: String) -> Int32 {
         let task = Process()
         task.launchPath = "/usr/bin/uudecode"
         task.arguments = args
@@ -64,6 +71,11 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
         }
         task.waitUntilExit()
         let status = task.terminationStatus
+        if status != 0 {
+            if FileManager.default.fileExists(atPath: "/Users/mbergamo/Data/Projects/me/current/EasyNews/tools/yenc-master/\(filename)") {
+                return 0
+            }
+        }
         return (status)
     }
     
@@ -84,10 +96,12 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
                         if line.contains(".jpg") || line.contains(".gif") {
                             // begin 600 HDV-HD-0089_050.jpg
                             let parts = line.split(separator: " ").map(String.init)
-                            if parts.count == 3 {
-                                isImage = true
-                                filename = parts[2]
+                            isImage = true
+                            filename = parts[2]
+                            for idx in 3..<parts.count {
+                                filename.append(" \(parts[idx])")
                             }
+                            print("Filename:\(filename):")
                         }
                     }
                     if line.starts(with: "end") {
@@ -98,10 +112,10 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
                 if (beginFound && endFound) {
                     print("goooo")
                     if isImage {
-                        let status = self.uudecode(args: [], encodedFile: article)
+                        let status = self.uudecode(args: [], filename: filename, encodedFile: article)
                         print("Status: \(status)")
                         if (status == 0) {
-                            self.open(args: [filename])
+                            self.open(fileName: "\(self.tmpPath)/\(filename)")
                         }
                     }
                 }
