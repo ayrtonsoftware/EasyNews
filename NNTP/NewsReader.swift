@@ -10,19 +10,19 @@ import Foundation
 
 protocol NewsReaderDelegate: class {
     func NewsReader_error(message: String)
-    func NewsReader_groups(groups: [Group])
+    func NewsReader_groups(groups: [NewsGroup])
     func NewsReader_articles(articleIds: [String])
     func NewsReader_notification(notification: String)
     func NewsReader_articleHeader(articleId: String, header: [String: String])
     func NewsReader_article(article: String)
 }
 
-struct Group {
-    var name: String
-    var first: Int
-    var last: Int
-    var canPost: Bool
-}
+//struct Group {
+//    var name: String
+//    var first: Int
+//    var last: Int
+//    var canPost: Bool
+//}
 
 class NewsReader: NSObject, StreamDelegate {
     //private var rbox: ReaderBox
@@ -84,8 +84,10 @@ class NewsReader: NSObject, StreamDelegate {
     func open(name: String) {
         print("NewsReader Open Thread: \(Thread.threadName()) Name: \(name)")
         self.name = name
-        thread = Thread(block: {
-            self._open()
+        thread = Thread(block: { [weak self] in
+            if let self = self {
+                self._open()
+            }
         })
         thread?.name = name
         thread?.start()
@@ -354,7 +356,7 @@ class NewsReader: NSObject, StreamDelegate {
                         //print(">>>>\(prefix)")
                         if lines.count > 0 {
                             var isDone = false
-                            var newGroups: [Group] = []
+                            var newGroups: [NewsGroup] = []
                             lines.forEach { (name: String) in
                                 if name == "." {
                                     isDone = true
@@ -364,7 +366,11 @@ class NewsReader: NSObject, StreamDelegate {
                                         let last = Int(parts[1]),
                                         let first = Int(parts[2]) {
                                         ///print(">>> name: \(parts[0])")
-                                        let newGroup = Group(name: parts[0], first: first, last: last, canPost: parts[3] == "y")
+                                        var newGroup = NewsGroup()
+                                        newGroup.name = parts[0]
+                                        newGroup.first.value = first
+                                        newGroup.last.value = last
+                                        newGroup.canPost.value = parts[3] == "y"
                                         newGroups.append(newGroup)
                                     }
                                 }

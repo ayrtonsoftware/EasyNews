@@ -17,6 +17,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+//        let storyboard = NSStoryboard(name: "ThreadPlay", bundle: nil)
+//        if let window = storyboard.instantiateController(withIdentifier: "ThreadPlay") as? NSWindowController {
+//            window.showWindow(window)
+//        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

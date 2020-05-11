@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 
+// https://realm.io/blog/obj-c-swift-2-2-thread-safe-reference-sort-properties-relationships/
 extension Thread {
     public class func threadName() -> String {
         //return "\r⚡️: \(Thread.current)\r" + "🏭: \(OperationQueue.current?.underlyingQueue?.label ?? "None")\r"
@@ -38,17 +39,20 @@ class ReaderBox: NSObject {
             
             print("Realm Path: \(pathURL)\n\n\n")
             
+            let key = "1234567812345678123456781234567812345678123456781234567812345678"
+            
             let config = Realm.Configuration(
                 fileURL: fileURL,
+                //encryptionKey: key.data(using: .utf8),
                 schemaVersion: 2,
-                
                 migrationBlock: { migration, oldSchemaVersion in
-                    
                     print("Version \(oldSchemaVersion)")
             })
             //RLMRealmConfiguration.setDefault(config)
+            
             Realm.Configuration.defaultConfiguration = config
             let realm = try Realm()
+            realm.autorefresh = true
             if let url = config.fileURL {
                 print("\n\n\nRealm Path: \(url.absoluteString)\n\n\n")
             }

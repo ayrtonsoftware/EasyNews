@@ -7,9 +7,10 @@
 //
 
 import Cocoa
+import RealmSwift
 
 protocol GroupsTableDelegate {
-    func groupSelected(group: NewsGroupVM)
+    func groupSelected(group: NewsGroup)
 }
 
 class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /*, GroupsTableVMDelegate*/ {
@@ -25,20 +26,40 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
     }
 
     @objc private func GroupUpdated(_ notification: Notification) {
-        reloadData()
+        DispatchQueue.main.async {
+            self.reloadData()
+        }
     }
 
-    @objc private func GroupAdded(_ notification: Notification) {
-        if let groups = notification.object as? [NewsGroup] {
-            vm?.groups.append(contentsOf: groups.map(NewsGroupVM.init))
-            reloadData()
+    @objc private func GroupsAdded(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.reloadData()
         }
+//        DispatchQueue.main.sync { [weak self] in
+//            if let self = self {
+//                if let groupRefs = notification.object as? [ThreadSafeReference<NewsGroup>] {
+//                    let start = Date()
+//                    let rbox = MainVC.getReaderBox()
+//                    if let realm = rbox.realm {
+//                        groupRefs.forEach { (groupRef: ThreadSafeReference<NewsGroup>) in
+//                            if let group: NewsGroup = realm.resolve(groupRef) {
+//                                self.vm?.groups.append(group)
+//                            }
+//                        }
+//                    }
+//                    let end = Date()
+//                    let elapsed = end.timeIntervalSince(start)
+//                    print("-------> Groups Added ---> \(elapsed)")
+//                    self.reloadData()
+//                }
+//            }
+//        }
     }
     
     private func addObservers() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(GroupAdded(_:)),
-                                               name: NotificationGroupAdded(),
+                                               selector: #selector(GroupsAdded(_:)),
+                                               name: NotificationGroupsAdded(),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(GroupUpdated(_:)),
@@ -65,22 +86,30 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        let count = vm?.groups.count ?? 0
-        return count
+        if let result: Results<NewsGroup> = vm?.groups {
+            return result.count
+        }
+        //let count = vm?.groups.count ?? 0
+        //return count
+        return 0
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        if let group = vm?.groups[self.selectedRow] {
-            groupsDelegate?.groupSelected(group: group)
+        if let result: Results<NewsGroup> = vm?.groups {
+            
         }
+
+        //if let group = vm?.groups[self.selectedRow] {
+        //    groupsDelegate?.groupSelected(group: group)
+        //}
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let group = vm?.groups[row]
-        if let group = group {
+        if let result: Results<NewsGroup> = vm?.groups,
+            let group: NewsGroup = result[row] {
             if tableColumn?.identifier.rawValue == "progress" {
                 let cell = TableProgressIndicator()
-                cell.progressValue = CGFloat(group.progress)
+                cell.progressValue = 0
                 return cell
             }
             if tableColumn?.identifier.rawValue == "name" {
@@ -90,12 +119,12 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
             }
             if tableColumn?.identifier.rawValue == "first" {
                 let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-                cell?.textField?.stringValue = String(group.first)
+                cell?.textField?.stringValue = "\(group.first.value ?? 0)"
                 return cell
             }
             if tableColumn?.identifier.rawValue == "last" {
                 let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
-                cell?.textField?.stringValue = String(group.last)
+                cell?.textField?.stringValue = "\(group.last.value ?? 0)"
                 return cell
             }
             if tableColumn?.identifier.rawValue == "loaded" {

@@ -12,7 +12,7 @@ func NotificationGroupUpdated() -> NSNotification.Name {
     return NSNotification.Name(rawValue: "Notification_GroupUpdated")
 }
 
-func NotificationGroupAdded() -> NSNotification.Name {
+func NotificationGroupsAdded() -> NSNotification.Name {
     return NSNotification.Name(rawValue: "Notification_GroupAdded")
 }
 

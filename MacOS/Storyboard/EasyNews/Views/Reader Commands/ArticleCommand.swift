@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 protocol ArticleCommandDelegate: class {
     func onNewArticle(article: String)
@@ -15,22 +16,23 @@ protocol ArticleCommandDelegate: class {
 class ArticleCommand: NewsReaderDelegate {
     var reader: NewsReader
     private weak var delegate: ArticleCommandDelegate?
-    private var groupVM: NewsGroupVM
+    private var groupRef: ThreadSafeReference<NewsGroup>
+    private var group: NewsGroup?
     private var articleId: String
     
-    init(delegate: ArticleCommandDelegate?, groupVM: NewsGroupVM, articleId: String, reader: NewsReader) {
+    init(delegate: ArticleCommandDelegate?, name: String, groupRef: ThreadSafeReference<NewsGroup>, articleId: String, reader: NewsReader) {
         self.delegate = delegate
-        self.groupVM = groupVM
+        self.groupRef = groupRef
         self.articleId = articleId
         self.reader = reader
         self.reader.delegate = self
-        reader.open(name: "GetArticle_\(groupVM.name)_\(articleId)")
+        reader.open(name: "GetArticle_\(name)_\(articleId)")
     }
     
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" {
-            self.reader.article(groupName: groupVM.name, articleId: articleId)
+            ///fix me self.reader.article(groupName: groupVM.name, articleId: articleId)
         }
         if notification == "Done" {
             print("Done getting list")
@@ -45,7 +47,7 @@ class ArticleCommand: NewsReaderDelegate {
     func NewsReader_error(message: String) {
     }
     
-    func NewsReader_groups(groups: [Group]) {
+    func NewsReader_groups(groups: [NewsGroup]) {
     }
     
     func NewsReader_articles(articleIds: [String]) {

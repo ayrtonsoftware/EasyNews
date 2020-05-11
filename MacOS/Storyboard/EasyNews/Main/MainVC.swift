@@ -10,11 +10,23 @@ import Cocoa
 //import SwiftSocket
 
 class MainVC: NSViewController, GroupsTableDelegate {
+    @IBOutlet var searchField: NSSearchField!
+    
+    @objc func searchForText(_ searchText: String) {
+        groupsVM.setSearch(text: searchText)
+        groupsTable.reloadData()
+    }
+        
+    @IBAction func onSearch(sender: NSTextField) {
+        print("onSearch: \(searchField.stringValue)")
+        perform(#selector(searchForText(_:)), with: searchField.stringValue, afterDelay: 0.5)
+    }
+    
     static var mainVC : MainVC?
     override func viewDidAppear() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(GroupAdded(_:)),
-                                               name: NotificationGroupAdded(),
+                                               name: NotificationGroupsAdded(),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(GroupUpdated(_:)),
@@ -30,7 +42,12 @@ class MainVC: NSViewController, GroupsTableDelegate {
     }
 
     @objc private func GroupAdded(_ notification: Notification) {
-        groupCountLabel.stringValue = "Count: \(groupsVM.groups.count)"
+        DispatchQueue.main.async { [weak self] in
+            if let self = self {
+                //self.groupsVM.groups?.count
+                self.groupCountLabel.stringValue = "Count: \(self.groupsVM.groups?.count ?? 0)"
+            }
+        }
     }
     
     @IBOutlet var groupCountLabel: NSTextField!
@@ -58,7 +75,7 @@ class MainVC: NSViewController, GroupsTableDelegate {
 //        groupsTable.reloadData()
 //    }
 
-    func groupSelected(group: NewsGroupVM) {
+    func groupSelected(group: NewsGroup) {
         if let tab = tabCache[group.name] {
             tabs.selectTabViewItem(tab)
         } else {

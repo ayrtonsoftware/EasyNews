@@ -7,18 +7,20 @@
 //
 
 import Cocoa
+import RealmSwift
 
 class GroupTabView: NSView, LoadableNib {
     @objc private func onArticleGetHeader(_ notification: Notification) {
-        if let articles = notification.object as? [ArticleVM] {
-            if let vm = articlesVM {
-                _ = ArticleGetMultipleHeadersCommand(groupVM: vm.group,
-                                         articleIds: articles.map({ (article: ArticleVM) -> String in
-                                            article.id
-                                         }),
-                                         rbox: MainVC.getReaderBox(),
-                                         reader: MainVC.CreateNewsReader())
-            }
+        if let articles = notification.object as? [ThreadSafeReference<NewsGroupArticle>] {
+            print("onArticleGetHeader: \(Thread.threadName())")
+//            if let vm = articlesVM {
+//                _ = ArticleGetMultipleHeadersCommand(groupVM: vm.group,
+//                                         articleIds: articles.map({ (article: ArticleVM) -> String in
+//                                            article.id
+//                                         }),
+//                                         rbox: MainVC.getReaderBox(),
+//                                         reader: MainVC.CreateNewsReader())
+//            }
         }
     }
     
@@ -33,11 +35,11 @@ class GroupTabView: NSView, LoadableNib {
     private func addNotifications() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onArticleGetHeader(_:)),
-                                               name: NotificationArticleGetHeader(groupName: groupVM?.name ?? "Unknown"),
+                                               name: NotificationArticleGetHeader(groupName: group?.name ?? "Unknown"),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onArticleAdd(_:)),
-                                               name: NotificationArticleHeaderAdded(groupName: groupVM?.name ?? "Unknown"),
+                                               name: NotificationArticleHeaderAdded(groupName: group?.name ?? "Unknown"),
                                                object: nil)
     }
     
@@ -49,33 +51,38 @@ class GroupTabView: NSView, LoadableNib {
     @IBOutlet var contentView: NSView!
     @IBOutlet var articlesTable: ArticlesTableView!
     
-    private var groupVM: NewsGroupVM?
+    private var group: NewsGroup?
     private var groupsTableDelegate: GroupsTableDelegate?
     
     @IBAction func onRefresh(sender: NSButton) {
-        if let groupVM = self.groupVM {
-            _ = ListGroupGetArticleIdsCommand(groupVM: groupVM,
-                                              rbox: MainVC.getReaderBox(),
-                                              reader: MainVC.CreateNewsReader())
-        }
+        //fixme
+//        if let group = self.group {
+//            let groupRef = ThreadSafeReference(to: group)
+//            _ = ListGroupGetArticleIdsCommand(name: groupVM.name,
+//                                              groupRef: groupRef,
+//                                              rbox: MainVC.getReaderBox(),
+//                                              reader: MainVC.CreateNewsReader())
+//        }
     }
     
     let articlesVM: ArticlesTableVM?
     
-    init(group: NewsGroupVM, groupsTableDelegate: GroupsTableDelegate?, frame: CGRect) {
-        self.groupVM = group
+    init(group: NewsGroup, groupsTableDelegate: GroupsTableDelegate?, frame: CGRect) {
+        self.group = group
         self.groupsTableDelegate = groupsTableDelegate
-        articlesVM = ArticlesTableVM(group: group)
+        //fixme
+        //articlesVM = ArticlesTableVM(group: group)
+        articlesVM = nil
         super.init(frame: frame)
-        loadViewFromNib()
-        if let vm = articlesVM {
-            self.articlesTable.setViewModel(vm: vm)
-        }
-        group.articles.forEach { (article: ArticleVM) in
-            articlesVM?.addArticle(article: article)
-        }
-        addNotifications()
-        self.articlesTable.reloadData()
+//        loadViewFromNib()
+//        if let vm = articlesVM {
+//            self.articlesTable.setViewModel(vm: vm)
+//        }
+//        group.articles.forEach { (article: ArticleVM) in
+//            articlesVM?.addArticle(article: article)
+//        }
+//        addNotifications()
+//        self.articlesTable.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -21,7 +21,7 @@ class ArticleOutlineVM {
 }
 
 class ArticlesTableVM {
-    var group: NewsGroupVM
+    var group: NewsGroup
     var articleCache: [String: ArticleOutlineVM] = [:]
     var displayedCache: [String: String] = [:]
     var articles: [ArticleOutlineVM] = []
@@ -76,7 +76,7 @@ class ArticlesTableVM {
         }
     }
     
-    init(group: NewsGroupVM) {
+    init(group: NewsGroup) {
         self.group = group
         self.articles = []
     }

@@ -7,29 +7,31 @@
 //
 
 import Foundation
+import RealmSwift
 
 class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
     var reader: NewsReader
     private var rbox: ReaderBox
     private var articleIds: [String]
-    private var groupVM: NewsGroupVM
+    private var groupRef: ThreadSafeReference<NewsGroup>
+    private var group: NewsGroup?
     private var idx = 0
     
-    init(groupVM: NewsGroupVM, articleIds: [String], rbox: ReaderBox, reader: NewsReader) {
-        self.groupVM = groupVM
+    init(name: String, groupRef: ThreadSafeReference<NewsGroup>, articleIds: [String], rbox: ReaderBox, reader: NewsReader) {
+        self.groupRef = groupRef
         self.articleIds = articleIds
         self.rbox = rbox
         self.reader = reader
         self.reader.delegate = self
-        reader.open(name: "GetArticleHeader_\(groupVM.name)_\(articleIds.count)")
+        reader.open(name: "GetArticleHeader_\(name)_\(articleIds.count)")
     }
     
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" || notification == "NextArticle" {
-            if idx < articleIds.count {
+            if idx < articleIds.count, let group = self.group {
                 //print("********************************** getting article \(idx)")
-                self.reader.articleHeader(groupName: groupVM.name, articleId: articleIds[idx])            
+                self.reader.articleHeader(groupName: group.name, articleId: articleIds[idx])
                 idx += 1
             } else {
                 reader.close()
@@ -48,7 +50,7 @@ class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
     func NewsReader_error(message: String) {
     }
     
-    func NewsReader_groups(groups: [Group]) {
+    func NewsReader_groups(groups: [NewsGroup]) {
     }
     
     func NewsReader_articles(articleIds: [String]) {
@@ -61,7 +63,7 @@ class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
                     print("--Date--> \(header[key])----")
                 }
             }
-            if let group = groupVM.group {
+            if let group = self.group {
                 rbox.realm?.beginWrite()
                 let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
                 article.subject = header["Subject"]

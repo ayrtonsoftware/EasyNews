@@ -7,23 +7,14 @@
 //
 
 import Foundation
-//
-//protocol ListGroupsDelegate: class {
-//    func ListGroups_groupsAdded(newGroups: [NewsGroup])
-//    func ListGroups_done(status: String)
-//    func ListGroups_refresh()
-//}
+import RealmSwift
 
 class ListGroupsCommand: NewsReaderDelegate {
     var reader: NewsReader
-    //var delegate: ListGroupsDelegate?
-    private var rbox: ReaderBox
     
-    init(rbox: ReaderBox, reader: NewsReader/*, delegate: ListGroupsDelegate*/) {
-        self.rbox = rbox
+    init(reader: NewsReader/*, delegate: ListGroupsDelegate*/) {
         self.reader = reader
         self.reader.delegate = self
-        //self.delegate = delegate
         reader.open(name: "ListGroups")
     }
     
@@ -52,26 +43,27 @@ class ListGroupsCommand: NewsReaderDelegate {
         print("New Reader Error: \(message)")
     }
     
-    func NewsReader_groups(groups: [Group]) {
-        DispatchQueue.main.sync { [weak self] in
-            rbox.realm?.beginWrite()
-            var newGroups: [NewsGroup] = []
-            
-            groups.forEach { (group: Group) in
-                let (newGroup, isNewGroup) = rbox.findOrCreateGroup(name:group.name, first: group.first, last: group.last, canPost: group.canPost)
-                newGroup.updated = Date()
-                newGroups.append(newGroup)
-            }
-
-            NotificationCenter.default.post(name: NotificationGroupAdded(), object: newGroups)
-
-            do {
-                try rbox.realm?.commitWrite()
-            }
-            catch {
-                print("Realm error \(error)")
-            }
+    func NewsReader_groups(groups: [NewsGroup]) {
+        let rbox = MainVC.getReaderBox()
+        
+        rbox.realm?.beginWrite()
+        var newGroups: [NewsGroup] = []
+        groups.forEach { (group: NewsGroup) in
+            let (newGroup, _ /* isNewGroup */) = rbox.findOrCreateGroup(name:group.name,
+                                                                        first: group.first.value ?? 0,
+                                                                        last: group.last.value ?? 0,
+                                                                        canPost: group.canPost.value ?? false)
+            newGroup.updated = Date()
+            newGroups.append(newGroup)
         }
+        do {
+            try rbox.realm?.commitWrite()
+        }
+        catch {
+            print("Realm error \(error)")
+        }
+        rbox.realm?.refresh()
+        NotificationCenter.default.post(name: NotificationGroupsAdded(), object: nil)
     }
     
     func NewsReader_articles(articleIds: [String]) {

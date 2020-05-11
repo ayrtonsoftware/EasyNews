@@ -723,6 +723,10 @@
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </searchFieldCell>
+                                                <connections>
+                                                    <action selector="onSearchWithSender:" target="XfG-lQ-9wD" id="HGW-Dw-iWz"/>
+                                                    <outlet property="delegate" destination="XfG-lQ-9wD" id="zdU-B3-HDj"/>
+                                                </connections>
                                             </searchField>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N3K-Nn-yOR">
                                                 <rect key="frame" x="14" y="400" width="135" height="32"/>
@@ -981,6 +985,7 @@
                     <connections>
                         <outlet property="groupCountLabel" destination="UgC-LW-faS" id="aNz-ky-HCH"/>
                         <outlet property="groupsTable" destination="T42-wJ-cws" id="XRD-5N-dRS"/>
+                        <outlet property="searchField" destination="H9v-2w-AQ9" id="5BV-VP-4H1"/>
                         <outlet property="tabs" destination="rQQ-D4-7mm" id="6Oh-UZ-yse"/>
                     </connections>
                 </viewController>

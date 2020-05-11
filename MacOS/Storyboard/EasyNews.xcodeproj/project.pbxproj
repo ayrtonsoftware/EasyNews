@@ -14,6 +14,8 @@
 		A70D107C24601AF3009CEEE3 /* ArticlesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */; };
 		A70D107E24601B1E009CEEE3 /* ArticlesTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */; };
 		A70D108024612BF9009CEEE3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D107F24612BF9009CEEE3 /* Notifications.swift */; };
+		A76C66E224676AA5009A5F59 /* ThreadPlay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A76C66E124676AA5009A5F59 /* ThreadPlay.storyboard */; };
+		A76C66E424676AD0009A5F59 /* ThreadPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C66E324676AD0009A5F59 /* ThreadPlayVC.swift */; };
 		A76F82E7245F92BA00CB7A59 /* ListGroupsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */; };
 		A76F82E9245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */; };
 		A77FB74E246538FA008B5A81 /* ArticleCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77FB74D246538FA008B5A81 /* ArticleCommand.swift */; };
@@ -48,6 +50,8 @@
 		A70D107B24601AF3009CEEE3 /* ArticlesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTableView.swift; sourceTree = "<group>"; };
 		A70D107D24601B1E009CEEE3 /* ArticlesTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTableVM.swift; sourceTree = "<group>"; };
 		A70D107F24612BF9009CEEE3 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		A76C66E124676AA5009A5F59 /* ThreadPlay.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ThreadPlay.storyboard; sourceTree = "<group>"; };
+		A76C66E324676AD0009A5F59 /* ThreadPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadPlayVC.swift; sourceTree = "<group>"; };
 		A76F82E6245F92BA00CB7A59 /* ListGroupsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupsCommand.swift; sourceTree = "<group>"; };
 		A76F82E8245F92FF00CB7A59 /* ListGroupGetArticleIdsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGroupGetArticleIdsCommand.swift; sourceTree = "<group>"; };
 		A77FB74D246538FA008B5A81 /* ArticleCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCommand.swift; sourceTree = "<group>"; };
@@ -150,6 +154,15 @@
 			path = NNTP;
 			sourceTree = "<group>";
 		};
+		A76C66E024676A8A009A5F59 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				A76C66E124676AA5009A5F59 /* ThreadPlay.storyboard */,
+				A76C66E324676AD0009A5F59 /* ThreadPlayVC.swift */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
 		A7FA5B3F2458CD6A0034A321 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +217,7 @@
 		A7FA8318245E6FF800758A5A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A76C66E024676A8A009A5F59 /* Windows */,
 				A704905A2464085400609E72 /* View Models */,
 				A70490592464083100609E72 /* Reader Commands */,
 				A70490572464013000609E72 /* Articles Tab */,
@@ -286,6 +300,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A76C66E224676AA5009A5F59 /* ThreadPlay.storyboard in Resources */,
 				A7FA5B502458CD6C0034A321 /* Assets.xcassets in Resources */,
 				A7FA5B532458CD6C0034A321 /* Main.storyboard in Resources */,
 				A788DFF2245EB978001D918F /* GroupTabView.xib in Resources */,
@@ -361,6 +376,7 @@
 				A788DFEE245E7EF6001D918F /* NewsModels.swift in Sources */,
 				A7FA5B4C2458CD6A0034A321 /* AppDelegate.swift in Sources */,
 				A70D108024612BF9009CEEE3 /* Notifications.swift in Sources */,
+				A76C66E424676AD0009A5F59 /* ThreadPlayVC.swift in Sources */,
 				A70D107A245FEF7D009CEEE3 /* ArticleGetMultipleHeadersCommand.swift in Sources */,
 				A70D107C24601AF3009CEEE3 /* ArticlesTableView.swift in Sources */,
 				A7FA8315245E6E1400758A5A /* GroupsTableView.swift in Sources */,

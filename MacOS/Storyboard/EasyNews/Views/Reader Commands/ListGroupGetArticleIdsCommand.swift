@@ -7,24 +7,31 @@
 //
 
 import Cocoa
+import RealmSwift
 
 class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     var reader: NewsReader
     private var rbox: ReaderBox
-    private var groupVM: NewsGroupVM
+    private var groupRef: ThreadSafeReference<NewsGroup>
+    private var group: NewsGroup?
     
-    init(groupVM: NewsGroupVM, rbox: ReaderBox, reader: NewsReader) {
-        self.groupVM = groupVM
+    init(name: String, groupRef: ThreadSafeReference<NewsGroup>, rbox: ReaderBox, reader: NewsReader) {
+        self.groupRef = groupRef
         self.rbox = rbox
         self.reader = reader
         self.reader.delegate = self
-        reader.open(name: "GetArticleIds_\(groupVM.name)")
+        reader.open(name: "GetArticleIds_\(name)")
     }
     
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" {
-            self.reader.listArticles(groupName: self.groupVM.name)
+            if let realm = rbox.realm, let group = realm.resolve(groupRef) {
+                self.group = group
+                self.reader.listArticles(groupName: group.name)
+            } else {
+                reader.close()
+            }
             return
         }
         if notification == "Done" {
@@ -40,36 +47,40 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     func NewsReader_error(message: String) {
     }
     
-    func NewsReader_groups(groups: [Group]) {
+    func NewsReader_groups(groups: [NewsGroup]) {
     }
     
     func NewsReader_articles(articleIds: [String]) {
-        DispatchQueue.main.sync { [weak self] in
-            if let self = self {
-                self.rbox.realm?.beginWrite()
-                var newArticles: [ArticleVM] = []
-                
-                if let group = self.groupVM.group {
-                    articleIds.forEach { (articleId: String) in
-                        let (article, isNewArticle) = self.rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
-                        if isNewArticle {
-                            newArticles.append(ArticleVM(article: article))
-                            groupVM.articles.append(ArticleVM(article: article))
-                        }
+        if let realm = rbox.realm {
+            
+            var newArticles: [NewsGroupArticle] = []
+            
+            if let group = self.group {
+                realm.beginWrite()
+                articleIds.forEach { (articleId: String) in
+                    let (article, isNewArticle) = self.rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
+                    if isNewArticle {
+                        newArticles.append(article)
+                        group.articles.append(article)
                     }
-                    
-                    //if newArticles.count > 0 {
-                        NotificationCenter.default.post(name: NotificationGroupUpdated(), object: group)
-                        NotificationCenter.default.post(name: NotificationArticleGetHeader(groupName: group.name), object: newArticles)
-                    //}
                 }
-                
                 do {
                     try self.rbox.realm?.commitWrite()
                 }
                 catch {
                     print("Realm error \(error)")
                 }
+                realm.refresh()
+                
+                var articleRefs: [ThreadSafeReference<NewsGroupArticle>] = []
+                newArticles.forEach { (article: NewsGroupArticle) in
+                    let articleRef = ThreadSafeReference(to: article)
+                    articleRefs.append(articleRef)
+                }
+                //if newArticles.count > 0 {
+                NotificationCenter.default.post(name: NotificationGroupUpdated(), object: group)
+                NotificationCenter.default.post(name: NotificationArticleGetHeader(groupName: group.name), object: articleRefs)
+                //}
             }
         }
     }

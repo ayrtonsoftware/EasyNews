@@ -146,13 +146,13 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
         print(what)
         if let a = what as? ArticleVM {
             print("get data for article \(a.id)")
-            ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.id, reader: MainVC.CreateNewsReader())
+            //ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.id, reader: MainVC.CreateNewsReader())
         }
         if let a = what as? ArticleOutlineVM {
             print("ArticleOutlineVM")
             if a.children.count == 1 {
                 print("get data for article \(a.article.id)")
-                ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.article.id, reader: MainVC.CreateNewsReader())
+                //ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.article.id, reader: MainVC.CreateNewsReader())
             }
             if a.children.count > 1 {
                 print("-----------------------------------")
