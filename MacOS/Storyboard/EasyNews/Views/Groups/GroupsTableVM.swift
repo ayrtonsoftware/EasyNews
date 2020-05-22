@@ -18,7 +18,11 @@ class GroupsTableVM {
         
     public func setSearch(text: String) {
         if let realm = MainVC.getReaderBox().realm {
-            groups = realm.objects(NewsGroup.self).filter("name CONTAINS [cd] '\(text)'")
+            if text.count > 0 {
+                groups = realm.objects(NewsGroup.self).filter("name CONTAINS [cd] '\(text)'")
+            } else {
+                groups = realm.objects(NewsGroup.self)
+            }
         }
     }
     

@@ -8,7 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="GroupTabView" customModule="EasyNews" customModuleProvider="target">
             <connections>
                 <outlet property="articleCountLabel" destination="brI-fi-mUU" id="cWe-D3-cny"/>
-                <outlet property="articlesTable" destination="nEr-pE-X7P" id="kqK-eo-3Yk"/>
+                <outlet property="articlesTable" destination="nEr-pE-X7P" id="L3h-eD-0Ic"/>
                 <outlet property="contentView" destination="c22-O7-iKe" id="ADr-O6-8Io"/>
             </connections>
         </customObject>
@@ -55,7 +55,7 @@
                                         <rect key="frame" x="1" y="0.0" width="919" height="178"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Rws-Vb-jKk" viewBased="YES" id="nEr-pE-X7P" customClass="ArticlesTableView" customModule="EasyNews" customModuleProvider="target">
+                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Rws-Vb-jKk" viewBased="YES" id="nEr-pE-X7P" customClass="MeganTableView" customModule="EasyNews" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="1200" height="153"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -303,7 +303,7 @@
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <size key="minSize" width="921" height="205"/>
-                                                <size key="maxSize" width="921" height="10000000"/>
+                                                <size key="maxSize" width="936" height="10000000"/>
                                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             </textView>
                                         </subviews>

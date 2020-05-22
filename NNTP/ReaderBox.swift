@@ -44,7 +44,7 @@ class ReaderBox: NSObject {
             let config = Realm.Configuration(
                 fileURL: fileURL,
                 //encryptionKey: key.data(using: .utf8),
-                schemaVersion: 2,
+                schemaVersion: 3,
                 migrationBlock: { migration, oldSchemaVersion in
                     print("Version \(oldSchemaVersion)")
             })

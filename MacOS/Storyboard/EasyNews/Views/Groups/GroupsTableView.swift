@@ -35,25 +35,6 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
         DispatchQueue.main.async {
             self.reloadData()
         }
-//        DispatchQueue.main.sync { [weak self] in
-//            if let self = self {
-//                if let groupRefs = notification.object as? [ThreadSafeReference<NewsGroup>] {
-//                    let start = Date()
-//                    let rbox = MainVC.getReaderBox()
-//                    if let realm = rbox.realm {
-//                        groupRefs.forEach { (groupRef: ThreadSafeReference<NewsGroup>) in
-//                            if let group: NewsGroup = realm.resolve(groupRef) {
-//                                self.vm?.groups.append(group)
-//                            }
-//                        }
-//                    }
-//                    let end = Date()
-//                    let elapsed = end.timeIntervalSince(start)
-//                    print("-------> Groups Added ---> \(elapsed)")
-//                    self.reloadData()
-//                }
-//            }
-//        }
     }
     
     private func addObservers() {
@@ -96,7 +77,7 @@ class GroupsTableView: NSTableView, NSTableViewDataSource, NSTableViewDelegate /
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let result: Results<NewsGroup> = vm?.groups {
-            
+            groupsDelegate?.groupSelected(group: result[self.selectedRow])
         }
 
         //if let group = vm?.groups[self.selectedRow] {

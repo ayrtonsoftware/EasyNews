@@ -21,9 +21,27 @@ class NewsGroup: Object
 
 class NewsGroupArticle: Object {
     @objc dynamic var group: NewsGroup?
-    @objc dynamic var id: String?
     @objc dynamic var subject: String?
+    let parts = List<NewsGroupArticlePart>()
+}
+
+class NewsGroupArticlePart: Object {
+    @objc dynamic var id: String?
     @objc dynamic var contentType: String?
     @objc dynamic var date: Date!
     let size = RealmOptional<Int>()
 }
+
+/*
+ class ArticleOutlineVM {
+     var cache: [String: ArticleVM]
+     var article: ArticleVM
+     var children: [ArticleVM]
+     
+     init(article: ArticleVM) {
+         self.article = article
+         self.children = [article]
+         self.cache = [:]
+     }
+ }
+ */

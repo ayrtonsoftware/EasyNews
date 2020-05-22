@@ -49,8 +49,9 @@ class GroupTabView: NSView, LoadableNib {
     
     @IBOutlet var articleCountLabel: NSTextField!
     @IBOutlet var contentView: NSView!
-    @IBOutlet var articlesTable: ArticlesTableView!
-    
+    //@IBOutlet var articlesTable: ArticlesTableView!
+    @IBOutlet var articlesTable: MeganTableView!
+
     private var group: NewsGroup?
     private var groupsTableDelegate: GroupsTableDelegate?
     
@@ -74,7 +75,10 @@ class GroupTabView: NSView, LoadableNib {
         //articlesVM = ArticlesTableVM(group: group)
         articlesVM = nil
         super.init(frame: frame)
-//        loadViewFromNib()
+        loadViewFromNib()
+        articlesTable.setGroup(group: group)
+
+
 //        if let vm = articlesVM {
 //            self.articlesTable.setViewModel(vm: vm)
 //        }
