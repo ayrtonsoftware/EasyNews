@@ -64,7 +64,7 @@ public extension Date
     }
     
     func utcToLocalString(format: String = "MM/dd/yyy hh:mm:ss a") -> String {
-        print("----\(self)--")
+        //print("----\(self)--")
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         // "2016-11-02 04:48:53 +0800" <-- same date, local with seconds and time zone

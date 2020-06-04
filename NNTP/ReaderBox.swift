@@ -56,6 +56,7 @@ class ReaderBox: NSObject {
             if let url = config.fileURL {
                 print("\n\n\nRealm Path: \(url.absoluteString)\n\n\n")
             }
+            print("Adding realm from thread [\(threadName)]")
             ReaderBox.realms[threadName] = realm
             
 //            print("Adding new realm from thread [\(threadName)]")
@@ -85,11 +86,17 @@ class ReaderBox: NSObject {
     }
     
     func findOrCreateGroupArticle(group: NewsGroup, articleId: String) -> (NewsGroupArticle, Bool) {
-        if let article = group.articles.first(where: { (article: NewsGroupArticle) -> Bool in
-            return article.id == articleId
-        }) {
-            return (article, false)
+        if let articles = realm?.objects(NewsGroupArticle.self).filter("id='\(articleId)'") {
+            if articles.count == 1 {
+                return (articles[0], false)
+            }
         }
+
+//        if let article = group.articles.first(where: { (article: NewsGroupArticle) -> Bool in
+//            return article.id == articleId
+//        }) {
+//            return (article, false)
+//        }
     
         let newArticle = NewsGroupArticle()
         newArticle.group = group
@@ -102,26 +109,34 @@ class ReaderBox: NSObject {
         return (newArticle, true)
     }
 
-    func findGroup(name: String) -> NewsGroup? {
+    func findGroup(byId: String) -> NewsGroup? {
         
+        if let group = findGroup(withFilter: "id='\(byId)'") {
+            return group
+        }
+        return nil
+    }
+
+    func findGroup(name: String) -> NewsGroup? {
         if let group = findGroup(withFilter: "name='\(name)'") {
             return group
         }
         return nil
     }
 
-    func findOrCreateGroup(name: String, first: Int, last: Int, canPost: Bool) -> (NewsGroup, Bool) {
-        
+    func findOrCreateGroup(name: String) -> (NewsGroup, Bool) {
         if let group = findGroup(withFilter: "name='\(name)'") {
             return (group, false)
         }
         let newGroup = NewsGroup()
+        newGroup.id = UUID().uuidString
         newGroup.name = name
         newGroup.updated = Date()
-        newGroup.first.value = first
-        newGroup.last.value = last
-        newGroup.canPost.value = canPost
+        //newGroup.first.value = first
+        //newGroup.last.value = last
+        //newGroup.canPost.value = canPost
         realm?.add(newGroup)
+        realm?.refresh()
         //NotificationCenter.default.post(name: Notification.Name(NotificationGroupAdded()), object: newGroup)
         return (newGroup, true)
     }

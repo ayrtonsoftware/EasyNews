@@ -13,11 +13,20 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     var reader: NewsReader
     private var rbox: ReaderBox
     private var groupRef: ThreadSafeReference<NewsGroup>
-    private var group: NewsGroup?
+    private var group: NewsGroup
+    private var groupSafe: NewsGroup?
+    private var groupName: String
+    //private var group: NewsGroup?
     
-    init(name: String, groupRef: ThreadSafeReference<NewsGroup>, rbox: ReaderBox, reader: NewsReader) {
-        self.groupRef = groupRef
+    init(name: String,
+         group: NewsGroup,
+         //groupRef: ThreadSafeReference<NewsGroup>,
+        rbox: ReaderBox, reader: NewsReader) {
+        //self.groupRef = groupRef
         self.rbox = rbox
+        self.group = group
+        self.groupName = group.name
+        self.groupRef = ThreadSafeReference(to: group)
         self.reader = reader
         self.reader.delegate = self
         reader.open(name: "GetArticleIds_\(name)")
@@ -26,16 +35,17 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" {
-            if let realm = rbox.realm, let group = realm.resolve(groupRef) {
-                self.group = group
-                self.reader.listArticles(groupName: group.name)
-            } else {
-                reader.close()
-            }
+            self.reader.listArticles(groupName: groupName)
+            //            if let realm = rbox.realm, let group = realm.resolve(groupRef) {
+            //                self.group = group
+            //                self.reader.listArticles(groupName: group.name)
+            //            } else {
+            //                reader.close()
+            //            }
             return
         }
         if notification == "Done" {
-            print("Done getting list")
+            //print("Done getting list")
             reader.close()
         }
         if notification == "ConnectionFailed" {
@@ -52,23 +62,26 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
     
     func NewsReader_articles(articleIds: [String]) {
         if let realm = rbox.realm {
-            
-            var newArticles: [NewsGroupArticle] = []
-            
-            if let group = self.group {
+            if groupSafe == nil {
+                groupSafe = realm.resolve(self.groupRef)
+            }
+            if let groupSafe = self.groupSafe {
+                var newArticles: [NewsGroupArticle] = []
+                
+                //if let group = self.group {
                 realm.beginWrite()
                 articleIds.forEach { (articleId: String) in
-                    let (article, isNewArticle) = self.rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
+                    let (article, isNewArticle) = self.rbox.findOrCreateGroupArticle(group: groupSafe, articleId: articleId)
                     if isNewArticle {
                         newArticles.append(article)
-                        group.articles.append(article)
+                        groupSafe.articles.append(article)
                     }
                 }
                 do {
                     try self.rbox.realm?.commitWrite()
                 }
                 catch {
-                    print("Realm error \(error)")
+                    //print("Realm error \(error)")
                 }
                 realm.refresh()
                 
@@ -79,7 +92,8 @@ class ListGroupGetArticleIdsCommand: NewsReaderDelegate {
                 }
                 //if newArticles.count > 0 {
                 NotificationCenter.default.post(name: NotificationGroupUpdated(), object: group)
-                NotificationCenter.default.post(name: NotificationArticleGetHeader(groupName: group.name), object: articleRefs)
+                NotificationCenter.default.post(name: NotificationArticleGetHeader(groupName: groupName), object: articleRefs)
+                //}
                 //}
             }
         }

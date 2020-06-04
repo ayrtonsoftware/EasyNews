@@ -21,26 +21,26 @@ class ListGroupsCommand: NewsReaderDelegate {
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" {
-            print("List Groups")
+            //print("List Groups")
             self.reader.listGroups()
             return
         }
         
         if notification == "Done" {
-            print("Done getting list")
+            //print("Done getting list")
             reader.close()
         }
         if notification == "ConnectionFailed" {
-            print("Connection failed")
+            //print("Connection failed")
         }
         
         if notification == "Disconnected" {
-            print("Connection disconnected")
+            //print("Connection disconnected")
         }
     }
     
     func NewsReader_error(message: String) {
-        print("New Reader Error: \(message)")
+        //print("New Reader Error: \(message)")
     }
     
     func NewsReader_groups(groups: [NewsGroup]) {
@@ -49,10 +49,13 @@ class ListGroupsCommand: NewsReaderDelegate {
         rbox.realm?.beginWrite()
         var newGroups: [NewsGroup] = []
         groups.forEach { (group: NewsGroup) in
-            let (newGroup, _ /* isNewGroup */) = rbox.findOrCreateGroup(name:group.name,
-                                                                        first: group.first.value ?? 0,
-                                                                        last: group.last.value ?? 0,
-                                                                        canPost: group.canPost.value ?? false)
+            let (newGroup, _ /* isNewGroup */) = rbox.findOrCreateGroup(name:group.name)
+                                                                        //first: group.first.value ?? 0,
+                                                                        //last: group.last.value ?? 0,
+                                                                        //canPost: group.canPost.value ?? false)
+            newGroup.first.value = group.first.value
+            newGroup.last.value = group.last.value
+            newGroup.canPost.value = group.canPost.value
             newGroup.updated = Date()
             newGroups.append(newGroup)
         }
@@ -60,7 +63,7 @@ class ListGroupsCommand: NewsReaderDelegate {
             try rbox.realm?.commitWrite()
         }
         catch {
-            print("Realm error \(error)")
+            //print("Realm error \(error)")
         }
         rbox.realm?.refresh()
         NotificationCenter.default.post(name: NotificationGroupsAdded(), object: nil)

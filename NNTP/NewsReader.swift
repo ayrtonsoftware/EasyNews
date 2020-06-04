@@ -69,9 +69,9 @@ class NewsReader: NSObject, StreamDelegate {
             inputStream?.open()
             outputStream?.open()
             CFReadStreamScheduleWithRunLoop(inputStream, CFRunLoopGetCurrent(), CFRunLoopMode.commonModes)
-            print(">>>> NewsReader Started Thread: \(Thread.threadName()) Name: \(name)")
+            ////print(">>>> NewsReader Started Thread: \(Thread.threadName()) Name: \(name)")
             CFRunLoopRun();
-            print(">>>> NewsReader Exited Thread: \(Thread.threadName()) Name: \(name)")
+            ////print(">>>> NewsReader Exited Thread: \(Thread.threadName()) Name: \(name)")
 
         } else {
             inputStream = nil
@@ -82,7 +82,7 @@ class NewsReader: NSObject, StreamDelegate {
     var name: String
     var thread: Thread?
     func open(name: String) {
-        print("NewsReader Open Thread: \(Thread.threadName()) Name: \(name)")
+        ////print("NewsReader Open Thread: \(Thread.threadName()) Name: \(name)")
         self.name = name
         thread = Thread(block: { [weak self] in
             if let self = self {
@@ -169,7 +169,7 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     private func processResponse(buffer: String) {
-        //print("Response: \(response)")
+        ////print("Response: \(response)")
         if buffer.starts(with: "200 news.easynews.com Welcome!") {
             send(command: "AUTHINFO user \(username)\n")
             response = ""
@@ -202,19 +202,19 @@ class NewsReader: NSObject, StreamDelegate {
             return
         }
         if buffer.starts(with: "215 NewsGroups Follow") {
-            print("Got 215...............")
+            ////print("Got 215...............")
             resultsComing = true
             response = ""
             return
         }
         if buffer.starts(with: "211 Article Numbers Follow") {
-            print("Getting articles")
+            ////print("Getting articles")
             resultsComing = true
             response = ""
             return
         }
         if buffer.starts(with: "211 ") {
-            print("Getting article headers")
+            ////print("Getting article headers")
             resultsComing = true
             response = ""
             send(command: currentGroupCommand)
@@ -236,23 +236,24 @@ class NewsReader: NSObject, StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         if aStream == inputStream {
             switch eventCode {
-            case .openCompleted:
-                print("open completed")
+//            case .openCompleted:
+//                //print("open completed")
             case .hasBytesAvailable:
-                //print("new message received")
+                ////print("new message received")
                 if let response = readAvailableBytes(stream: aStream as! InputStream) {
                     processResponse(buffer: response)
                 }
-            case .endEncountered:
-                print("new message received")
-            case .errorOccurred:
-                print("error occurred")
-            case .hasSpaceAvailable:
-                print("has space available")
-            case .hasBytesAvailable:
-                print("has bytes available")
+//            case .endEncountered:
+//                //print("new message received")
+//            case .errorOccurred:
+//                //print("error occurred")
+//            case .hasSpaceAvailable:
+//                //print("has space available")
+//            case .hasBytesAvailable:
+//                //print("has bytes available")
             default:
-                print("some other event...")
+                break
+                //print("some other event...")
             }
         }
     }
@@ -280,7 +281,7 @@ class NewsReader: NSObject, StreamDelegate {
     var response: String = ""
     
     private func readAvailableBytes(stream: InputStream) -> String? {
-        //print("> readAvailableBytes")
+        ////print("> readAvailableBytes")
         guard let inputStream = self.inputStream else {
             return nil
         }
@@ -291,38 +292,38 @@ class NewsReader: NSObject, StreamDelegate {
             //var response: String = ""
             while stream.hasBytesAvailable {
                 let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
-                ////print("Bytes read [\(numberOfBytesRead)]")
+                //////print("Bytes read [\(numberOfBytesRead)]")
                 if numberOfBytesRead < 0, let error = stream.streamError {
-                    print(error)
+                    //print(error)
                     break
                 }
                 if let output = processedMessageString(buffer: buffer, length: numberOfBytesRead) {
                     response.append(output)
-                    //print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
+                    ////print("Bytes Read: \(numberOfBytesRead) now \(response.count)")
                     //print(output)
                     if !resultsComing {
                         return response
                     }
                     let (prefix, rest) = splitter(line: response)
-//                    print("---prefix")
-//                    print(prefix)
-//                    print("---rest")
-//                    print(rest)
-//                    print("-------------")
-                    ///print("PREFIX: [[\(prefix)]]")
-                    ///print("REST: [[\(rest)]]")
+//                    //print("---prefix")
+//                    //print(prefix)
+//                    //print("---rest")
+//                    //print(rest)
+//                    //print("-------------")
+                    /////print("PREFIX: [[\(prefix)]]")
+                    /////print("REST: [[\(rest)]]")
                     response = rest
                     let lines = prefix.split(separator: "\r\n").map(String.init)
                 
                     if resultsComing && currentOperation == "Article" {
-                        //print("-----------------------------------")
-                        print("-------\(prefix)--------")
-                        print("--length: \(article.count)")
+                        ////print("-----------------------------------")
+                        //print("-------\(prefix)--------")
+                        //print("--length: \(article.count)")
                         article.append(contentsOf: prefix)
                         article.append("\r\n")
                         let parts = article.split(separator: "\r\n").map(String.init)
 //                        parts.forEach { (line: String) in
-//                            print("<\(article.count)>\(line)<>")
+//                            //print("<\(article.count)>\(line)<>")
 //                        }
                         if parts.count > 0 {
                             if parts[parts.count-1] == "." {
@@ -353,7 +354,7 @@ class NewsReader: NSObject, StreamDelegate {
                     }
                     
                     if resultsComing && currentOperation == "ListGroups" {
-                        //print(">>>>\(prefix)")
+                        ////print(">>>>\(prefix)")
                         if lines.count > 0 {
                             var isDone = false
                             var newGroups: [NewsGroup] = []
@@ -365,7 +366,7 @@ class NewsReader: NSObject, StreamDelegate {
                                     if parts.count == 4,
                                         let last = Int(parts[1]),
                                         let first = Int(parts[2]) {
-                                        ///print(">>> name: \(parts[0])")
+                                        /////print(">>> name: \(parts[0])")
                                         var newGroup = NewsGroup()
                                         newGroup.name = parts[0]
                                         newGroup.first.value = first
@@ -408,18 +409,18 @@ class NewsReader: NSObject, StreamDelegate {
     }
     
     func send(command: String) {
-        //print("> send \(command)")
+        ////print("> send \(command)")
         if let outputStream = self.outputStream {
-            //print("Send Command: [\(command)]")
+            ////print("Send Command: [\(command)]")
             let data = command.data(using: .utf8)!
             _ = data.withUnsafeBytes {
                 guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-                    print("Error")
+                    //print("Error")
                     return
                 }
-                //print("Bytes to send \(data.count)")
+                ////print("Bytes to send \(data.count)")
                 let bytesWritten = outputStream.write(pointer, maxLength: data.count)
-                //print("Bytes written \(bytesWritten)")
+                ////print("Bytes written \(bytesWritten)")
             }
         }
     }

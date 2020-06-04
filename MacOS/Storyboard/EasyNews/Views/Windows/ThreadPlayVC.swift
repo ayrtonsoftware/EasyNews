@@ -38,7 +38,7 @@ class ThreadPlayVC: NSViewController {
                         for idx in 1...60 {
                             realm.beginWrite()
                             unsafeGroups[0].name = "Update:\(idx)"
-                            print("Producer: Updated \(unsafeGroups[0].name ?? "")")
+                            //print("Producer: Updated \(unsafeGroups[0].name ?? "")")
                             try! realm.commitWrite()
                             Thread.sleep(forTimeInterval: 1)
                             //realm.refresh()
@@ -66,16 +66,16 @@ class ThreadPlayVC: NSViewController {
                     realm.beginWrite()
                     groups.forEach { (group: NewsGroup) in
                         group.name = "Changed\(group.name ?? "NoName")"
-                        print("Group: \(group.name ?? "NoName")")
+                        //print("Group: \(group.name ?? "NoName")")
                     }
                     try! realm.commitWrite()
                     
                     for idx in 1...60 {
-                        print("Consumer: \(groups[0].name ?? "")")
+                        //print("Consumer: \(groups[0].name ?? "")")
                         Thread.sleep(forTimeInterval: 1)
                         realm.refresh()
                     }
-                    print("Done")
+                    //print("Done")
                 }
             }
         }

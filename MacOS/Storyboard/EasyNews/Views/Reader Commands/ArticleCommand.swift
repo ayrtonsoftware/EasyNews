@@ -16,13 +16,12 @@ protocol ArticleCommandDelegate: class {
 class ArticleCommand: NewsReaderDelegate {
     var reader: NewsReader
     private weak var delegate: ArticleCommandDelegate?
-    private var groupRef: ThreadSafeReference<NewsGroup>
-    private var group: NewsGroup?
+    private var groupId: String
     private var articleId: String
     
-    init(delegate: ArticleCommandDelegate?, name: String, groupRef: ThreadSafeReference<NewsGroup>, articleId: String, reader: NewsReader) {
+    init(delegate: ArticleCommandDelegate?, name: String, group: NewsGroup, articleId: String, reader: NewsReader) {
         self.delegate = delegate
-        self.groupRef = groupRef
+        self.groupId = group.id
         self.articleId = articleId
         self.reader = reader
         self.reader.delegate = self
@@ -32,7 +31,11 @@ class ArticleCommand: NewsReaderDelegate {
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" {
-            ///fix me self.reader.article(groupName: groupVM.name, articleId: articleId)
+            let rbox = MainVC.getReaderBox()
+            
+            if let group = rbox.findGroup(byId: self.groupId) {
+                self.reader.article(groupName: group.name, articleId: articleId)
+            }
         }
         if notification == "Done" {
             print("Done getting list")

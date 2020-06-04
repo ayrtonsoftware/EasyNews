@@ -21,7 +21,13 @@ class ArticleOutlineVM {
 }
 
 class ArticlesTableVM {
-    var group: NewsGroup
+    var groupId: String
+    var group: NewsGroup? {
+        var rbox = MainVC.getReaderBox()
+        return rbox.realm?.objects(NewsGroup.self).first(where: { (group: NewsGroup) -> Bool in
+            return groupId == group.id
+        })
+    }
     var articleCache: [String: ArticleOutlineVM] = [:]
     var displayedCache: [String: String] = [:]
     var articles: [ArticleOutlineVM] = []
@@ -77,7 +83,7 @@ class ArticlesTableVM {
     }
     
     init(group: NewsGroup) {
-        self.group = group
+        self.groupId = group.id
         self.articles = []
     }
 }

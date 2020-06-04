@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -16,6 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let dir = NSTemporaryDirectory()
+        print("Temp \(dir)")
         // Insert code here to initialize your application
 //        let storyboard = NSStoryboard(name: "ThreadPlay", bundle: nil)
 //        if let window = storyboard.instantiateController(withIdentifier: "ThreadPlay") as? NSWindowController {

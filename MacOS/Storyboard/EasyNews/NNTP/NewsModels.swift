@@ -11,6 +11,7 @@ import RealmSwift
 
 class NewsGroup: Object
 {
+    @objc dynamic var id: String!
     @objc dynamic var name: String!
     @objc dynamic var updated: Date!
     let first = RealmOptional<Int>()
@@ -21,7 +22,11 @@ class NewsGroup: Object
 
 class NewsGroupArticle: Object {
     @objc dynamic var group: NewsGroup?
+    @objc dynamic var id: String!
     @objc dynamic var subject: String?
+    @objc dynamic var contentType: String?
+    @objc dynamic var date: Date!
+    let size = RealmOptional<Int>()
     let parts = List<NewsGroupArticlePart>()
 }
 

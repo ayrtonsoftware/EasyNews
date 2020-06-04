@@ -101,7 +101,7 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
                             for idx in 3..<parts.count {
                                 filename.append(" \(parts[idx])")
                             }
-                            print("Filename:\(filename):")
+                            //print("Filename:\(filename):")
                         }
                     }
                     if line.starts(with: "end") {
@@ -110,10 +110,10 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
                 }
                 
                 if (beginFound && endFound) {
-                    print("goooo")
+                    //print("goooo")
                     if isImage {
                         let status = self.uudecode(args: [], filename: filename, encodedFile: article)
-                        print("Status: \(status)")
+                        //print("Status: \(status)")
                         if (status == 0) {
                             self.open(fileName: "\(self.tmpPath)/\(filename)")
                         }
@@ -143,13 +143,13 @@ class ArticlesTableView: NSOutlineView, NSOutlineViewDataSource, NSOutlineViewDe
         }
                     
         var what = self.item(atRow: selectedRow)
-        print(what)
+        //print(what)
         if let a = what as? ArticleVM {
-            print("get data for article \(a.id)")
+            //print("get data for article \(a.id)")
             //ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.id, reader: MainVC.CreateNewsReader())
         }
         if let a = what as? ArticleOutlineVM {
-            print("ArticleOutlineVM")
+            //print("ArticleOutlineVM")
             if a.children.count == 1 {
                 print("get data for article \(a.article.id)")
                 //ArticleCommand(delegate: self, groupVM: vm.group, articleId: a.article.id, reader: MainVC.CreateNewsReader())

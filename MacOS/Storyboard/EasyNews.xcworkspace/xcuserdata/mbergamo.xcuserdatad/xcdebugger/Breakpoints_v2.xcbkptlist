@@ -7,144 +7,112 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "47C0A9B2-4A92-48D3-848F-9D17A136EA4F"
-            shouldBeEnabled = "Yes"
+            uuid = "931E2882-9D0A-4A06-AD40-5416682C76B1"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/Reader Commands/ListGroupGetArticleIdsCommand.swift"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "NewsReader_articles(articleIds:)"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "onNewArticle(article:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "754B7FE6-7E8C-48BB-B0BD-ED8FF2E1AFA4"
+            uuid = "797CFABE-8007-4078-A2B7-1E6CEB95FD1C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Main/MainVC.swift"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "GroupAdded(_:)"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "onNewArticle(article:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3C796F54-7459-41FD-8928-9A1BA68EDA39"
+            uuid = "67344146-A533-4C37-BE29-62A67D594141"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/Groups/GroupsTableView.swift"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "GroupUpdated(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3C796F54-7459-41FD-8928-9A1BA68EDA39 - 492c887c87776b6b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EasyNews.GroupsTableView.(GroupUpdated in _3C5D65C9FFE1991A73578A9BEA55C8B7)(Foundation.Notification) -&gt; ()"
-                  moduleName = "EasyNews"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mbergamo/Data/Projects/Me/current/EasyNews/MacOS/Storyboard/EasyNews/Views/Groups/GroupsTableView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "29"
-                  endingLineNumber = "29"
-                  offsetFromSymbolStart = "186">
-               </Location>
-               <Location
-                  uuid = "3C796F54-7459-41FD-8928-9A1BA68EDA39 - 7d7a49d9836a2647"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in EasyNews.GroupsTableView.(GroupUpdated in _3C5D65C9FFE1991A73578A9BEA55C8B7)(Foundation.Notification) -&gt; ()"
-                  moduleName = "EasyNews"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mbergamo/Data/Projects/Me/current/EasyNews/MacOS/Storyboard/EasyNews/Views/Groups/GroupsTableView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "79BF7379-38A5-4536-9931-239649A0816C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EasyNews/Main/MainVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "groupSelected(group:)"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "onNewArticle(article:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "08725826-D2D3-41D8-B212-39A5E7DB24E5"
+            uuid = "911346E6-D97E-4807-90B8-2795912161A0"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/Groups/GroupsTableView.swift"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "tableViewSelectionDidChange(_:)"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "onNewArticle(article:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E6E81CAC-84FF-41B9-A5AB-EF0D30DEF8B8"
+            uuid = "EC419C70-E59E-4AB2-9359-53420E85B34A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Main/MainVC.swift"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "GroupUpdated(_:)"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "onNewArticle(article:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A74FE6AD-4E67-4961-8A78-A1CDC24ECD14"
+            uuid = "50BCF233-B103-4C97-808A-B949B540B20F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EasyNews/Views/Articles Tab/GroupTabView.swift"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "init(group:groupsTableDelegate:frame:)"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "onNewArticle(article:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33FDEE84-CE1D-4822-9C6D-17C2D9719FD9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EasyNews/Views/Articles Tab/MeganTableView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "open(fileName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

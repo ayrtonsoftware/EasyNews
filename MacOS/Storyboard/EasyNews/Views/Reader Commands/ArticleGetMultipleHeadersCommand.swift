@@ -13,14 +13,13 @@ class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
     var reader: NewsReader
     private var rbox: ReaderBox
     private var articleIds: [String]
-    private var groupRef: ThreadSafeReference<NewsGroup>
-    private var group: NewsGroup?
+    private var groupId: String
     private var idx = 0
     
-    init(name: String, groupRef: ThreadSafeReference<NewsGroup>, articleIds: [String], rbox: ReaderBox, reader: NewsReader) {
-        self.groupRef = groupRef
+    init(name: String, groupId: String, articleIds: [String], rbox: ReaderBox, reader: NewsReader) {
         self.articleIds = articleIds
         self.rbox = rbox
+        self.groupId = groupId
         self.reader = reader
         self.reader.delegate = self
         reader.open(name: "GetArticleHeader_\(name)_\(articleIds.count)")
@@ -29,16 +28,17 @@ class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
     func NewsReader_notification(notification: String)
     {
         if notification == "Connected" || notification == "NextArticle" {
-            if idx < articleIds.count, let group = self.group {
-                //print("********************************** getting article \(idx)")
-                self.reader.articleHeader(groupName: group.name, articleId: articleIds[idx])
-                idx += 1
-            } else {
-                reader.close()
+            if let group = rbox.findGroup(byId: self.groupId) {
+                if idx < articleIds.count {
+                    self.reader.articleHeader(groupName: group.name, articleId: articleIds[idx])
+                    idx += 1
+                } else {
+                    reader.close()
+                }
             }
         }
         if notification == "Done" {
-            print("Done getting list")
+            //print("Done getting list")
             reader.close()
         }
         if notification == "ConnectionFailed" {
@@ -57,13 +57,13 @@ class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
     }
     
     func NewsReader_articleHeader(articleId: String, header: [String: String]) {
-        DispatchQueue.main.sync {
-            header.keys.forEach { (key: String) in
-                if key.uppercased().contains("Date") {
-                    print("--Date--> \(header[key])----")
-                }
-            }
-            if let group = self.group {
+        //DispatchQueue.main.sync {
+//            header.keys.forEach { (key: String) in
+//                if key.uppercased().contains("Date") {
+//                    print("--Date--> \(header[key])----")
+//                }
+//            }
+            if let group = rbox.findGroup(byId: self.groupId) {
                 rbox.realm?.beginWrite()
                 let (article, isNewArticle) = rbox.findOrCreateGroupArticle(group: group, articleId: articleId)
                 article.subject = header["Subject"]
@@ -102,7 +102,7 @@ class ArticleGetMultipleHeadersCommand: NewsReaderDelegate {
                 NotificationCenter.default.post(name: NotificationArticleHeaderAdded(groupName: group.name),
                                                 object: ArticleVM(article: article))
             }
-        }
+        //}
     }
     
     func NewsReader_article(article: String) {
